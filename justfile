@@ -6,6 +6,7 @@ check:
 
 build:
     uv run generator/generate_maps.py
+    uv run generator/generate_locations.py
 
 build_maps:
     uv run generator/generate_map_images.py

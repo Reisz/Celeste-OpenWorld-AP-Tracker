@@ -1,2 +1,6 @@
 Tracker:AddLayouts("layouts/tracker.json")
 Tracker:AddMaps("maps/maps.json")
+Tracker:AddLocations("locations/berries.json")
+Tracker:AddLocations("locations/goldens.json")
+Tracker:AddLocations("locations/cassettes.json")
+Tracker:AddLocations("locations/hearts.json")
