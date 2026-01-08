@@ -1,0 +1,8 @@
+# Python
+.ropeproject/
+
+# Generator
+/data/
+/tracker/maps/maps.json
+/tracker/layouts/tracker.json
+/tracker/images/maps/

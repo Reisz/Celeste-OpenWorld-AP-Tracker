@@ -1,0 +1,14 @@
+{
+    "name": "Celeste OpenWorld PopTracker",
+    "game_name": "Celeste",
+    "package_version": "1.0.0",
+    "package_uid": "celeste-openworld",
+    "platform": "steam",
+    "author": "Reisz",
+    "variants": {
+        "standard": {
+            "display_name": "Map Tracker",
+            "flags": ["ap"]
+        }
+    }
+}
