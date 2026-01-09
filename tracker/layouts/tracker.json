@@ -4,13 +4,12 @@
         "content": [
             {
                 "type": "layout",
-                "key": "maps",
-                "dock": "top"
+                "key": "maps"
             },
             {
                 "type": "layout",
                 "key": "interactables",
-                "dock": "bottom",
+                "dock": "bottom"
             }
         ]
     }
