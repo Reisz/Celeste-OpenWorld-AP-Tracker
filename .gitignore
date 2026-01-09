@@ -4,6 +4,7 @@
 # Generator
 /data/
 /tracker/maps/maps.json
-/tracker/layouts/tracker.json
+/tracker/layouts/maps.json
 /tracker/images/maps/
+/tracker/images/items/
 /tracker/locations/

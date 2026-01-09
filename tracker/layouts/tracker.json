@@ -6,6 +6,11 @@
                 "type": "layout",
                 "key": "maps",
                 "dock": "top"
+            },
+            {
+                "type": "layout",
+                "key": "interactables",
+                "dock": "bottom",
             }
         ]
     }
