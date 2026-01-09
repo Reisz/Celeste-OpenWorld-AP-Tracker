@@ -1,0 +1,12 @@
+{
+    "tracker_default": {
+        "type": "dock",
+        "content": [
+            {
+                "type": "layout",
+                "key": "maps",
+                "dock": "top"
+            }
+        ]
+    }
+}

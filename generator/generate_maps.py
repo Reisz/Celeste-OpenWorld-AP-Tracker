@@ -7,16 +7,12 @@ pathlib.Path("tracker/layouts").mkdir(parents=True, exist_ok=True)
 data = json.load(open("data/celeste.json"))
 maps = []
 
-tracker_tabs = []
-tracker = {
-    "tracker_default": {
-        "type": "container",
-        "background": "#000000",
-        "content": {
-            "type": "tabbed",
-            "content": tracker_tabs,
-        },
-    }
+maps_tabs = []
+maps_layout = {
+    "maps": {
+        "type": "tabbed",
+        "content": maps_tabs,
+    },
 }
 
 for chapter in data["chapters"]:
@@ -29,7 +25,7 @@ for chapter in data["chapters"]:
         "type": "tabbed",
         "content": chapter_tabs,
     }
-    tracker_tabs.append(chapter_container)
+    maps_tabs.append(chapter_container)
 
     for side in chapter["sides"]:
         side_tabs = []
@@ -72,4 +68,4 @@ for chapter in data["chapters"]:
                 )
 
 json.dump(maps, open("tracker/maps/maps.json", "w"))
-json.dump(tracker, open("tracker/layouts/tracker.json", "w"))
+json.dump(maps_layout, open("tracker/layouts/maps.json", "w"))
