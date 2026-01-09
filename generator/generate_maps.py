@@ -20,6 +20,9 @@ tracker = {
 }
 
 for chapter in data["chapters"]:
+    if chapter["id"] == "farewell":
+        continue
+
     chapter_tabs = []
     chapter_container = {
         "title": chapter["name"],

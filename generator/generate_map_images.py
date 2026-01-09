@@ -14,6 +14,9 @@ pathlib.Path("tracker/images/maps").mkdir(parents=True, exist_ok=True)
 data = json.load(open("data/celeste.json"))
 
 for chapter in data["chapters"]:
+    if chapter["id"] == "farewell":
+        continue
+
     for side in chapter["sides"]:
         print(chapter["name"], side["name"])
 
