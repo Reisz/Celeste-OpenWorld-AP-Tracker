@@ -1,7 +1,4 @@
 import json
-import pathlib
-
-pathlib.Path("tracker/locations").mkdir(parents=True, exist_ok=True)
 
 data = json.load(open("data/celeste.json"))
 
