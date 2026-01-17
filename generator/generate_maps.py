@@ -11,7 +11,7 @@ maps_tabs = []
 maps_layout = {
     "maps": {
         "type": "tabbed",
-        "content": maps_tabs,
+        "tabs": maps_tabs,
     },
 }
 
@@ -22,8 +22,10 @@ for chapter in data["chapters"]:
     chapter_tabs = []
     chapter_container = {
         "title": chapter["name"],
-        "type": "tabbed",
-        "content": chapter_tabs,
+        "content": {
+            "type": "tabbed",
+            "tabs": chapter_tabs,
+        },
     }
     maps_tabs.append(chapter_container)
 
@@ -31,8 +33,10 @@ for chapter in data["chapters"]:
         side_tabs = []
         side_container = {
             "title": side["name"],
-            "type": "tabbed",
-            "content": side_tabs,
+            "content": {
+                "type": "tabbed",
+                "tabs": side_tabs,
+            },
         }
 
         if len(chapter["sides"]) == 1:
@@ -55,15 +59,17 @@ for chapter in data["chapters"]:
             )
 
             if len(side["checkpoints"]) == 1:
-                side_container["type"] = "map"
-                side_container["maps"] = [id]
-                del side_container["content"]
+                side_container["content"]["type"] = "map"
+                side_container["content"]["maps"] = [id]
+                del side_container["content"]["tabs"]
             else:
                 side_tabs.append(
                     {
                         "title": checkpoint["name"],
-                        "type": "map",
-                        "maps": [id],
+                        "content": {
+                            "type": "map",
+                            "maps": [id],
+                        },
                     }
                 )
 
