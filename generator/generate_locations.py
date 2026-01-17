@@ -1,5 +1,11 @@
 import json
 
+HEART_COLORS = {
+    "a": "blue",
+    "b": "red",
+    "c": "yellow",
+}
+
 data = json.load(open("data/celeste.json"))
 
 locations_children = []
@@ -33,6 +39,8 @@ for chapter in data["chapters"]:
                             "name": f"Strawberry {entity['id']}",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
+                            "chest_unopened_img": "images/locations/strawberry.png",
+                            "chest_opened_img": "images/locations/strawberry_collected.png",
                         }
                     )
 
@@ -42,6 +50,8 @@ for chapter in data["chapters"]:
                             "name": "Golden Strawberry",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
+                            "chest_unopened_img": "images/locations/golden_strawberry.png",
+                            "chest_opened_img": "images/locations/golden_strawberry_collected.png",
                         }
                     )
 
@@ -51,15 +61,20 @@ for chapter in data["chapters"]:
                             "name": "Cassette",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
+                            "chest_unopened_img": "images/locations/cassette.png",
+                            "chest_opened_img": "images/locations/cassette_collected.png",
                         }
                     )
 
                 for entity in room["entities"].get("heart", []):
+                    heart_color = HEART_COLORS[side["id"]]
                     locations_children.append(
                         {
                             "name": "Heart",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
+                            "chest_unopened_img": f"images/locations/{heart_color}_heart.png",
+                            "chest_opened_img": f"images/locations/{heart_color}_heart_collected.png",
                         }
                     )
 
