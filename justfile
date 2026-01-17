@@ -3,10 +3,10 @@ PACK_LOCATION := "~/PopTracker/packs/Celeste-OpenWorld-AP-Tracker.zip"
 check:
     ruff check
     ruff format --check
+    uvx mbake format --check Makefile
 
 build:
-    uv run generator/generate_maps.py
-    uv run generator/generate_locations.py
+    make -rj
 
 build_maps:
     uv run generator/generate_map_images.py
