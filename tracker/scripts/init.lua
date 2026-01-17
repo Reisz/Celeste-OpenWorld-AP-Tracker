@@ -7,3 +7,5 @@ Tracker:AddLayouts("layouts/interactables.json")
 Tracker:AddLayouts("layouts/tracker.json")
 
 Tracker:AddLocations("locations.json")
+
+ScriptHost:LoadScript("scripts/archipelago.lua")

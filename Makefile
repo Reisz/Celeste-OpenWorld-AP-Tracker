@@ -6,6 +6,8 @@ LOCATION_DATA := tracker/locations.json
 MAP_DATA := tracker/maps/maps.json \
 	tracker/layouts/maps.json
 
+AP_MAPPINGS := tracker/scripts/mappings/items.lua
+
 INCLUDES := data/maps.d data/items.d
 
 GENERATORS := $(wildcard generator/*.py)
@@ -13,7 +15,7 @@ GENERATOR_DEPS := $(patsubst generator/%.py,data/%.py.d,$(GENERATORS))
 
 .PHONY: Makefile all included clean clean-all
 
-all: $(LOCATION_DATA) $(MAP_DATA) included
+all: $(LOCATION_DATA) $(MAP_DATA) $(AP_MAPPINGS) included
 
 ifeq (,$(filter clean%,$(MAKECMDGOALS))) # Skip includes for clean* targets
 include $(GENERATOR_DEPS) $(INCLUDES)
@@ -23,7 +25,7 @@ included: $(MAPS) $(ITEMS)
 
 # Clean generated data
 clean:
-	rm -f $(LOCATION_DATA) $(MAP_DATA) $(INCLUDES) $(GENERATOR_DEPS)
+	rm -f $(LOCATION_DATA) $(MAP_DATA) $(INCLUDES) $(GENERATOR_DEPS) $(AP_MAPPINGS)
 	rm -rf tracker/images/maps
 
 # Clean generated and downloaded data
@@ -40,6 +42,9 @@ $(MAP_DATA): generator/generate_maps.py
 
 tracker/images/maps/%.png: generator/generate_map_image.py
 	uv run $< $@
+
+tracker/scripts/mappings/items.lua: generator/generate_ap_item_mappings.py
+	uv run $<
 
 # Download images
 tracker/images/items/%.png:
@@ -59,6 +64,10 @@ data/berrycamp.zip:
 data/CelesteLevelData.json: data/berrycamp.zip
 	@mkdir -p $(@D)
 	curl -s "https://raw.githubusercontent.com/ArchipelagoMW/Archipelago/refs/tags/$(ARCHIPELAGO_VERSION)/worlds/celeste_open_world/data/CelesteLevelData.json" -o $@
+
+data/ids.json:
+	@mkdir -p $(@D)
+	curl -s "https://archipelago.gg/datapackage" | jq '.games."Celeste (Open World)" | pick(.item_name_to_id, .location_name_to_id)' > $@
 
 # Dependencies
 data/%.py.d: generator/%.py
