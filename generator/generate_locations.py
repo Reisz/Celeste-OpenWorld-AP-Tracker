@@ -33,10 +33,12 @@ for chapter in data["chapters"]:
                         "y": room_offset["y"] - canvas_offset["y"] + entity["y"],
                     }
 
-                for entity in room["entities"].get("berry", []):
+                berry_count = len(room["entities"].get("berry", []))
+                for index, entity in enumerate(room["entities"].get("berry", [])):
+                    suffix = f" {index + 1}" if berry_count > 1 else ""
                     locations_children.append(
                         {
-                            "name": f"Strawberry {entity['id']}",
+                            "name": f"{chapter['name']} {side['name']} [{room_id}] Strawberry{suffix}",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/strawberry.png",
@@ -47,7 +49,7 @@ for chapter in data["chapters"]:
                 for entity in room["entities"].get("golden", []):
                     locations_children.append(
                         {
-                            "name": "Golden Strawberry",
+                            "name": f"{chapter['name']} {side['name']} Golden Strawberry",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/golden_strawberry.png",
@@ -58,7 +60,7 @@ for chapter in data["chapters"]:
                 for entity in room["entities"].get("cassette", []):
                     locations_children.append(
                         {
-                            "name": "Cassette",
+                            "name": f"{chapter['name']} Cassette",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/cassette.png",
@@ -67,10 +69,18 @@ for chapter in data["chapters"]:
                     )
 
                 for entity in room["entities"].get("heart", []):
+                    # Skip unreachable heart in final checkpoint of Old Site A
+                    if (
+                        chapter["id"] == "site"
+                        and side["id"] == "a"
+                        and checkpoint["abbreviation"] != "ST"
+                    ):
+                        continue
+
                     heart_color = HEART_COLORS[side["id"]]
                     locations_children.append(
                         {
-                            "name": "Heart",
+                            "name": f"{chapter['name']} {heart_color.title()} Heart",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": f"images/locations/{heart_color}_heart.png",
