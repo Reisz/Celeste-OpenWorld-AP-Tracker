@@ -1,10 +1,7 @@
 ARCHIPELAGO_VERSION := 0.6.5
 MOD_VERSION := 1.0.7
 
-LOCATION_DATA := tracker/locations/berries.json \
-	tracker/locations/goldens.json \
-	tracker/locations/cassettes.json \
-	tracker/locations/hearts.json
+LOCATION_DATA := tracker/locations.json 
 
 MAP_DATA := tracker/maps/maps.json \
 	tracker/layouts/maps.json

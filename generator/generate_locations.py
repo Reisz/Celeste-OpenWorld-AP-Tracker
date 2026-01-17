@@ -1,21 +1,12 @@
-import pathlib
 import json
+import pathlib
 
 pathlib.Path("tracker/locations").mkdir(parents=True, exist_ok=True)
 
 data = json.load(open("data/celeste.json"))
 
-berries_children = []
-berries = [{"children": berries_children}]
-
-goldens_children = []
-goldens = [{"children": goldens_children}]
-
-cassettes_children = []
-cassettes = [{"children": cassettes_children}]
-
-hearts_children = []
-hearts = [{"children": hearts_children}]
+locations_children = []
+locations = [{"children": locations_children}]
 
 for chapter in data["chapters"]:
     if chapter["id"] == "farewell":
@@ -40,7 +31,7 @@ for chapter in data["chapters"]:
                     }
 
                 for entity in room["entities"].get("berry", []):
-                    berries_children.append(
+                    locations_children.append(
                         {
                             "name": f"Strawberry {entity['id']}",
                             "map_locations": [loc(entity)],
@@ -49,7 +40,7 @@ for chapter in data["chapters"]:
                     )
 
                 for entity in room["entities"].get("golden", []):
-                    goldens_children.append(
+                    locations_children.append(
                         {
                             "name": "Golden Strawberry",
                             "map_locations": [loc(entity)],
@@ -58,7 +49,7 @@ for chapter in data["chapters"]:
                     )
 
                 for entity in room["entities"].get("cassette", []):
-                    cassettes_children.append(
+                    locations_children.append(
                         {
                             "name": "Cassette",
                             "map_locations": [loc(entity)],
@@ -67,7 +58,7 @@ for chapter in data["chapters"]:
                     )
 
                 for entity in room["entities"].get("heart", []):
-                    hearts_children.append(
+                    locations_children.append(
                         {
                             "name": "Heart",
                             "map_locations": [loc(entity)],
@@ -75,8 +66,4 @@ for chapter in data["chapters"]:
                         }
                     )
 
-
-json.dump(berries, open("tracker/locations/berries.json", "w"))
-json.dump(goldens, open("tracker/locations/goldens.json", "w"))
-json.dump(cassettes, open("tracker/locations/cassettes.json", "w"))
-json.dump(hearts, open("tracker/locations/hearts.json", "w"))
+json.dump(locations, open("tracker/locations.json", "w"))
