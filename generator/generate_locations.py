@@ -38,7 +38,7 @@ for chapter in data["chapters"]:
                     suffix = f" {index + 1}" if berry_count > 1 else ""
                     locations_children.append(
                         {
-                            "name": f"{chapter['name']} {side['name']} [{room_id}] Strawberry{suffix}",
+                            "name": f"{chapter['name']} {side['name']} [Room {room_id}] Strawberry{suffix}",
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/strawberry.png",
