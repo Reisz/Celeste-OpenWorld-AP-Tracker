@@ -1,7 +1,8 @@
 ARCHIPELAGO_VERSION := 0.6.5
 MOD_VERSION := 1.0.7
 
-LOCATION_DATA := tracker/locations.json 
+LOCATION_DATA := tracker/locations.json \
+	tracker/scripts/mappings/locations.lua
 
 MAP_DATA := tracker/maps/maps.json \
 	tracker/layouts/maps.json

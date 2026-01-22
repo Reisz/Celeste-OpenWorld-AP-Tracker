@@ -1,4 +1,5 @@
 import json
+import pathlib
 
 HEART_COLORS = {
     "a": "blue",
@@ -58,9 +59,12 @@ BERRY_MAPPING = {
 }
 
 data = json.load(open("data/celeste.json"))
+ids = json.load(open("data/ids.json"))["location_name_to_id"]
 
 locations_children = []
 locations = [{"children": locations_children}]
+
+mappings = {}
 
 for chapter in data["chapters"]:
     if chapter["id"] == "farewell":
@@ -88,6 +92,7 @@ for chapter in data["chapters"]:
                 for entity in room["entities"].get("berry", []):
                     berry_id = f"{chapter['id']}_{room_id}_{entity['id']}"
                     suffix = f" {BERRY_MAPPING[berry_id]}" if berry_count > 1 else ""
+                    name = f"{chapter['name']} {side['name']} [Room {room_id}] Strawberry{suffix}"
                     locations_children.append(
                         {
                             "name": f"{chapter['name']} {side['name']} [Room {room_id}] Strawberry{suffix}",
@@ -98,10 +103,14 @@ for chapter in data["chapters"]:
                         }
                     )
 
+                    id_name = f"{chapter['name']} {side['name']} - Room {room_id} Strawberry{suffix}"
+                    mappings[ids[id_name]] = name
+
                 for entity in room["entities"].get("golden", []):
+                    name = f"{chapter['name']} {side['name']} Golden Strawberry"
                     locations_children.append(
                         {
-                            "name": f"{chapter['name']} {side['name']} Golden Strawberry",
+                            "name": name,
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/golden_strawberry.png",
@@ -109,16 +118,23 @@ for chapter in data["chapters"]:
                         }
                     )
 
+                    id_name = f"{chapter['name']} {side['name']} - Golden Strawberry"
+                    mappings[ids[id_name]] = name
+
                 for entity in room["entities"].get("cassette", []):
+                    name = f"{chapter['name']} Cassette"
                     locations_children.append(
                         {
-                            "name": f"{chapter['name']} Cassette",
+                            "name": name,
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/cassette.png",
                             "chest_opened_img": "images/locations/cassette_collected.png",
                         }
                     )
+
+                    id_name = f"{chapter['name']} {side['name']} - Cassette"
+                    mappings[ids[id_name]] = name
 
                 for entity in room["entities"].get("heart", []):
                     # Skip unreachable heart in final checkpoint of Old Site A
@@ -130,9 +146,10 @@ for chapter in data["chapters"]:
                         continue
 
                     heart_color = HEART_COLORS[side["id"]]
+                    name = f"{chapter['name']} {heart_color.title()} Heart"
                     locations_children.append(
                         {
-                            "name": f"{chapter['name']} {heart_color.title()} Heart",
+                            "name": name,
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": f"images/locations/{heart_color}_heart.png",
@@ -140,4 +157,16 @@ for chapter in data["chapters"]:
                         }
                     )
 
+                    hidden_heart = chapter["id"] != "core" and side["id"] == "a"
+                    id_name = f"{chapter['name']} {side['name']} - {'Crystal Heart' if hidden_heart else 'Level Clear'}"
+                    mappings[ids[id_name]] = name
+
 json.dump(locations, open("tracker/locations.json", "w"))
+
+mappings = ",".join(f'[{k}] = "@{v}/"' for k, v in mappings.items())
+
+pathlib.Path("tracker/scripts/mappings").mkdir(parents=True, exist_ok=True)
+f = open("tracker/scripts/mappings/locations.lua", "w")
+f.write("LOCATION_MAPPINGS={")
+f.write(mappings)
+f.write("}")

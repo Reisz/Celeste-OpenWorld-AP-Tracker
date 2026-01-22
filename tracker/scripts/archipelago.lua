@@ -1,4 +1,5 @@
 ScriptHost:LoadScript("scripts/mappings/items.lua")
+ScriptHost:LoadScript("scripts/mappings/locations.lua")
 
 Archipelago:AddClearHandler("clear handler", function(slot_data)
 	for _, code in pairs(ITEM_MAPPINGS) do
@@ -10,5 +11,12 @@ Archipelago:AddItemHandler("item handler", function(index, item_id, item_name, p
 	local code = ITEM_MAPPINGS[item_id]
 	if code then
 		Tracker:FindObjectForCode(code).Active = true
+	end
+end)
+
+Archipelago:AddLocationHandler("location handler", function(location_id, location_name)
+	local code = LOCATION_MAPPINGS[location_id]
+	if code then
+		Tracker:FindObjectForCode(code).AvailableChestCount = 0
 	end
 end)
