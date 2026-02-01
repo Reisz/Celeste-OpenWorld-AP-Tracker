@@ -13,6 +13,5 @@ build_maps:
 
 [working-directory: "tracker"]
 install: build
-    rm -f {{PACK_LOCATION}}
-    zip -r {{PACK_LOCATION}} *
+    zip -rFS {{PACK_LOCATION}} *
 
