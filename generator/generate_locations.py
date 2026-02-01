@@ -76,6 +76,51 @@ BERRY_MAPPING = {
     "summit_g-01_342": 2,
 }
 
+LEVEL_CLEARS = {
+    "prologue": {
+        "room": "3",
+        "x": 935,
+        "y": 110,
+    },
+    "city": {
+        "room": "end",
+        "x": 240,
+        "y": 130,
+    },
+    "site": {
+        "room": "end_6",
+        "x": 150,
+        "y": 130,
+    },
+    "resort": {
+        "room": "roof07",
+        "x": 5,
+        "y": 70,
+    },
+    "ridge": {
+        "room": "d-10",
+        "x": 130,
+        "y": 805,
+    },
+    "temple": {
+        "room": "e-11",
+        "x": 1035,
+        "y": 105,
+    },
+    "reflection": {
+        "room": "after-01",
+        "x": 160,
+        "y": 5,
+    },
+    "summit": {
+        "room": "g-03",
+        "x": 1825,
+        "y": 390,
+    },
+    "epilogue": {"room": ""},
+    "core": {"room": ""},
+}
+
 data = json.load(open("data/celeste.json"))
 ids = json.load(open("data/ids.json"))["location_name_to_id"]
 
@@ -367,6 +412,30 @@ for chapter in data["chapters"]:
                     hidden_heart = chapter["id"] != "core" and side["id"] == "a"
                     id_name = f"{chapter['name']} {side['name']} - {'Crystal Heart' if hidden_heart else 'Level Clear'}"
                     mappings[ids[id_name]] = name
+
+                if side["id"] == "a" and LEVEL_CLEARS[chapter["id"]]["room"] == room_id:
+                    entity = LEVEL_CLEARS[chapter["id"]]
+
+                    name = f"{chapter['name']} Level Clear"
+                    locations_children.append(
+                        {
+                            "name": name,
+                            "access_rules": get_access_rules(
+                                chapter, side, entity["room"], "Level Clear"
+                            ),
+                            "map_locations": [loc(entity)],
+                            "sections": [{}],
+                            "chest_unopened_img": "images/locations/clear.png",
+                            "chest_opened_img": "images/locations/clear_collected.png",
+                        }
+                    )
+
+                    side_name = (
+                        f" {side['name']}" if chapter["id"] != "prologue" else ""
+                    )
+                    id_name = f"{chapter['name']}{side_name} - Level Clear"
+                    mappings[ids[id_name]] = name
+
 
 json.dump(locations, open("tracker/locations.json", "w"))
 
