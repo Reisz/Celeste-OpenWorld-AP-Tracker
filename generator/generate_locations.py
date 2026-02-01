@@ -76,6 +76,97 @@ BERRY_MAPPING = {
     "summit_g-01_342": 2,
 }
 
+# Location measured at the bottom-left pixel of the dark band separating bow and shaft
+KEYS = {
+    "resort_a_s3": [
+        {
+            "name": "Front Door Key",
+            "x": 103,
+            "y": 239,
+        },
+    ],
+    "resort_a_02-b": [
+        {
+            "name": "Hallway Key 1",
+            "x": 203,
+            "y": 139,
+        },
+    ],
+    "resort_a_07-b": [
+        {
+            "name": "Hallway Key 2",
+            "x": 231,
+            "y": 135,
+        },
+    ],
+    "resort_a_09-b": [
+        {
+            "name": "Huge Mess Key",
+            "x": 319,
+            "y": 183,
+        },
+    ],
+    "resort_a_02-c": [
+        {
+            "name": "Presidential Suite Key",
+            "x": 63,
+            "y": 119,
+        },
+    ],
+    "temple_a_a-08": [
+        {
+            "name": "Entrance Key",
+            "x": 255,
+            "y": 255,
+        },
+    ],
+    "temple_a_b-04": [
+        {
+            "name": "Depths Key",
+            "x": 159,
+            "y": 55,
+        },
+    ],
+    "temple_a_d-04": [
+        {
+            "name": "Search Key 1",
+            "x": 199,
+            "y": 151,
+        },
+        {
+            "name": "Search Key 2",
+            "x": 279,
+            "y": 151,
+        },
+    ],
+    "temple_a_d-15": [
+        {
+            "name": "Search Key 3",
+            "x": 399,
+            "y": 263,
+        },
+    ],
+    "temple_b_b-02": [
+        {
+            "name": "Central Chamber Key 1",
+            "x": 71,
+            "y": 279,
+        },
+        {
+            "name": "Central Chamber Key 2",
+            "x": 247,
+            "y": 279,
+        },
+    ],
+    "summit_a_f-07": [
+        {
+            "name": "2500 M Key",
+            "x": 279,
+            "y": 39,
+        },
+    ],
+}
+
 LEVEL_CLEARS = {
     "prologue": {
         "room": "3",
@@ -464,6 +555,23 @@ for chapter in data["chapters"]:
                     id_name = f"{chapter['name']} {side['name']} - {name}"
                     mappings[ids[id_name]] = name
 
+                room_code = f"{chapter['id']}_{side['id']}_{room_id}"
+                for entity in KEYS.get(room_code, []):
+                    locations_children.append(
+                        {
+                            "name": entity["name"],
+                            "access_rules": get_access_rules(
+                                chapter, side, room_id, entity["name"]
+                            ),
+                            "map_locations": [loc(entity)],
+                            "sections": [{}],
+                            "chest_unopened_img": "images/locations/key.png",
+                            "chest_opened_img": "images/locations/key_collected.png",
+                        }
+                    )
+
+                    id_name = f"{chapter['name']} {side['name']} - {entity['name']}"
+                    mappings[ids[id_name]] = entity["name"]
 
 json.dump(locations, open("tracker/locations.json", "w"))
 
