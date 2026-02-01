@@ -35,10 +35,15 @@ clean-all: clean
 	rm -rf tracker/images/items
 
 # Generators
-$(LOCATION_DATA): generator/generate_locations.py
+# See <https://stackoverflow.com/a/47951465>
+.INTERMEDIATE: location_data map_data
+$(LOCATION_DATA): location_data
+$(MAP_DATA): map_data
+
+location_data: generator/generate_locations.py
 	uv run $<
 
-$(MAP_DATA): generator/generate_maps.py
+map_data: generator/generate_maps.py
 	uv run $<
 
 tracker/images/maps/%.png: generator/generate_map_image.py
@@ -82,4 +87,3 @@ data/items.d: tracker/items/interactables.json
 data/maps.d: scripts/list_map_image_paths.py data/celeste.json
 	@mkdir -p $(@D)
 	uv run $< | xargs echo "MAPS :=" > $@
-
