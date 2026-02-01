@@ -121,6 +121,12 @@ LEVEL_CLEARS = {
     "core": {"room": ""},
 }
 
+WINGED_GOLDEN = {
+    "room": "end",
+    "x": 110,
+    "y": 90,
+}
+
 data = json.load(open("data/celeste.json"))
 ids = json.load(open("data/ids.json"))["location_name_to_id"]
 
@@ -434,6 +440,28 @@ for chapter in data["chapters"]:
                         f" {side['name']}" if chapter["id"] != "prologue" else ""
                     )
                     id_name = f"{chapter['name']}{side_name} - Level Clear"
+                    mappings[ids[id_name]] = name
+
+                if (
+                    chapter["id"] == "city"
+                    and side["id"] == "a"
+                    and WINGED_GOLDEN["room"] == room_id
+                ):
+                    name = "Winged Golden Strawberry"
+                    locations_children.append(
+                        {
+                            "name": name,
+                            "access_rules": get_access_rules(
+                                chapter, side, entity["room"], name
+                            ),
+                            "map_locations": [loc(WINGED_GOLDEN)],
+                            "sections": [{}],
+                            "chest_unopened_img": "images/locations/winged_golden_strawberry.png",
+                            "chest_opened_img": "images/locations/winged_golden_strawberry_collected.png",
+                        }
+                    )
+
+                    id_name = f"{chapter['name']} {side['name']} - {name}"
                     mappings[ids[id_name]] = name
 
 
