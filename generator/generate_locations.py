@@ -126,6 +126,7 @@ class ApRoom:
 @dataclass
 class ApChapter:
     rooms: dict[str, ApRoom]
+    golden_strawberry_room: str = ""
 
 
 @dataclass(frozen=True)
@@ -173,11 +174,12 @@ for chapter_data in json.load(open("data/CelesteLevelData.json"))["levels"]:
     print(f"Calculating rules for {chapter_data['display_name']}")
 
     rooms = {}
-    ap_chapters[chapter_data["name"]] = ApChapter(rooms=rooms)
+    chapter = ApChapter(rooms=rooms)
+    ap_chapters[chapter_data["name"]] = chapter
 
     # Convert individual room data
     for room_data in chapter_data["rooms"]:
-        rooms[room_data["name"]] = ApRoom(
+        room = ApRoom(
             {
                 region_data["name"]: ApRegion(
                     entity_rules={
@@ -194,6 +196,13 @@ for chapter_data in json.load(open("data/CelesteLevelData.json"))["levels"]:
                 for region_data in room_data["regions"]
             }
         )
+        rooms[room_data["name"]] = room
+
+        if any(
+            "Golden Strawberry" in region.entity_rules
+            for region in room.regions.values()
+        ):
+            chapter.golden_strawberry_room = room_data["name"]
 
     # Prepare room connections
     doors = defaultdict(list)
@@ -229,6 +238,10 @@ for chapter_data in json.load(open("data/CelesteLevelData.json"))["levels"]:
 
 def get_access_rules(chapter, side, room_id, entity):
     chapter = ap_chapters[f"{CHAPTER_MAP[chapter['id']]}{side['id']}"]
+
+    if entity == "Golden Strawberry":
+        room_id = chapter.golden_strawberry_room
+
     region, region_id = next(
         (region, region_id)
         for region_id, region in chapter.rooms[room_id].regions.items()
@@ -291,6 +304,9 @@ for chapter in data["chapters"]:
                     locations_children.append(
                         {
                             "name": name,
+                            "access_rules": get_access_rules(
+                                chapter, side, room_id, "Golden Strawberry"
+                            ),
                             "map_locations": [loc(entity)],
                             "sections": [{}],
                             "chest_unopened_img": "images/locations/golden_strawberry.png",
