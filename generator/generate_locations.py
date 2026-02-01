@@ -168,52 +168,42 @@ KEYS = {
 }
 
 LEVEL_CLEARS = {
-    "prologue": {
-        "room": "3",
+    "prologue_a_3": {
         "x": 935,
         "y": 110,
     },
-    "city": {
-        "room": "end",
+    "city_a_end": {
         "x": 240,
         "y": 130,
     },
-    "site": {
-        "room": "end_6",
+    "site_a_end_6": {
         "x": 150,
         "y": 130,
     },
-    "resort": {
-        "room": "roof07",
+    "resort_a_roof07": {
         "x": 5,
         "y": 70,
     },
-    "ridge": {
-        "room": "d-10",
+    "ridge_a_d-10": {
         "x": 130,
         "y": 805,
     },
-    "temple": {
-        "room": "e-11",
+    "temple_a_e-11": {
         "x": 1035,
         "y": 105,
     },
-    "reflection": {
-        "room": "after-01",
+    "reflection_a_after-01": {
         "x": 160,
         "y": 5,
     },
-    "summit": {
-        "room": "g-03",
+    "summit_a_g-03": {
         "x": 1825,
         "y": 390,
     },
-    "epilogue": {"room": ""},
-    "core": {"room": ""},
 }
 
 WINGED_GOLDEN = {
-    "room": "end",
+    "room_code": "city_a_end",
     "x": 110,
     "y": 90,
 }
@@ -413,77 +403,63 @@ for chapter in data["chapters"]:
 
                 room_offset = room["canvas"]["position"]
 
-                def loc(entity):
-                    return {
+                def add_location(entity, img_name, name, ap_name=None, ap_id=None):
+                    map_location = {
                         "map": id,
                         "x": room_offset["x"] - canvas_offset["x"] + entity["x"],
                         "y": room_offset["y"] - canvas_offset["y"] + entity["y"],
                     }
+
+                    if ap_name is None:
+                        ap_name = name
+                    locations_children.append(
+                        {
+                            "name": name,
+                            "access_rules": get_access_rules(
+                                chapter, side, room_id, ap_name
+                            ),
+                            "map_locations": [map_location],
+                            "sections": [{}],
+                            "chest_unopened_img": f"images/locations/{img_name}.png",
+                            "chest_opened_img": f"images/locations/{img_name}_collected.png",
+                        }
+                    )
+
+                    if ap_id is None:
+                        ap_id = ap_name
+                    side_name = (
+                        f" {side['name']}"
+                        if chapter["id"] not in ["prologue", "epilogue", "farewell"]
+                        else ""
+                    )
+                    mappings[ids[f"{chapter['name']}{side_name} - {ap_id}"]] = name
+
+                room_code = f"{chapter['id']}_{side['id']}_{room_id}"
 
                 berry_count = len(room["entities"].get("berry", []))
                 for entity in room["entities"].get("berry", []):
                     berry_id = f"{chapter['id']}_{room_id}_{entity['id']}"
                     suffix = f" {BERRY_MAPPING[berry_id]}" if berry_count > 1 else ""
                     name = f"{chapter['name']} {side['name']} [Room {room_id}] Strawberry{suffix}"
-                    locations_children.append(
-                        {
-                            "name": f"{chapter['name']} {side['name']} [Room {room_id}] Strawberry{suffix}",
-                            "access_rules": get_access_rules(
-                                chapter, side, room_id, f"Strawberry{suffix}"
-                            ),
-                            "map_locations": [loc(entity)],
-                            "sections": [{}],
-                            "chest_unopened_img": "images/locations/strawberry.png",
-                            "chest_opened_img": "images/locations/strawberry_collected.png",
-                        }
+                    add_location(
+                        entity,
+                        "strawberry",
+                        name,
+                        f"Strawberry{suffix}",
+                        f"Room {room_id} Strawberry{suffix}",
                     )
-
-                    id_name = f"{chapter['name']} {side['name']} - Room {room_id} Strawberry{suffix}"
-                    mappings[ids[id_name]] = name
 
                 for entity in room["entities"].get("golden", []):
                     name = f"{chapter['name']} {side['name']} Golden Strawberry"
-                    locations_children.append(
-                        {
-                            "name": name,
-                            "access_rules": get_access_rules(
-                                chapter, side, room_id, "Golden Strawberry"
-                            ),
-                            "map_locations": [loc(entity)],
-                            "sections": [{}],
-                            "chest_unopened_img": "images/locations/golden_strawberry.png",
-                            "chest_opened_img": "images/locations/golden_strawberry_collected.png",
-                        }
-                    )
-
-                    id_name = f"{chapter['name']} {side['name']} - Golden Strawberry"
-                    mappings[ids[id_name]] = name
+                    add_location(entity, "golden_strawberry", name, "Golden Strawberry")
 
                 for entity in room["entities"].get("cassette", []):
                     name = f"{chapter['name']} Cassette"
-                    locations_children.append(
-                        {
-                            "name": name,
-                            "access_rules": get_access_rules(
-                                chapter, side, room_id, "Cassette"
-                            ),
-                            "map_locations": [loc(entity)],
-                            "sections": [{}],
-                            "chest_unopened_img": "images/locations/cassette.png",
-                            "chest_opened_img": "images/locations/cassette_collected.png",
-                        }
-                    )
-
-                    id_name = f"{chapter['name']} {side['name']} - Cassette"
-                    mappings[ids[id_name]] = name
+                    add_location(entity, "cassette", name, "Cassette")
 
                 for entity in room["entities"].get("heart", []):
                     # Skip unreachable heart in final checkpoint of Old Site A
-                    if (
-                        chapter["id"] == "site"
-                        and side["id"] == "a"
-                        and checkpoint["abbreviation"] != "ST"
-                    ):
+                    if room_code == "site_a_end_s1":
                         continue
 
                     heart_color = HEART_COLORS[side["id"]]
@@ -493,85 +469,22 @@ for chapter in data["chapters"]:
                         if side["id"] == "a" and chapter["id"] != "core"
                         else "Level Clear"
                     )
-                    locations_children.append(
-                        {
-                            "name": name,
-                            "access_rules": get_access_rules(
-                                chapter, side, room_id, ap_name
-                            ),
-                            "map_locations": [loc(entity)],
-                            "sections": [{}],
-                            "chest_unopened_img": f"images/locations/{heart_color}_heart.png",
-                            "chest_opened_img": f"images/locations/{heart_color}_heart_collected.png",
-                        }
-                    )
+                    add_location(entity, f"{heart_color}_heart", name, ap_name)
 
-                    hidden_heart = chapter["id"] != "core" and side["id"] == "a"
-                    id_name = f"{chapter['name']} {side['name']} - {'Crystal Heart' if hidden_heart else 'Level Clear'}"
-                    mappings[ids[id_name]] = name
-
-                if side["id"] == "a" and LEVEL_CLEARS[chapter["id"]]["room"] == room_id:
-                    entity = LEVEL_CLEARS[chapter["id"]]
-
+                if room_code in LEVEL_CLEARS:
+                    entity = LEVEL_CLEARS[room_code]
                     name = f"{chapter['name']} Level Clear"
-                    locations_children.append(
-                        {
-                            "name": name,
-                            "access_rules": get_access_rules(
-                                chapter, side, entity["room"], "Level Clear"
-                            ),
-                            "map_locations": [loc(entity)],
-                            "sections": [{}],
-                            "chest_unopened_img": "images/locations/clear.png",
-                            "chest_opened_img": "images/locations/clear_collected.png",
-                        }
+                    add_location(entity, "clear", name, "Level Clear")
+
+                if WINGED_GOLDEN["room_code"] == room_code:
+                    add_location(
+                        WINGED_GOLDEN,
+                        "winged_golden_strawberry",
+                        "Winged Golden Strawberry",
                     )
 
-                    side_name = (
-                        f" {side['name']}" if chapter["id"] != "prologue" else ""
-                    )
-                    id_name = f"{chapter['name']}{side_name} - Level Clear"
-                    mappings[ids[id_name]] = name
-
-                if (
-                    chapter["id"] == "city"
-                    and side["id"] == "a"
-                    and WINGED_GOLDEN["room"] == room_id
-                ):
-                    name = "Winged Golden Strawberry"
-                    locations_children.append(
-                        {
-                            "name": name,
-                            "access_rules": get_access_rules(
-                                chapter, side, entity["room"], name
-                            ),
-                            "map_locations": [loc(WINGED_GOLDEN)],
-                            "sections": [{}],
-                            "chest_unopened_img": "images/locations/winged_golden_strawberry.png",
-                            "chest_opened_img": "images/locations/winged_golden_strawberry_collected.png",
-                        }
-                    )
-
-                    id_name = f"{chapter['name']} {side['name']} - {name}"
-                    mappings[ids[id_name]] = name
-
-                room_code = f"{chapter['id']}_{side['id']}_{room_id}"
                 for entity in KEYS.get(room_code, []):
-                    locations_children.append(
-                        {
-                            "name": entity["name"],
-                            "access_rules": get_access_rules(
-                                chapter, side, room_id, entity["name"]
-                            ),
-                            "map_locations": [loc(entity)],
-                            "sections": [{}],
-                            "chest_unopened_img": "images/locations/key.png",
-                            "chest_opened_img": "images/locations/key_collected.png",
-                        }
-                    )
-
-                    id_name = f"{chapter['name']} {side['name']} - {entity['name']}"
-                    mappings[ids[id_name]] = entity["name"]
+                    add_location(entity, "key", entity["name"])
 
 json.dump(locations, open("tracker/locations.json", "w"))
 
