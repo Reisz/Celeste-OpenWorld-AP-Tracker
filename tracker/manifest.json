@@ -8,7 +8,9 @@
     "variants": {
         "standard": {
             "display_name": "Map Tracker",
-            "flags": ["ap"]
+            "flags": [
+                "ap"
+            ]
         }
     }
 }
