@@ -1,8 +1,11 @@
 PACK_LOCATION := "~/PopTracker/packs/Celeste-OpenWorld-AP-Tracker.zip"
 
+JQ_FORMAT_ARGS := "--indent 4"
+
 check:
     ruff check
     ruff format --check
+    fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
     uvx mbake format --check Makefile
 
 build:
