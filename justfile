@@ -6,7 +6,7 @@ check:
     ruff check
     ruff format --check
     fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
-    uvx mbake format --check Makefile
+    uvx mbake@1.4.5 format --check Makefile
 
 build:
     make -rj
