@@ -6,20 +6,21 @@
 # ///
 
 import json
-import pathlib
 import sys
+from pathlib import Path
 from zipfile import ZipFile
 
 from PIL import Image
 
-pathlib.Path("tracker/images/maps").mkdir(parents=True, exist_ok=True)
+Path("tracker/images/maps").mkdir(parents=True, exist_ok=True)
 
 images = ZipFile("data/berrycamp.zip")
-data = json.load(open("data/celeste.json"))
+with Path("data/celeste.json").open() as f:
+    data = json.load(f)
 
-output_path = pathlib.Path(sys.argv[1])
-id = output_path.stem
-chapter, side, checkpoint = id.split("_")
+output_path = Path(sys.argv[1])
+map_id = output_path.stem
+chapter, side, checkpoint = map_id.split("_")
 
 chapter = next(x for x in data["chapters"] if x["id"] == chapter)
 side = next(x for x in chapter["sides"] if x["id"] == side)

@@ -1,10 +1,11 @@
 import json
-import pathlib
+from pathlib import Path
 
-pathlib.Path("tracker/maps").mkdir(parents=True, exist_ok=True)
-pathlib.Path("tracker/layouts").mkdir(parents=True, exist_ok=True)
+Path("tracker/maps").mkdir(parents=True, exist_ok=True)
+Path("tracker/layouts").mkdir(parents=True, exist_ok=True)
 
-data = json.load(open("data/celeste.json"))
+with Path("data/celeste.json").open() as f:
+    data = json.load(f)
 maps = []
 
 maps_tabs = []
@@ -45,22 +46,22 @@ for chapter in data["chapters"]:
         else:
             chapter_tabs.append(side_container)
 
-        for checkpoint_idx, checkpoint in enumerate(side["checkpoints"]):
-            id = f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}"
+        for checkpoint in side["checkpoints"]:
+            name = f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}"
 
             maps.append(
                 {
-                    "name": id,
+                    "name": name,
                     "location_size": 12,
                     "location_border_thickness": 2,
                     "location_shape": "rect",
-                    "img": f"images/maps/{id}.png",
+                    "img": f"images/maps/{name}.png",
                 }
             )
 
             if len(side["checkpoints"]) == 1:
                 side_container["content"]["type"] = "map"
-                side_container["content"]["maps"] = [id]
+                side_container["content"]["maps"] = [name]
                 del side_container["content"]["tabs"]
             else:
                 side_tabs.append(
@@ -68,10 +69,12 @@ for chapter in data["chapters"]:
                         "title": checkpoint["name"],
                         "content": {
                             "type": "map",
-                            "maps": [id],
+                            "maps": [name],
                         },
                     }
                 )
 
-json.dump(maps, open("tracker/maps/maps.json", "w"))
-json.dump(maps_layout, open("tracker/layouts/maps.json", "w"))
+with Path("tracker/maps/maps.json").open("w") as f:
+    json.dump(maps, f)
+with Path("tracker/layouts/maps.json").open("w") as f:
+    json.dump(maps_layout, f)

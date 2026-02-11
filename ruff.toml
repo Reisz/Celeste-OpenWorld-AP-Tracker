@@ -1,0 +1,9 @@
+[lint]
+select = ["ALL"]
+ignore = [
+    "COM", # Conflicts with formatter
+    "FIX", # TODOs intentionally left in code as documentation
+    "INP", # All files are in script-mode
+    "ANN", # TODO(Reisz): #3 Annotations and type-checking
+    "D",   # TODO(Reisz): #4 Documentation
+]
