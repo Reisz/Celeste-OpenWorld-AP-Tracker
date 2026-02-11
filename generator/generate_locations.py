@@ -1,7 +1,7 @@
 import json
-import pathlib
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
 
 HEART_COLORS = {
     "a": "blue",
@@ -36,16 +36,16 @@ BERRY_MAPPING = {
     "resort_03-b_1": 2,
     "resort_03-b_25": 1,
     # https://berrycamp.github.io/map/celeste/resort/a?room=roof06
-    "resort_roof06_276": 1,  # TODO: Order not clear from level data
+    "resort_roof06_276": 1,  # TODO(Reisz): #2 Order not clear from level data
     "resort_roof06_308": 2,
     # https://berrycamp.github.io/map/celeste/ridge/a?room=b-01
-    "ridge_b-01_6": 1,  # TODO: Order not clear from level data
+    "ridge_b-01_6": 1,  # TODO(Reisz): #2 Order not clear from level data
     "ridge_b-01_13": 2,
     # https://berrycamp.github.io/map/celeste/ridge/a?room=b-02
     "ridge_b-02_20": 1,
     "ridge_b-02_58": 2,
     # https://berrycamp.github.io/map/celeste/temple/a?room=a-01
-    "temple_a-01_164": 1,  # TODO: Order not clear from level data
+    "temple_a-01_164": 1,  # TODO(Reisz): #2 Order not clear from level data
     "temple_a-01_256": 2,
     # https://berrycamp.github.io/map/celeste/temple/a?room=b-17
     "temple_b-17_10": 2,
@@ -63,7 +63,8 @@ BERRY_MAPPING = {
     "summit_a-04b_85": 2,
     "summit_a-04b_136": 1,
     # https://berrycamp.github.io/map/celeste/summit/a?room=f-11
-    "summit_f-11_1068": 2,  # TODO: Order between 1 and 2 not clear from level data
+    # TODO(Reisz): #2 Order between 1 and 2 not clear from level data
+    "summit_f-11_1068": 2,
     "summit_f-11_1229": 3,
     "summit_f-11_1238": 1,
     # https://berrycamp.github.io/map/celeste/summit/a?room=g-00b
@@ -72,7 +73,8 @@ BERRY_MAPPING = {
     "summit_g-00b_127": 2,
     # https://berrycamp.github.io/map/celeste/summit/a?room=g-01
     "summit_g-01_66": 1,
-    "summit_g-01_279": 3,  # TODO: Order between 2 and 3 not clear from level data
+    # TODO(Reisz): #2 Order between 2 and 3 not clear from level data
+    "summit_g-01_279": 3,
     "summit_g-01_342": 2,
 }
 
@@ -208,8 +210,11 @@ WINGED_GOLDEN = {
     "y": 90,
 }
 
-data = json.load(open("data/celeste.json"))
-ids = json.load(open("data/ids.json"))["location_name_to_id"]
+with Path("data/celeste.json") as f:
+    data = json.load(f)
+
+with Path("data/ids.json") as f:
+    ids = json.load(f)["location_name_to_id"]
 
 
 @dataclass(frozen=True)
@@ -286,7 +291,7 @@ class Route:
     def extend(self, region_index: RegionIndex) -> "Route | None":
         if region_index in self.route:
             return None
-        return Route(self.route + (region_index,))
+        return Route(*self.route, region_index)
 
     def extended_to_region(self, region_id: str) -> "Route | None":
         return self.extend(RegionIndex(self.back().room_id, region_id))
@@ -298,12 +303,15 @@ class Todo:
     rule: ApRule
 
 
+with Path("data/CelesteLevelData.json").open() as f:
+    level_data = json.load(f)["levels"]
+
 ap_chapters: dict[str, ApChapter] = {}
-for chapter_data in json.load(open("data/CelesteLevelData.json"))["levels"]:
+for chapter_data in level_data:
     if chapter_data["name"].startswith("10"):
         continue
 
-    print(f"Calculating rules for {chapter_data['display_name']}")
+    print(f"Calculating rules for {chapter_data['display_name']}")  # noqa: T201
 
     rooms = {}
     chapter = ApChapter(rooms=rooms)
@@ -374,7 +382,7 @@ def get_access_rules(chapter, side, room_id, entity):
     if entity == "Golden Strawberry":
         room_id = chapter.golden_strawberry_room
 
-    region, region_id = next(
+    region, _region_id = next(
         (region, region_id)
         for region_id, region in chapter.rooms[room_id].regions.items()
         if entity in region.entity_rules
@@ -394,7 +402,7 @@ for chapter in data["chapters"]:
 
     for side in chapter["sides"]:
         for checkpoint_idx, checkpoint in enumerate(side["checkpoints"]):
-            id = f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}"
+            map_id = f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}"
             canvas_offset = checkpoint["canvas"]["position"]
 
             for room_id, room in side["rooms"].items():
@@ -404,8 +412,9 @@ for chapter in data["chapters"]:
                 room_offset = room["canvas"]["position"]
 
                 def add_location(entity, img_name, name, ap_name=None, ap_id=None):
+                    # ruff: disable[B023] Recapturing the variables every loop is intended
                     map_location = {
-                        "map": id,
+                        "map": map_id,
                         "x": room_offset["x"] - canvas_offset["x"] + entity["x"],
                         "y": room_offset["y"] - canvas_offset["y"] + entity["y"],
                     }
@@ -421,7 +430,9 @@ for chapter in data["chapters"]:
                             "map_locations": [map_location],
                             "sections": [{}],
                             "chest_unopened_img": f"images/locations/{img_name}.png",
-                            "chest_opened_img": f"images/locations/{img_name}_collected.png",
+                            "chest_opened_img": (
+                                f"images/locations/{img_name}_collected.png"
+                            ),
                         }
                     )
 
@@ -433,6 +444,7 @@ for chapter in data["chapters"]:
                         else ""
                     )
                     mappings[ids[f"{chapter['name']}{side_name} - {ap_id}"]] = name
+                    # ruff: enable[B023]
 
                 room_code = f"{chapter['id']}_{side['id']}_{room_id}"
 
@@ -440,7 +452,10 @@ for chapter in data["chapters"]:
                 for entity in room["entities"].get("berry", []):
                     berry_id = f"{chapter['id']}_{room_id}_{entity['id']}"
                     suffix = f" {BERRY_MAPPING[berry_id]}" if berry_count > 1 else ""
-                    name = f"{chapter['name']} {side['name']} [Room {room_id}] Strawberry{suffix}"
+                    name = (
+                        f"{chapter['name']} {side['name']} [Room {room_id}]"
+                        f" Strawberry{suffix}"
+                    )
                     add_location(
                         entity,
                         "strawberry",
@@ -486,12 +501,16 @@ for chapter in data["chapters"]:
                 for entity in KEYS.get(room_code, []):
                     add_location(entity, "key", entity["name"])
 
-json.dump(locations, open("tracker/locations.json", "w"))
+with Path("tracker/locations.json").open("w") as f:
+    json.dump(locations, f)
 
 mappings = ",".join(f'[{k}] = "@{v}/"' for k, v in mappings.items())
 
-pathlib.Path("tracker/scripts/mappings").mkdir(parents=True, exist_ok=True)
-f = open("tracker/scripts/mappings/locations.lua", "w")
-f.write("LOCATION_MAPPINGS={")
-f.write(mappings)
-f.write("}")
+mappings_path = Path("tracker/scripts/mappings")
+mappings_path.mkdir(parents=True, exist_ok=True)
+
+mappings_path /= "locations.lua"
+with mappings_path.open("w") as f:
+    f.write("LOCATION_MAPPINGS={")
+    f.write(mappings)
+    f.write("}")

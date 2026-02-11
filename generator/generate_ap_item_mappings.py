@@ -1,18 +1,24 @@
 import json
-import pathlib
+from pathlib import Path
 
-ids = json.load(open("data/ids.json"))["item_name_to_id"]
+with Path("data/ids.json").open() as f:
+    ids = json.load(f)["item_name_to_id"]
+
+with Path("tracker/items/interactables.json").open() as f:
+    interactables = json.load(f)
+
 mappings = {}
-
-interactables = json.load(open("tracker/items/interactables.json"))
 for interactable in interactables:
     mappings[ids[interactable["name"]]] = interactable["codes"]
 
 
 mappings = ",".join(f'[{k}] = "{v}"' for k, v in mappings.items())
 
-pathlib.Path("tracker/scripts/mappings").mkdir(parents=True, exist_ok=True)
-f = open("tracker/scripts/mappings/items.lua", "w")
-f.write("ITEM_MAPPINGS={")
-f.write(mappings)
-f.write("}")
+mappings_path = Path("tracker/scripts/mappings")
+mappings_path.mkdir(parents=True, exist_ok=True)
+
+mappings_path /= "items.lua"
+with mappings_path.open("w") as f:
+    f.write("ITEM_MAPPINGS={")
+    f.write(mappings)
+    f.write("}")
