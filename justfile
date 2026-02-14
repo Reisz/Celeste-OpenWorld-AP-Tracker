@@ -8,6 +8,7 @@ check:
     uvx ruff@0.15 format --check
     fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
     just --fmt --unstable --check
+    uvx rumdl@0.1.21 check
 
 download:
     mkdir -p data
