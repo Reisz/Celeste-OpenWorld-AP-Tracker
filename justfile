@@ -3,6 +3,7 @@ ARCHIPELAGO_VERSION := "0.6.5"
 CELESTE_MOD_VERSION := "1.0.7"
 JQ_FORMAT_ARGS := "--indent 4"
 
+# Check formatting and lint files in repository
 check:
     uvx ruff@0.15 check
     uvx ruff@0.15 format --check
@@ -10,6 +11,7 @@ check:
     just --fmt --unstable --check
     uvx rumdl@0.1.21 check
 
+# Download everything needed to build the pack
 download:
     mkdir -p data
     curl -ZL --output-dir data \
@@ -22,6 +24,7 @@ download:
     jq -r '.[].img | "https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/v{{ CELESTE_MOD_VERSION }}/Graphics/Atlases/Journal/" + split("/")[-1] + "?raw=true"' tracker/items/interactables.json \
         | xargs curl -ZL --output-dir tracker/images/items --remote-name-all 
 
+# Run the scripts to generate the pack
 build:
     uv run generator/generate_maps.py
     uv run generator/generate_locations.py
@@ -29,6 +32,7 @@ build:
     # Map generation is slow and unlikely to change. Only run if needed.
     test -d tracker/images/maps || uv run generator/generate_map_images.py
 
+# Build the pack and install to local PopTracker
 [working-directory("tracker")]
 install: build
     zip -rFS {{ PACK_LOCATION }} *
