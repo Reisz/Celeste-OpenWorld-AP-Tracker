@@ -210,10 +210,10 @@ WINGED_GOLDEN = {
     "y": 90,
 }
 
-with Path("data/celeste.json") as f:
+with Path("data/celeste.json").open() as f:
     data = json.load(f)
 
-with Path("data/ids.json") as f:
+with Path("data/ids.json").open() as f:
     ids = json.load(f)["location_name_to_id"]
 
 
@@ -291,7 +291,7 @@ class Route:
     def extend(self, region_index: RegionIndex) -> "Route | None":
         if region_index in self.route:
             return None
-        return Route(*self.route, region_index)
+        return Route((*self.route, region_index))
 
     def extended_to_region(self, region_id: str) -> "Route | None":
         return self.extend(RegionIndex(self.back().room_id, region_id))
