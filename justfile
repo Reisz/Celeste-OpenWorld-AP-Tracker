@@ -7,6 +7,7 @@ check:
     uvx ruff@0.15 check
     uvx ruff@0.15 format --check
     fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
+    just --fmt --unstable --check
 
 download:
     mkdir -p data
@@ -27,7 +28,6 @@ build:
     # Map generation is slow and unlikely to change. Only run if needed.
     test -d tracker/images/maps || uv run generator/generate_map_images.py
 
-[working-directory: "tracker"]
+[working-directory("tracker")]
 install: build
-    zip -rFS {{PACK_LOCATION}} *
-
+    zip -rFS {{ PACK_LOCATION }} *
