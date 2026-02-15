@@ -2,7 +2,7 @@
     {
         "name": "Strawberry Total",
         "type": "consumable",
-        "img": "images/items/berry.png",
+        "img": "images/settings/berry.png",
         "max_quantity": 175,
         "increment": 1,
         "decrement": 1,
@@ -14,7 +14,7 @@
     {
         "name": "Raspberry Total",
         "type": "consumable",
-        "img": "images/items/raspberry.png",
+        "img": "images/settings/raspberry.png",
         "max_quantity": 175,
         "increment": 1,
         "decrement": 1,
@@ -26,7 +26,7 @@
     {
         "name": "Crystal Heart Total",
         "type": "consumable",
-        "img": "images/items/blue_heart.png",
+        "img": "images/locations/blue_heart.png",
         "max_quantity": 24,
         "increment": 1,
         "decrement": 1,
@@ -38,7 +38,7 @@
     {
         "name": "Cassette Total",
         "type": "consumable",
-        "img": "images/items/cassette.png",
+        "img": "images/locations/cassette.png",
         "max_quantity": 8,
         "increment": 1,
         "decrement": 1,

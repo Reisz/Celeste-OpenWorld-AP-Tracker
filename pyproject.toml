@@ -17,3 +17,15 @@ lint.ignore = [
 
 [tool.mypy]
 strict = true
+
+[tool.rumdl]
+disable = [
+    "MD013" # Line-length
+]
+
+include = [
+    "README.md"
+]
+
+# Respect .gitignore files when scanning directories (default: true)
+respect-gitignore = true

@@ -15,18 +15,16 @@ Archipelago:AddClearHandler("clear handler", function(slot_data)
     CUR_INDEX = -1
 
     -- reset locations
-    for _, location_map in pairs(LOCATION_MAPPINGS) do
-        for _, location in pairs(location_map) do
-            if location then
-                local obj = Tracker:FindObjectForCode(location)
-                if obj then
-                    logDebugVerbose(string.format('Resetting location %s', location))
-                    logDebugVerbose(tostring(obj))
-                    if location:sub(1, 1) == "@" then
-                        obj.AvailableChestCount = obj.ChestCount
-                    else
-                        obj.Active = false
-                    end
+    for _, location in pairs(LOCATION_MAPPINGS) do
+        if location then
+            local obj = Tracker:FindObjectForCode(location)
+            if obj then
+                logDebugVerbose(string.format('Resetting location %s', location))
+                logDebugVerbose(tostring(obj))
+                if location:sub(1, 1) == "@" then
+                    obj.AvailableChestCount = obj.ChestCount
+                else
+                    obj.Active = false
                 end
             end
         end
@@ -35,24 +33,22 @@ Archipelago:AddClearHandler("clear handler", function(slot_data)
     logDebug("onClear: Locations reset successfully.")
 
     -- reset items
-    for _, item_map in pairs(ITEM_MAPPINGS) do
-        for _, item in pairs(item_map) do
-            if item[1] and item[2] then
-                local obj = Tracker:FindObjectForCode(item[1])
-                if obj then
-                    if item[2] == "toggle" then
-                        obj.Active = false
-                    elseif item[2] == "progressive" then
-                        obj.CurrentStage = 0
-                        obj.Active = false
-                    elseif item[2] == "consumable" then
-                        obj.AcquiredCount = 0
-                    else
-                        logDebugVerbose(string.format("onClear: unknown item type %s for code %s", item[2], item[1]))
-                    end
+    for _, item in pairs(ITEM_MAPPINGS) do
+        if item[1] and item[2] then
+            local obj = Tracker:FindObjectForCode(item[1])
+            if obj then
+                if item[2] == "toggle" then
+                    obj.Active = false
+                elseif item[2] == "progressive" then
+                    obj.CurrentStage = 0
+                    obj.Active = false
+                elseif item[2] == "consumable" then
+                    obj.AcquiredCount = 0
                 else
-                    logDebugVerbose(string.format("onClear: could not find object for code %s", item[1]))
+                    logDebugVerbose(string.format("onClear: unknown item type %s for code %s", item[2], item[1]))
                 end
+            else
+                logDebugVerbose(string.format("onClear: could not find object for code %s", item[1]))
             end
         end
     end

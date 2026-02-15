@@ -22,7 +22,7 @@ download:
     curl "https://archipelago.gg/datapackage" | jq '.games."Celeste (Open World)" | pick(.item_name_to_id, .location_name_to_id)' > data/ids.json
 
     mkdir -p tracker/images/items
-    jq -r '.[].img | "https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/v{{ CELESTE_MOD_VERSION }}/Graphics/Atlases/Journal/" + split("/")[-1] + "?raw=true"' tracker/items/interactables.json \
+    jq -br '.[].img | "https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/v{{ CELESTE_MOD_VERSION }}/Graphics/Atlases/Journal/" + split("/")[-1] + "?raw=true"' tracker/items/interactables.json \
         | xargs curl -ZL --output-dir tracker/images/items --remote-name-all 
 
 # Run the scripts to generate the pack

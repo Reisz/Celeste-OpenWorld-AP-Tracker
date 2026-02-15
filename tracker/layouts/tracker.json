@@ -14,10 +14,10 @@
                     {
                         "dock": "left",
                         "type": "group",
-                        "header": "Items",
+                        "header": "Interactables",
                         "content": {
                             "type": "layout",
-                            "key": "shared_item_grid"
+                            "key": "interactables_grid"
                         }
                     },
                     {

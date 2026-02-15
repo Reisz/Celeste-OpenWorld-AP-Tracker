@@ -2,37 +2,37 @@
     {
         "name": "Summit Gem 1",
         "type": "toggle",
-        "img": "images/items/gem1.png",
+        "img": "images/locations/gem1.png",
         "codes": "thesummita-gem1"
     },
     {
         "name": "Summit Gem 2",
         "type": "toggle",
-        "img": "images/items/gem2.png",
+        "img": "images/locations/gem2.png",
         "codes": "thesummita-gem2"
     },
     {
         "name": "Summit Gem 3",
         "type": "toggle",
-        "img": "images/items/gem3.png",
+        "img": "images/locations/gem3.png",
         "codes": "thesummita-gem3"
     },
     {
         "name": "Summit Gem 4",
         "type": "toggle",
-        "img": "images/items/gem4.png",
+        "img": "images/locations/gem4.png",
         "codes": "thesummita-gem4"
     },
     {
         "name": "Summit Gem 5",
         "type": "toggle",
-        "img": "images/items/gem5.png",
+        "img": "images/locations/gem5.png",
         "codes": "thesummita-gem5"
     },
     {
         "name": "Summit Gem 6",
         "type": "toggle",
-        "img": "images/items/gem6.png",
+        "img": "images/locations/gem6.png",
         "codes": "thesummita-gem6"
     }
 ]
