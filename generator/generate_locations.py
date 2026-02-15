@@ -2,6 +2,7 @@ import json
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 HEART_COLORS = {
     "a": "blue",
@@ -274,10 +275,10 @@ class RegionIndex:
 
 @dataclass(frozen=True)
 class Route:
-    route: tuple[RegionIndex]
+    route: tuple[RegionIndex, ...]
 
     @staticmethod
-    def start(chapter_data) -> "Route":
+    def start(chapter_data: dict[str, Any]) -> "Route":
         start_room = next(
             x for x in chapter_data["rooms"] if x["checkpoint"] == "Start"
         )
@@ -299,7 +300,7 @@ class Route:
 
 @dataclass
 class Todo:
-    route: list[RegionIndex]
+    route: Route
     rule: ApRule
 
 
@@ -313,9 +314,9 @@ for chapter_data in level_data:
 
     print(f"Calculating rules for {chapter_data['display_name']}")  # noqa: T201
 
-    rooms = {}
-    chapter = ApChapter(rooms=rooms)
-    ap_chapters[chapter_data["name"]] = chapter
+    rooms: dict[str, ApRoom] = {}
+    ap_chapter = ApChapter(rooms=rooms)
+    ap_chapters[chapter_data["name"]] = ap_chapter
 
     # Convert individual room data
     for room_data in chapter_data["rooms"]:
@@ -342,7 +343,7 @@ for chapter_data in level_data:
             "Golden Strawberry" in region.entity_rules
             for region in room.regions.values()
         ):
-            chapter.golden_strawberry_room = room_data["name"]
+            ap_chapter.golden_strawberry_room = room_data["name"]
 
     # Prepare room connections
     doors = defaultdict(list)
@@ -376,22 +377,24 @@ for chapter_data in level_data:
                 todo.append(Todo(route, current_todo.rule))
 
 
-def get_access_rules(chapter, side, room_id, entity):
-    chapter = ap_chapters[f"{CHAPTER_MAP[chapter['id']]}{side['id']}"]
+def get_access_rules(
+    chapter: dict[str, Any], side: dict[str, Any], room_id: str, entity: str
+) -> list[str]:
+    ap_chapter = ap_chapters[f"{CHAPTER_MAP[chapter['id']]}{side['id']}"]
 
     if entity == "Golden Strawberry":
-        room_id = chapter.golden_strawberry_room
+        room_id = ap_chapter.golden_strawberry_room
 
     region, _region_id = next(
         (region, region_id)
-        for region_id, region in chapter.rooms[room_id].regions.items()
+        for region_id, region in ap_chapter.rooms[room_id].regions.items()
         if entity in region.entity_rules
     )
 
     return (region.rule & region.entity_rules[entity]).to_poptracker()
 
 
-locations_children = []
+locations_children: list[dict[str, Any]] = []
 locations = [{"children": locations_children}]
 
 mappings = {}
@@ -411,7 +414,13 @@ for chapter in data["chapters"]:
 
                 room_offset = room["canvas"]["position"]
 
-                def add_location(entity, img_name, name, ap_name=None, ap_id=None):
+                def add_location(
+                    entity: dict[str, Any],
+                    img_name: str,
+                    name: str,
+                    ap_name: str | None = None,
+                    ap_id: str | None = None,
+                ) -> None:
                     # ruff: disable[B023] Recapturing the variables every loop is intended
                     map_location = {
                         "map": map_id,
@@ -499,12 +508,10 @@ for chapter in data["chapters"]:
                     )
 
                 for entity in KEYS.get(room_code, []):
-                    add_location(entity, "key", entity["name"])
+                    add_location(entity, "key", str(entity["name"]))
 
 with Path("tracker/locations.json").open("w") as f:
     json.dump(locations, f)
-
-mappings = ",".join(f'[{k}] = "@{v}/"' for k, v in mappings.items())
 
 mappings_path = Path("tracker/scripts/mappings")
 mappings_path.mkdir(parents=True, exist_ok=True)
@@ -512,5 +519,5 @@ mappings_path.mkdir(parents=True, exist_ok=True)
 mappings_path /= "locations.lua"
 with mappings_path.open("w") as f:
     f.write("LOCATION_MAPPINGS={")
-    f.write(mappings)
+    f.write(",".join(f'[{k}] = "@{v}/"' for k, v in mappings.items()))
     f.write("}")

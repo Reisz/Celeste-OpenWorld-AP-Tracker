@@ -5,13 +5,15 @@ requires-python = ">=3.13"
 dependencies = ["pillow>=12.1.1"]
 
 [dependency-groups]
-dev = ["ruff>=0.15.1", "rumdl>=0.1.21"]
+dev = ["mypy>=1.19.1", "ruff>=0.15.1", "rumdl>=0.1.21"]
 
 [tool.ruff]
 lint.select = ["ALL"]
 lint.ignore = [
     "COM", # Conflicts with formatter
     "FIX", # TODOs intentionally left in code as documentation
-    "ANN", # TODO(Reisz): #3 Annotations and type-checking
     "D",   # TODO(Reisz): #4 Documentation
 ]
+
+[tool.mypy]
+strict = true
