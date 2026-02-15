@@ -7,6 +7,7 @@ JQ_FORMAT_ARGS := "--indent 4"
 check:
     uv run ruff check
     uv run ruff format --check
+    uv run mypy .
     fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
     just --fmt --unstable --check
     uv run rumdl check

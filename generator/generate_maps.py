@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from typing import Any
 
 Path("tracker/maps").mkdir(parents=True, exist_ok=True)
 Path("tracker/layouts").mkdir(parents=True, exist_ok=True)
@@ -8,7 +9,7 @@ with Path("data/celeste.json").open() as f:
     data = json.load(f)
 maps = []
 
-maps_tabs = []
+maps_tabs: list[dict[str, Any]] = []
 maps_layout = {
     "maps": {
         "type": "tabbed",
@@ -20,7 +21,7 @@ for chapter in data["chapters"]:
     if chapter["id"] == "farewell":
         continue
 
-    chapter_tabs = []
+    chapter_tabs: list[dict[str, Any]] = []
     chapter_container = {
         "title": chapter["name"],
         "content": {
@@ -31,7 +32,7 @@ for chapter in data["chapters"]:
     maps_tabs.append(chapter_container)
 
     for side in chapter["sides"]:
-        side_tabs = []
+        side_tabs: list[dict[str, Any]] = []
         side_container = {
             "title": side["name"],
             "content": {
