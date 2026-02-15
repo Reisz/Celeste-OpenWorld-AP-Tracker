@@ -1,10 +1,3 @@
-# /// script
-# requires-python = ">=3.13"
-# dependencies = [
-#     "pillow>=12.1.0",
-# ]
-# ///
-
 import json
 from pathlib import Path
 from zipfile import ZipFile
