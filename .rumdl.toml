@@ -1,0 +1,13 @@
+[global]
+# List of rules to disable (uncomment and modify as needed)
+disable = [
+    "MD013" # Line-length
+]
+
+# List of file/directory patterns to include for linting (if provided, only these will be linted)
+include = [
+    "README.md"
+]
+
+# Respect .gitignore files when scanning directories (default: true)
+respect-gitignore = true
