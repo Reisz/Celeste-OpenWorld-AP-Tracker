@@ -5,11 +5,11 @@ JQ_FORMAT_ARGS := "--indent 4"
 
 # Check formatting and lint files in repository
 check:
-    uvx ruff@0.15 check
-    uvx ruff@0.15 format --check
+    uv run ruff check
+    uv run ruff format --check
     fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
     just --fmt --unstable --check
-    uvx rumdl@0.1.21 check
+    uv run rumdl check
 
 # Download everything needed to build the pack
 download:
