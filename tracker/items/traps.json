@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Bald Trap",
+        "type": "toggle",
+        "codes": "baldtrap"
+    },
+    {
+        "name": "Literature Trap",
+        "type": "toggle",
+        "codes": "literaturetrap"
+    },
+    {
+        "name": "Stun Trap",
+        "type": "toggle",
+        "codes": "stuntrap"
+    },
+    {
+        "name": "Invisible Trap",
+        "type": "toggle",
+        "codes": "invisibletrap"
+    },
+    {
+        "name": "Fast Trap",
+        "type": "toggle",
+        "codes": "fasttrap"
+    },
+    {
+        "name": "Slow Trap",
+        "type": "toggle",
+        "codes": "slowtrap"
+    },
+    {
+        "name": "Ice Trap",
+        "type": "toggle",
+        "codes": "icetrap"
+    },
+    {
+        "name": "Reverse Trap",
+        "type": "toggle",
+        "codes": "reversetrap"
+    },
+    {
+        "name": "Screen Flip Trap",
+        "type": "toggle",
+        "codes": "screenfliptrap"
+    },
+    {
+        "name": "Laughter Trap",
+        "type": "toggle",
+        "codes": "laughtertrap"
+    },
+    {
+        "name": "Hiccup Trap",
+        "type": "toggle",
+        "codes": "hiccuptrap"
+    },
+    {
+        "name": "Zoom Trap",
+        "type": "toggle",
+        "codes": "zoomtrap"
+    }
+]

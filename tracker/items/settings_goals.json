@@ -1,0 +1,79 @@
+[
+    {
+        "name": "Strawberries Required",
+        "type": "consumable",
+        "img": "images/settings/berry.png",
+        "max_quantity": 175,
+        "increment": 1,
+        "decrement": 1,
+        "initial_quantity": 0,
+        "overlay_background": "#000000",
+        "overlay_font_size": 12,
+        "codes": "berries_required"
+    },
+    {
+        "name": "Goal Level",
+        "type": "progressive",
+        "allow_disabled": false,
+        "initial_stage_idx": 0,
+        "stages": [
+            {
+                "img": "images/levels/summit_a.png",
+                "codes": "goal,the_summit_a",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/summit_b.png",
+                "codes": "goal,the_summit_b",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/summit_c.png",
+                "codes": "goal,the_summit_c",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/core_a.png",
+                "codes": "goal,core_a",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/core_b.png",
+                "codes": "goal,core_b",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/core_c.png",
+                "codes": "goal,core_c",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/farewell.png",
+                "codes": "goal,empty_space",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/settings/farewell_full_clear.png",
+                "codes": "goal,farewell",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/settings/farewell_golden_berry.png",
+                "codes": "goal,farewell_golden",
+                "inherit_codes": false
+            }
+        ]
+    },
+    {
+        "name": "Lock Goal Area",
+        "type": "toggle",
+        "img": "images/settings/complete.png",
+        "codes": "lock_goal_area"
+    },
+    {
+        "name": "Goal Area Checkpointsanity",
+        "type": "toggle",
+        "img": "images/settings/complete.png",
+        "codes": "goal_area_checkpointsanity"
+    }
+]

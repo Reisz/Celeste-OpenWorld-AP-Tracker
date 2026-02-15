@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Strawberry Total",
+        "type": "consumable",
+        "img": "images/items/berry.png",
+        "max_quantity": 175,
+        "increment": 1,
+        "decrement": 1,
+        "initial_quantity": 0,
+        "overlay_background": "#000000",
+        "overlay_font_size": 12,
+        "codes": "berries_obtained_total"
+    },
+    {
+        "name": "Raspberry Total",
+        "type": "consumable",
+        "img": "images/items/raspberry.png",
+        "max_quantity": 175,
+        "increment": 1,
+        "decrement": 1,
+        "initial_quantity": 0,
+        "overlay_background": "#000000",
+        "overlay_font_size": 12,
+        "codes": "raspberries_obtained_total"
+    },
+    {
+        "name": "Crystal Heart Total",
+        "type": "consumable",
+        "img": "images/items/blue_heart.png",
+        "max_quantity": 24,
+        "increment": 1,
+        "decrement": 1,
+        "initial_quantity": 0,
+        "overlay_background": "#000000",
+        "overlay_font_size": 12,
+        "codes": "hearts_obtained_total"
+    },
+    {
+        "name": "Cassette Total",
+        "type": "consumable",
+        "img": "images/items/cassette.png",
+        "max_quantity": 8,
+        "increment": 1,
+        "decrement": 1,
+        "initial_quantity": 0,
+        "overlay_background": "#000000",
+        "overlay_font_size": 12,
+        "codes": "cassettes_obtained_total"
+    }
+]

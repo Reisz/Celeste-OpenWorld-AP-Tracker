@@ -1,0 +1,19 @@
+[
+    {
+        "name": "Death Link",
+        "type": "consumable",
+        "img": "images/settings/death_link.png",
+        "increment": 1,
+        "decrement": 1,
+        "initial_quantity": 0,
+        "overlay_background": "#000000",
+        "overlay_font_size": 12,
+        "codes": "death_link"
+    },
+    {
+        "name": "Trap Link",
+        "type": "toggle",
+        "img": "images/settings/complete.png",
+        "codes": "trap_link"
+    }
+]
