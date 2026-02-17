@@ -20,7 +20,7 @@
     {
         "name": "Gemsanity",
         "type": "toggle",
-        "img": "images/settings/gem.png",
+        "img": "images/locations/gem1.png",
         "codes": "gemsanity"
     },
     {
@@ -68,13 +68,13 @@
     {
         "name": "Include Goldens",
         "type": "toggle",
-        "img": "images/settings/golden_berry.png",
+        "img": "images/locations/golden_strawberry.png",
         "codes": "include_goldens"
     },
     {
         "name": "Keysanity",
         "type": "toggle",
-        "img": "images/settings/key.png",
+        "img": "images/locations/key.png",
         "codes": "keysanity"
     },
     {

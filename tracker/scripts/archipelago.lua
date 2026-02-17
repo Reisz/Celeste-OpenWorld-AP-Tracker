@@ -127,6 +127,7 @@ Archipelago:AddClearHandler("clear handler", function(slot_data)
 end)
 
 Archipelago:AddItemHandler("item handler", function(index, item_id, item_name, player)
+    -- TODO(matthewjaykoster) Update to handle progressive items/items with counts
     local code = ITEM_MAPPINGS[item_id]
     if code then
         Tracker:FindObjectForCode(code).Active = true

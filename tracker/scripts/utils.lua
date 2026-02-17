@@ -33,15 +33,3 @@ function dumpTable(o, depth)
         return tostring(o)
     end
 end
-
--- Checks whether the second reference count meets or exceeds the first.
-function checkAmountMetOrExceeds(required_count_reference, obtained_count_reference)
-    local required_count = Tracker:ProviderCountForCode(required_count_reference)
-    local obtained_count = Tracker:ProviderCountForCode(obtained_count_reference)
-
-    if obtained_count >= required_count then
-        return 1
-    else
-        return 0
-    end
-end

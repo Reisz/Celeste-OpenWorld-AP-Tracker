@@ -2,7 +2,7 @@
     {
         "name": "Strawberries Required",
         "type": "consumable",
-        "img": "images/settings/berry.png",
+        "img": "images/locations/strawberry.png",
         "max_quantity": 175,
         "increment": 1,
         "decrement": 1,
