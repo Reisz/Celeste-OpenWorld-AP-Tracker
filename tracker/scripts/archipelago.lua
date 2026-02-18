@@ -4,54 +4,33 @@ ScriptHost:LoadScript("scripts/mappings/locations.lua")
 CUR_INDEX = -1
 SLOT_DATA = nil
 
-Archipelago:AddClearHandler("clear handler", function(slot_data)
+Archipelago:AddClearHandler("clear handler", function(slotData)
 
     logDebug("onClear handler called. If verbose debugging enabled, dumping slot data below.")
-    logDebugVerbose(dumpTable(slot_data))
+    logDebugVerbose(dumpTable(slotData))
     -- Slot data reference can be found at: https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/main/Source/ArchipelagoManager.cs
     -- A sample can found at: ./SLOT_DATA.sample
 
-    SLOT_DATA = slot_data
+    SLOT_DATA = slotData
     CUR_INDEX = -1
 
-    -- reset locations
+    -- Reset Locations
     for _, location in pairs(LOCATION_MAPPINGS) do
-        if location then
-            local obj = Tracker:FindObjectForCode(location)
-            if obj then
-                logDebugVerbose(string.format('Resetting location %s', location))
-                logDebugVerbose(tostring(obj))
-                if location:sub(1, 1) == "@" then
-                    obj.AvailableChestCount = obj.ChestCount
-                else
-                    obj.Active = false
-                end
-            end
-        end
+        _resetLocation(location)
     end
 
     logDebug("onClear: Locations reset successfully.")
 
-    -- reset items
+    -- Reset Items
     for _, item in pairs(ITEM_MAPPINGS) do
-        if item[1] and item[2] then
-            local obj = Tracker:FindObjectForCode(item[1])
-            if obj then
-                if item[2] == "toggle" then
-                    obj.Active = false
-                elseif item[2] == "progressive" then
-                    obj.CurrentStage = 0
-                    obj.Active = false
-                elseif item[2] == "consumable" then
-                    obj.AcquiredCount = 0
-                else
-                    logDebugVerbose(string.format("onClear: unknown item type %s for code %s", item[2], item[1]))
-                end
-            else
-                logDebugVerbose(string.format("onClear: could not find object for code %s", item[1]))
-            end
-        end
+        _resetItem(item)
     end
+
+    -- Items: cumulative trackers
+    _resetCumulativeTracker("berries_obtained_total")
+    _resetCumulativeTracker("raspberries_obtained_total")
+    _resetCumulativeTracker("hearts_obtained_total")
+    _resetCumulativeTracker("cassettes_obtained_total")
 
     logDebug("onClear: Items reset successfully.")
 
@@ -61,67 +40,37 @@ Archipelago:AddClearHandler("clear handler", function(slot_data)
     logDebug("onClear: Player ID and Team Number reset successfully.")
 
     -- Settings: Game Options
-    if slot_data["death_link"] ~= nil and slot_data["death_link"] ~= 0 and slot_data["death_link_amnesty"] ~= nil then
-        Tracker:FindObjectForCode("death_link").AcquiredCount = tonumber(slot_data["death_link_amnesty"])
+    if slotData["death_link"] ~= nil and slotData["death_link"] ~= 0 and slotData["death_link_amnesty"] ~= nil then
+        Tracker:FindObjectForCode("death_link").AcquiredCount = tonumber(slotData["death_link_amnesty"])
     else
         Tracker:FindObjectForCode("death_link").AcquiredCount = 0
     end
-    if slot_data["trap_link"] ~= nil then
-        Tracker:FindObjectForCode("trap_link").Active = tonumber(slot_data["trap_link"])
-    end
+
+    _resetToggleSettingFromSlotData(slotData, "trap_link", "trap_link")
 
     -- Settings: Goal Options
-    if slot_data["strawberries_required"] ~= nil then
-        Tracker:FindObjectForCode("berries_required").AcquiredCount = tonumber(slot_data["strawberries_required"])
-    end
-    if slot_data["lock_goal_area"] ~= nil then
-        Tracker:FindObjectForCode("lock_goal_area").Active = tonumber(slot_data["lock_goal_area"])
-    end
-    if slot_data["goal_area_checkpointsanity"] ~= nil then
-        Tracker:FindObjectForCode("goal_area_checkpointsanity").Active = tonumber(
-            slot_data["goal_area_checkpointsanity"])
-    end
-    if slot_data["goal_area"] then
-        Tracker:FindObjectForCode("goal").CurrentStage = _mapSlotGoalAreaCodeToGoalObjectIndex(slot_data["goal_area"])
+    _resetCountSettingFromSlotData(slotData, "strawberries_required", "berries_required")
+    _resetToggleSettingFromSlotData(slotData, "lock_goal_area", "lock_goal_area")
+    _resetToggleSettingFromSlotData(slotData, "goal_area_checkpointsanity", "goal_area_checkpointsanity")
+
+    if slotData["goal_area"] then
+        Tracker:FindObjectForCode("goal").CurrentStage = _mapSlotGoalAreaCodeToGoalObjectIndex(slotData["goal_area"])
     end
 
     -- Settings: Location Options/-sanities
-    if slot_data["binosanity"] ~= nil then
-        Tracker:FindObjectForCode("binosanity").Active = tonumber(slot_data["binosanity"])
-    end
-    if slot_data["carsanity"] ~= nil then
-        Tracker:FindObjectForCode("carsanity").Active = tonumber(slot_data["carsanity"])
-    end
-    if slot_data["checkpointsanity"] ~= nil then
-        Tracker:FindObjectForCode("checkpointsanity").Active = tonumber(slot_data["checkpointsanity"])
-    end
-    if slot_data["gemsanity"] ~= nil then
-        Tracker:FindObjectForCode("gemsanity").Active = tonumber(slot_data["gemsanity"])
-    end
-    if slot_data["keysanity"] ~= nil then
-        Tracker:FindObjectForCode("keysanity").Active = tonumber(slot_data["keysanity"])
-    end
-    if slot_data["roomsanity"] ~= nil then
-        Tracker:FindObjectForCode("roomsanity").Active = tonumber(slot_data["roomsanity"])
-    end
+    _resetToggleSettingFromSlotData(slotData, "binosanity", "binosanity")
+    _resetToggleSettingFromSlotData(slotData, "carsanity", "carsanity")
+    _resetToggleSettingFromSlotData(slotData, "checkpointsanity", "checkpointsanity")
+    _resetToggleSettingFromSlotData(slotData, "gemsanity", "gemsanity")
+    _resetToggleSettingFromSlotData(slotData, "keysanity", "keysanity")
+    _resetToggleSettingFromSlotData(slotData, "roomsanity", "roomsanity")
 
     -- Settings: Location Options/checks
-    if slot_data["include_goldens"] ~= nil then
-        Tracker:FindObjectForCode("include_goldens").Active = tonumber(slot_data["include_goldens"])
-    end
-    if slot_data["include_core"] ~= nil then
-        Tracker:FindObjectForCode("include_core").Active = tonumber(slot_data["include_core"])
-    end
-    if slot_data["include_farewell"] ~= nil then
-        -- 0 == "None", 1 == "Empty Space", 2 == "Farewell"
-        Tracker:FindObjectForCode("include_farewell").CurrentStage = tonumber(slot_data["include_farewell"])
-    end
-    if slot_data["include_b_sides"] ~= nil then
-        Tracker:FindObjectForCode("include_b_sides").Active = tonumber(slot_data["include_b_sides"])
-    end
-    if slot_data["include_c_sides"] ~= nil then
-        Tracker:FindObjectForCode("include_c_sides").Active = tonumber(slot_data["include_c_sides"])
-    end
+    _resetToggleSettingFromSlotData(slotData, "include_goldens", "include_goldens")
+    _resetToggleSettingFromSlotData(slotData, "include_core", "include_core")
+    _resetProgressiveSettingFromSlotData(slotData, "include_farewell", "include_farewell") -- 0 == "None", 1 == "Empty Space", 2 == "Farewell"
+    _resetToggleSettingFromSlotData(slotData, "include_b_sides", "include_b_sides")
+    _resetToggleSettingFromSlotData(slotData, "include_c_sides", "include_c_sides")
 
     logDebug("onClear: Settings and goals reset completed.")
 end)
@@ -142,40 +91,120 @@ Archipelago:AddLocationHandler("location handler", function(location_id, locatio
 end)
 
 --- Maps a level code (e.g. 10c) to its name code (e.g. farewell_golden).
----@param level_code string
-function _mapSlotGoalAreaCodeToGoalObjectIndex(level_code)
-    if level_code == "7a" then
+---@param levelCode string
+function _mapSlotGoalAreaCodeToGoalObjectIndex(levelCode)
+    if levelCode == "7a" then
         return 0
         -- return "the_summit_a"
-    elseif level_code == "7b" then
+    elseif levelCode == "7b" then
         return 1
         -- return "the_summit_b"
-    elseif level_code == "7c" then
+    elseif levelCode == "7c" then
         return 2
         -- return "the_summit_c"
-    elseif level_code == "9a" then
+    elseif levelCode == "9a" then
         return 3
         -- return "core_a"
-    elseif level_code == "9b" then
+    elseif levelCode == "9b" then
         return 4
         -- return "core_b"
-    elseif level_code == "9c" then
+    elseif levelCode == "9c" then
         return 5
         -- return "core_c"
-    elseif level_code == "10a" then
+    elseif levelCode == "10a" then
         return 6
         -- return "empty_space"
-    elseif level_code == "10b" then
+    elseif levelCode == "10b" then
         return 7
         -- return "farewell"
-    elseif level_code == "10c" then
+    elseif levelCode == "10c" then
         return 8
         -- return "farewell_golden"
     else
         logDebug(string.format(
             'Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A'),
-            level_code);
+            levelCode);
         return 0
         -- return "the_summit_a"
+    end
+end
+
+--- Resets a cumulative tracker item to its default state
+--- @param itemCode string
+function _resetCumulativeTracker(itemCode)
+    local cumulativeTracker = Tracker:FindObjectForCode(itemCode)
+    if cumulativeTracker ~= nil then
+        cumulativeTracker.AcquiredCount = 0
+    else
+        logDebugVerbose(string.format("onClear: Failed to find cumulative tracker object for code %s", itemCode))
+    end
+end
+
+--- Resets item data to a default state from its mapping code.
+--- @param itemCode string
+function _resetItem(itemCode)
+    if itemCode then
+        local obj = Tracker:FindObjectForCode(itemCode)
+        if obj ~= nil then
+            if obj.Type == "toggle" then
+                obj.Active = false
+            elseif obj.Type == "progressive" then
+                obj.CurrentStage = 0
+                obj.Active = false
+            elseif obj.Type == "consumable" then
+                obj.AcquiredCount = 0
+            else
+                logDebugVerbose(string.format("onClear: unknown item type %s for code %s", obj.Type, itemCode))
+            end
+        else
+            logDebugVerbose(string.format("onClear: could not find object for code %s", itemCode))
+        end
+    end
+end
+
+--- Resets location data to a default state from its mapping code.
+--- @param locationCode string
+function _resetLocation(locationCode)
+    if locationCode then
+        local obj = Tracker:FindObjectForCode(locationCode)
+        if obj ~= nil then
+            logDebugVerbose(string.format('Resetting location %s', locationCode))
+            logDebugVerbose(tostring(obj))
+            if locationCode:sub(1, 1) == "@" then
+                obj.AvailableChestCount = obj.ChestCount
+            else
+                obj.Active = false
+            end
+        end
+    end
+end
+
+--- Resets a count-based "setting item" to its slot data state.
+--- @param slotData table
+--- @param slotDataKey string
+--- @param settingTrackerKey string
+function _resetCountSettingFromSlotData(slotData, slotDataKey, settingTrackerKey)
+    if slotData[slotDataKey] ~= nil then
+        Tracker:FindObjectForCode(settingTrackerKey).AcquiredCount = tonumber(slotData[slotDataKey])
+    end
+end
+
+--- Resets a toggleable "setting item" to its slot data state.
+--- @param slotData table
+--- @param slotDataKey string
+--- @param settingTrackerKey string
+function _resetProgressiveSettingFromSlotData(slotData, slotDataKey, settingTrackerKey)
+    if slotData[slotDataKey] ~= nil then
+        Tracker:FindObjectForCode(settingTrackerKey).CurrentStage = tonumber(slotData[slotDataKey])
+    end
+end
+
+--- Resets a toggleable "setting item" to its slot data state.
+--- @param slotData table
+--- @param slotDataKey string
+--- @param settingTrackerKey string
+function _resetToggleSettingFromSlotData(slotData, slotDataKey, settingTrackerKey)
+    if slotData[slotDataKey] ~= nil then
+        Tracker:FindObjectForCode(settingTrackerKey).Active = tonumber(slotData[slotDataKey])
     end
 end
