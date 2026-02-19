@@ -9,7 +9,7 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     logDebug("onClear handler called. If verbose debugging enabled, dumping slot data below.")
     logDebugVerbose(dumpTable(slotData))
     -- Slot data reference can be found at: https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World/blob/main/Source/ArchipelagoManager.cs
-    -- A sample can found at: ./SLOT_DATA.sample
+    -- A sample can found at: ~/docs/tracker/SLOT_DATA.sample
 
     SLOT_DATA = slotData
     CUR_INDEX = -1
