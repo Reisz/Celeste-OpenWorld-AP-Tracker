@@ -8,8 +8,8 @@
     {
         "name": "Strawberries Required",
         "type": "static",
-        "img": "images/labels/berries_required.png",
-        "codes": "berry_req_label"
+        "img": "images/labels/strawberries_required.png",
+        "codes": "strawberries_required_label"
     },
     {
         "name": "Death Link Label",

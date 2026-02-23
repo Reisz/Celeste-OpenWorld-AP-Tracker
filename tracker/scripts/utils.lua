@@ -20,15 +20,16 @@ function dumpTable(o, depth)
     end
     if type(o) == 'table' then
         local tabs = ('\t'):rep(depth)
-        local tabs2 = ('\t'):rep(depth + 1)
         local s = '{\n'
         for k, v in pairs(o) do
-            if type(k) ~= 'number' then
+            if type(k) == 'string' then
                 k = '"' .. k .. '"'
             end
-            s = s .. tabs2 .. '[' .. k .. '] = ' .. dumpTable(v, depth + 1) .. ',\n'
+            s = s .. tabs .. '\t[' .. tostring(k) .. '] = ' .. dumpTable(v, depth + 1) .. ',\n'
         end
         return s .. tabs .. '}'
+    elseif type(o) == 'string' then
+        return '"' .. o .. '"'
     else
         return tostring(o)
     end

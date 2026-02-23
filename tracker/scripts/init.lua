@@ -5,8 +5,6 @@ Tracker:AddItems("items/checkpoints.json")
 Tracker:AddItems("items/gems.json")
 Tracker:AddItems("items/interactables.json")
 Tracker:AddItems("items/keys.json")
-Tracker:AddItems("items/rooms.json")
-Tracker:AddItems("items/traps.json")
 
 -- Layout labels
 Tracker:AddItems("items/labels.json")
