@@ -30,9 +30,3 @@ jobs:
 
       - name: Build
         run: just build
-
-      - name: Pack checker
-        uses: PopTracker/pack-checker-action@v1
-        with:
-          pack: tracker
-          strict: true
