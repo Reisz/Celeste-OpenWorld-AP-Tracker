@@ -14,26 +14,31 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     -- A sample can found at: ~/docs/tracker/SLOT_DATA.sample
 
     -- Reset locations
-    for _, location in pairs(LOCATION_MAPPINGS) do
-        _resetLocation(location)
+    for _, locationCode in pairs(LOCATION_MAPPINGS) do
+        logDebugVerbose(string.format('Resetting location %s', locationCode))
+
+        local obj = Tracker:FindObjectForCode(locationCode)
+        logDebugVerbose(tostring(obj))
+
+        obj.AvailableChestCount = obj.ChestCount
     end
 
-    logDebug("onClear: Locations reset successfully.")
+    logDebug("onClear: Mapped locations reset successfully.")
 
     -- Reset items
-    for _, item in pairs(ITEM_MAPPINGS) do
-        _resetItem(item)
+    for _, itemCode in pairs(ITEM_MAPPINGS) do
+        Tracker:FindObjectForCode(itemCode).Active = false
     end
 
-    logDebug("onClear: Items reset successfully.")
+    logDebug("onClear: Mapped items reset successfully.")
 
     local cumulativeTrackerItems = {"berries_obtained_total", "raspberries_obtained_total", "hearts_obtained_total",
                                     "cassettes_obtained_total"}
-    for _, item in ipairs(cumulativeTrackerItems) do
-        _resetCumulativeTracker(item)
+    for _, trackerCode in ipairs(cumulativeTrackerItems) do
+        _resetCumulativeTracker(trackerCode)
     end
 
-    logDebug("onClear: Cumulative trackers reset successfully.")
+    logDebug("onClear: Cumulative tracker items reset successfully.")
 
     -- Reset settings
 
@@ -116,41 +121,6 @@ function _resetCumulativeTracker(itemCode)
         cumulativeTracker.AcquiredCount = 0
     else
         logDebugVerbose(string.format("onClear: Failed to find cumulative tracker object for code %s", itemCode))
-    end
-end
-
---- Resets item data to a default state from its mapping code.
---- @param itemCode string
-function _resetItem(itemCode)
-    local obj = Tracker:FindObjectForCode(itemCode)
-    if obj ~= nil then
-        if obj.Type == "toggle" then
-            obj.Active = false
-        elseif obj.Type == "progressive" then
-            obj.CurrentStage = 0
-            obj.Active = false
-        elseif obj.Type == "consumable" then
-            obj.AcquiredCount = 0
-        else
-            logDebugVerbose(string.format("onClear: unknown item type %s for code %s", obj.Type, itemCode))
-        end
-    else
-        logDebugVerbose(string.format("onClear: could not find object for code %s", itemCode))
-    end
-end
-
---- Resets location data to a default state from its mapping code.
---- @param locationCode string
-function _resetLocation(locationCode)
-    local obj = Tracker:FindObjectForCode(locationCode)
-    if obj ~= nil then
-        logDebugVerbose(string.format('Resetting location %s', locationCode))
-        logDebugVerbose(tostring(obj))
-        if locationCode:sub(1, 1) == "@" then
-            obj.AvailableChestCount = obj.ChestCount
-        else
-            obj.Active = false
-        end
     end
 end
 
