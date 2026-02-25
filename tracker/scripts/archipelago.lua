@@ -4,7 +4,7 @@ ScriptHost:LoadScript("scripts/mappings/locations.lua")
 Archipelago:AddClearHandler("clear handler", function(slotData)
     setmetatable(slotData, {
         __index = function(_tbl, key)
-            print(("Attempting to access non-existent slot data field `%s`"):format(key))
+            logDebug(("Attempting to access non-existent slot data field `%s`"):format(key))
         end
     })
 
@@ -35,7 +35,7 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     local cumulativeTrackerItems = {"berries_obtained_total", "raspberries_obtained_total", "hearts_obtained_total",
                                     "cassettes_obtained_total"}
     for _, trackerCode in ipairs(cumulativeTrackerItems) do
-        _resetCumulativeTracker(trackerCode)
+        Tracker:FindObjectForCode(trackerCode).AcquiredCount = 0
     end
 
     logDebug("onClear: Cumulative tracker items reset successfully.")
@@ -43,7 +43,10 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     -- Reset settings
 
     -- Deathlink is special because of amnesty, so we merge two settings into one icon here.
-    local deathLinkCount = slotData["death_link"] ~= 0 and slotData["death_link_amnesty"] or 0
+    local deathLinkCount = 0
+    if (slotData["death_link"] or 0) ~= 0 then
+        deathLinkCount = slotData["death_link_amnesty"] or 0
+    end
     Tracker:FindObjectForCode("death_link").AcquiredCount = deathLinkCount
 
     Tracker:FindObjectForCode("goal").CurrentStage = _mapSlotGoalAreaCodeToGoalObjectIndex(slotData["goal_area"])
@@ -53,7 +56,16 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
                          "include_farewell", "include_b_sides", "include_c_sides"}
 
     for _, settingKey in ipairs(settingKeys) do
-        _setSettingFromSlotData(slotData, settingKey)
+        local obj = Tracker:FindObjectForCode(settingKey)
+        if obj.Type == "toggle" then
+            obj.Active = slotData[settingKey]
+        elseif obj.Type == "progressive" then
+            obj.CurrentStage = slotData[settingKey]
+        elseif obj.Type == "consumable" then
+            obj.AcquiredCount = slotData[settingKey]
+        else
+            logDebugVerbose(string.format("onClear: unknown setting item type %s for code %s", obj.Type, settingKey))
+        end
     end
 
     logDebug("onClear: Settings and goals reset completed.")
@@ -77,70 +89,24 @@ end)
 --- Maps a level code (e.g. 10c) to its name code (e.g. farewell_golden).
 ---@param levelCode string
 function _mapSlotGoalAreaCodeToGoalObjectIndex(levelCode)
-    if levelCode == "7a" then
-        return 0
-        -- return "the_summit_a"
-    elseif levelCode == "7b" then
-        return 1
-        -- return "the_summit_b"
-    elseif levelCode == "7c" then
-        return 2
-        -- return "the_summit_c"
-    elseif levelCode == "9a" then
-        return 3
-        -- return "core_a"
-    elseif levelCode == "9b" then
-        return 4
-        -- return "core_b"
-    elseif levelCode == "9c" then
-        return 5
-        -- return "core_c"
-    elseif levelCode == "10a" then
-        return 6
-        -- return "empty_space"
-    elseif levelCode == "10b" then
-        return 7
-        -- return "farewell"
-    elseif levelCode == "10c" then
-        return 8
-        -- return "farewell_golden"
-    else
-        logDebug(string.format(
-            'Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A.'),
-            levelCode);
-        return 0
-        -- return "the_summit_a"
-    end
-end
-
---- Resets a cumulative tracker item to its default state
---- @param itemCode string
-function _resetCumulativeTracker(itemCode)
-    local cumulativeTracker = Tracker:FindObjectForCode(itemCode)
-    if cumulativeTracker ~= nil then
-        cumulativeTracker.AcquiredCount = 0
-    else
-        logDebugVerbose(string.format("onClear: Failed to find cumulative tracker object for code %s", itemCode))
-    end
-end
-
---- Resets a "setting item" from its related slot data state.
---- @param slotData table
---- @param slotDataKey string
---- @param settingTrackerKey string
-function _setSettingFromSlotData(slotData, slotDataKey)
-    local obj = Tracker:FindObjectForCode(slotDataKey)
-    if obj ~= nil then
-        if obj.Type == "toggle" then
-            obj.Active = slotData[slotDataKey]
-        elseif obj.Type == "progressive" then
-            obj.CurrentStage = slotData[slotDataKey]
-        elseif obj.Type == "consumable" then
-            obj.AcquiredCount = slotData[slotDataKey]
-        else
-            logDebugVerbose(string.format("onClear: unknown setting item type %s for code %s", obj.Type, slotDataKey))
+    local goalAreaCodeToGoalIndex = setmetatable({
+        ["7a"] = 0, -- the_summit_a
+        ["7b"] = 1, -- the_summit_b
+        ["7c"] = 1, -- the_summit_c
+        ["9a"] = 1, -- core_a
+        ["9b"] = 1, -- core_b
+        ["9c"] = 1, -- core_c
+        ["10a"] = 1, -- empty_space
+        ["10b"] = 1, -- farewell
+        ["10c"] = 1 -- farewell_golden
+    }, {
+        __index = function(_tbl, key)
+            logDebug(string.format(
+                'Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A.'),
+                levelCode)
+            return 0 -- return "the_summit_a"
         end
-    else
-        logDebugVerbose(string.format("onClear: could not find setting tracker object for code %s", slotDataKey))
-    end
+    })
+
+    return goalAreaCodeToGoalIndex[levelCode]
 end
