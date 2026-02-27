@@ -1,15 +1,83 @@
 {
     "tracker_default": {
         "type": "dock",
+        "background": "#04000a",
         "content": [
             {
                 "type": "layout",
                 "key": "maps"
             },
             {
-                "type": "layout",
-                "key": "interactables",
-                "dock": "bottom"
+                "type": "dock",
+                "dock": "bottom",
+                "content": [
+                    {
+                        "dock": "left",
+                        "type": "group",
+                        "header": "Interactables",
+                        "content": {
+                            "type": "layout",
+                            "key": "interactables_grid"
+                        }
+                    },
+                    {
+                        "dock": "left",
+                        "type": "group",
+                        "header": "Checkpoints",
+                        "content": {
+                            "type": "layout",
+                            "key": "checkpoints_grid"
+                        }
+                    },
+                    {
+                        "dock": "left",
+                        "type": "group",
+                        "header": "Keys",
+                        "content": {
+                            "type": "layout",
+                            "key": "keys_grid"
+                        }
+                    },
+                    {
+                        "dock": "right",
+                        "type": "array",
+                        "orientation": "vertical",
+                        "content": [
+                            {
+                                "type": "group",
+                                "header": "Goals",
+                                "content": {
+                                    "type": "layout",
+                                    "key": "goal_grid"
+                                }
+                            },
+                            {
+                                "type": "group",
+                                "header": "Game Settings",
+                                "content": {
+                                    "type": "layout",
+                                    "key": "setting_grid"
+                                }
+                            },
+                            {
+                                "type": "group",
+                                "header": "Location Settings (Logic NOT supported)",
+                                "content": {
+                                    "type": "layout",
+                                    "key": "location_grid"
+                                }
+                            },
+                            {
+                                "type": "group",
+                                "header": "-sanity Settings (Logic NOT supported)",
+                                "content": {
+                                    "type": "layout",
+                                    "key": "sanity_grid"
+                                }
+                            }
+                        ]
+                    }
+                ]
             }
         ]
     }

@@ -1,0 +1,110 @@
+[
+    {
+        "name": "Goal Level",
+        "type": "static",
+        "img": "images/labels/goal_level.png",
+        "codes": "goal_level_label"
+    },
+    {
+        "name": "Strawberries Required",
+        "type": "static",
+        "img": "images/labels/strawberries_required.png",
+        "codes": "strawberries_required_label"
+    },
+    {
+        "name": "Death Link Label",
+        "type": "static",
+        "img": "images/labels/death_link.png",
+        "codes": "death_link_label"
+    },
+    {
+        "name": "Trap Link Label",
+        "type": "static",
+        "img": "images/labels/trap_link.png",
+        "codes": "trap_link_label"
+    },
+    {
+        "name": "Lock Goal Area Label",
+        "type": "static",
+        "img": "images/labels/lock_goal_area.png",
+        "codes": "lock_goal_area_label"
+    },
+    {
+        "name": "Goal Area Checkpointsanity Label",
+        "type": "static",
+        "img": "images/labels/goal_cp_sanity.png",
+        "codes": "goal_area_checkpointsanity_label"
+    },
+    {
+        "name": "Prologue Level Label",
+        "type": "static",
+        "img": "images/levels/intro.png",
+        "codes": "prologue_level_label"
+    },
+    {
+        "name": "Forsaken City Level Label",
+        "type": "static",
+        "img": "images/levels/forsaken_city.png",
+        "codes": "forsaken_city_level_label"
+    },
+    {
+        "name": "Old Site Level Label",
+        "type": "static",
+        "img": "images/levels/oldsite.png",
+        "codes": "old_site_level_label"
+    },
+    {
+        "name": "Celestial Resort Level Label",
+        "type": "static",
+        "img": "images/levels/celestial_resort.png",
+        "codes": "celestial_resort_level_label"
+    },
+    {
+        "name": "Golden Ridge Level Label",
+        "type": "static",
+        "img": "images/levels/golden_ridge.png",
+        "codes": "golden_ridge_level_label"
+    },
+    {
+        "name": "Mirror Temple Level Label",
+        "type": "static",
+        "img": "images/levels/mirror_temple.png",
+        "codes": "mirror_temple_level_label"
+    },
+    {
+        "name": "Mirror Temple B Level Label",
+        "type": "static",
+        "img": "images/levels/mirror_temple_b.png",
+        "codes": "mirror_temple_b_level_label"
+    },
+    {
+        "name": "Reflection Level Label",
+        "type": "static",
+        "img": "images/levels/reflection.png",
+        "codes": "reflection_level_label"
+    },
+    {
+        "name": "Summit Level Label",
+        "type": "static",
+        "img": "images/levels/summit_a.png",
+        "codes": "summit_level_label"
+    },
+    {
+        "name": "Epilogue Level Label",
+        "type": "static",
+        "img": "images/levels/intro.png",
+        "codes": "epilogue_level_label"
+    },
+    {
+        "name": "Core Level Label",
+        "type": "static",
+        "img": "images/levels/core_a.png",
+        "codes": "core_level_label"
+    },
+    {
+        "name": "Farewell Level Label",
+        "type": "static",
+        "img": "images/levels/farewell.png",
+        "codes": "farewell_level_label"
+    }
+]

@@ -1,0 +1,86 @@
+[
+    {
+        "name": "Binosanity",
+        "type": "toggle",
+        "img": "images/settings/binoculars.png",
+        "codes": "binosanity"
+    },
+    {
+        "name": "Carsanity",
+        "type": "toggle",
+        "img": "images/settings/car.png",
+        "codes": "carsanity"
+    },
+    {
+        "name": "Checkpointsanity",
+        "type": "toggle",
+        "img": "images/settings/checkpoint.png",
+        "codes": "checkpointsanity"
+    },
+    {
+        "name": "Gemsanity",
+        "type": "toggle",
+        "img": "images/locations/gem1.png",
+        "codes": "gemsanity"
+    },
+    {
+        "name": "Include B Sides",
+        "type": "toggle",
+        "img": "images/locations/red_heart.png",
+        "codes": "include_b_sides"
+    },
+    {
+        "name": "Include C Sides",
+        "type": "toggle",
+        "img": "images/locations/yellow_heart.png",
+        "codes": "include_c_sides"
+    },
+    {
+        "name": "Include Core",
+        "type": "toggle",
+        "img": "images/levels/core_a.png",
+        "codes": "include_core"
+    },
+    {
+        "name": "Include Farewell",
+        "type": "progressive",
+        "allow_disabled": false,
+        "initial_stage_idx": 0,
+        "stages": [
+            {
+                "img": "images/levels/farewell.png",
+                "img_mods": "@disabled",
+                "codes": "include_farewell,include_farewell_disabled",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/levels/farewell.png",
+                "codes": "include_farewell,include_farewell_empty_space",
+                "inherit_codes": false
+            },
+            {
+                "img": "images/settings/farewell_full_clear.png",
+                "codes": "include_farewell,include_farewell_farewell",
+                "inherit_codes": false
+            }
+        ]
+    },
+    {
+        "name": "Include Goldens",
+        "type": "toggle",
+        "img": "images/locations/golden_strawberry.png",
+        "codes": "include_goldens"
+    },
+    {
+        "name": "Keysanity",
+        "type": "toggle",
+        "img": "images/locations/key.png",
+        "codes": "keysanity"
+    },
+    {
+        "name": "Roomsanity",
+        "type": "toggle",
+        "img": "images/settings/room.png",
+        "codes": "roomsanity"
+    }
+]

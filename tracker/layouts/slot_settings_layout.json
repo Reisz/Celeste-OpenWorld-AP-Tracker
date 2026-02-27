@@ -1,0 +1,116 @@
+{
+    "goal_grid": {
+        "type": "itemgrid",
+        "item_margin": "2, 2",
+        "item_size": "30, 30",
+        "h_alignment": "right",
+        "item_h_alignment": "center",
+        "item_v_alignment": "center",
+        "rows": [
+            [
+                "goal_level_label",
+                "goal",
+                "",
+                "strawberries_required_label",
+                "strawberries_required"
+            ]
+        ]
+    },
+    "location_grid": {
+        "type": "array",
+        "orientation": "vertical",
+        "margin": "0,0",
+        "content": [
+            {
+                "type": "array",
+                "orientation": "horizontal",
+                "margin": "0,0",
+                "content": [
+                    {
+                        "type": "itemgrid",
+                        "item_margin": "2, 2",
+                        "item_size": "30, 30",
+                        "h_alignment": "right",
+                        "item_h_alignment": "center",
+                        "item_v_alignment": "center",
+                        "rows": [
+                            [
+                                "include_goldens",
+                                "include_core",
+                                "include_farewell",
+                                "include_b_sides",
+                                "include_c_sides"
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "sanity_grid": {
+        "type": "array",
+        "orientation": "vertical",
+        "margin": "0,0",
+        "content": [
+            {
+                "type": "array",
+                "orientation": "horizontal",
+                "margin": "0,0",
+                "content": [
+                    {
+                        "type": "itemgrid",
+                        "item_margin": "2, 2",
+                        "item_size": "30, 30",
+                        "h_alignment": "right",
+                        "item_h_alignment": "center",
+                        "item_v_alignment": "center",
+                        "rows": [
+                            [
+                                "binosanity",
+                                "carsanity",
+                                "checkpointsanity",
+                                "gemsanity",
+                                "keysanity",
+                                "roomsanity"
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "setting_grid": {
+        "type": "array",
+        "orientation": "vertical",
+        "margin": "0,0",
+        "content": [
+            {
+                "type": "array",
+                "orientation": "horizontal",
+                "margin": "0,0",
+                "content": [
+                    {
+                        "type": "itemgrid",
+                        "item_margin": "2, 2",
+                        "item_size": "30, 30",
+                        "h_alignment": "right",
+                        "item_h_alignment": "center",
+                        "item_v_alignment": "center",
+                        "rows": [
+                            [
+                                "death_link_label",
+                                "death_link",
+                                "trap_link_label",
+                                "trap_link",
+                                "lock_goal_area_label",
+                                "lock_goal_area",
+                                "goal_area_checkpointsanity_label",
+                                "goal_area_checkpointsanity"
+                            ]
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
