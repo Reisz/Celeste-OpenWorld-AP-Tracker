@@ -49,7 +49,25 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     end
     Tracker:FindObjectForCode("death_link").AcquiredCount = deathLinkCount
 
-    Tracker:FindObjectForCode("goal").CurrentStage = _mapSlotGoalAreaCodeToGoalObjectIndex(slotData["goal_area"])
+    local goalAreaCodeToGoalIndex = setmetatable({
+        ["7a"] = 0, -- the_summit_a
+        ["7b"] = 1, -- the_summit_b
+        ["7c"] = 2, -- the_summit_c
+        ["9a"] = 3, -- core_a
+        ["9b"] = 4, -- core_b
+        ["9c"] = 5, -- core_c
+        ["10a"] = 6, -- empty_space
+        ["10b"] = 7, -- farewell
+        ["10c"] = 8 -- farewell_golden
+    }, {
+        __index = function(_tbl, key)
+            logDebug(string.format(
+                'Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A.'),
+                levelCode)
+            return 0 -- return "the_summit_a"
+        end
+    })
+    Tracker:FindObjectForCode("goal").CurrentStage = goalAreaCodeToGoalIndex[slotData["goal_area"]]
 
     local settingKeys = {"trap_link", "strawberries_required", "lock_goal_area", "binosanity", "carsanity",
                          "checkpointsanity", "gemsanity", "keysanity", "roomsanity", "include_goldens", "include_core",
@@ -85,28 +103,3 @@ Archipelago:AddLocationHandler("location handler", function(location_id, locatio
         Tracker:FindObjectForCode(code).AvailableChestCount = 0
     end
 end)
-
---- Maps a level code (e.g. 10c) to its name code (e.g. farewell_golden).
----@param levelCode string
-function _mapSlotGoalAreaCodeToGoalObjectIndex(levelCode)
-    local goalAreaCodeToGoalIndex = setmetatable({
-        ["7a"] = 0, -- the_summit_a
-        ["7b"] = 1, -- the_summit_b
-        ["7c"] = 1, -- the_summit_c
-        ["9a"] = 1, -- core_a
-        ["9b"] = 1, -- core_b
-        ["9c"] = 1, -- core_c
-        ["10a"] = 1, -- empty_space
-        ["10b"] = 1, -- farewell
-        ["10c"] = 1 -- farewell_golden
-    }, {
-        __index = function(_tbl, key)
-            logDebug(string.format(
-                'Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A.'),
-                levelCode)
-            return 0 -- return "the_summit_a"
-        end
-    })
-
-    return goalAreaCodeToGoalIndex[levelCode]
-end
