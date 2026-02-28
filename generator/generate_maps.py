@@ -1,3 +1,5 @@
+"""Generates maps and maps tab layout."""
+
 import json
 from pathlib import Path
 from typing import Any

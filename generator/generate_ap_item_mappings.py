@@ -1,3 +1,5 @@
+"""Generates auto-tracker mappings for items in `interactables.json`."""
+
 import json
 from pathlib import Path
 

@@ -1,3 +1,5 @@
+"""Generates map images from Berrycamp data and room images."""
+
 import json
 import multiprocessing
 from dataclasses import dataclass
@@ -15,6 +17,8 @@ with Path("data/celeste.json").open() as f:
 
 @dataclass
 class Room:
+    """Berrycamp room image path and position within the final map."""
+
     zip_path: str
     x: int
     y: int
@@ -22,6 +26,8 @@ class Room:
 
 @dataclass
 class Map:
+    """Map image to be built."""
+
     width: int
     height: int
     rooms: list[Room]
@@ -29,6 +35,10 @@ class Map:
 
 
 def build_map_image(map_data: Map) -> None:
+    """Build a map image.
+
+    Compatible with `multiprocessing`.
+    """
     images = ZipFile("data/berrycamp.zip")
     image = Image.new("RGBA", (map_data.width, map_data.height))
 
