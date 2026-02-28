@@ -1,3 +1,5 @@
+"""Generates locations, location access rules and location auto-tracker mapping."""
+
 import json
 from collections import defaultdict
 from dataclasses import dataclass
@@ -220,18 +222,26 @@ with Path("data/ids.json").open() as f:
 
 @dataclass(frozen=True)
 class ApRule:
+    """Access rule in AP-based format."""
+
     rule: frozenset[frozenset[str]] = frozenset()
 
     @staticmethod
     def from_ap(rule: list[list[str]]) -> "ApRule":
+        """Construct a new instance from an AP rule."""
         if not rule:
             return ApRule()
         return ApRule(frozenset(frozenset(group) for group in rule))
 
     def to_poptracker(self) -> list[str]:
+        """Convert into PopTracker JSON format."""
         return [",".join(group) for group in self.rule]
 
     def __and__(self, other: "ApRule") -> "ApRule":
+        """Combine two rules using the `and` operator.
+
+        Both input rules need to be fulfilled to fulfill the output rule.
+        """
         if not self.rule:
             return other
         if not other.rule:
@@ -240,17 +250,25 @@ class ApRule:
         return ApRule(frozenset(a | b for a in self.rule for b in other.rule))
 
     def __or__(self, other: "ApRule") -> "ApRule":
+        """Combine two rules using the `or` operator.
+
+        The output rule is fulfilled when either of the input rules are fulfilled.
+        """
         return ApRule(self.rule | other.rule)
 
 
 @dataclass
 class ApRegionConnection:
+    """Connection between two AP regions."""
+
     dest_region: str
     rule: ApRule
 
 
 @dataclass
 class ApRegion:
+    """Region in the AP level data."""
+
     entity_rules: dict[str, ApRule]
     region_connections: list[ApRegionConnection]
     rule: ApRule = ApRule()
@@ -258,27 +276,36 @@ class ApRegion:
 
 @dataclass
 class ApRoom:
+    """Room in the AP level data."""
+
     regions: dict[str, ApRegion]
 
 
 @dataclass
 class ApChapter:
+    """Chapter in the AP level data."""
+
     rooms: dict[str, ApRoom]
     golden_strawberry_room: str = ""
 
 
 @dataclass(frozen=True)
 class RegionIndex:
+    """Unique identifier for a region within a chapter."""
+
     room_id: str
     region_id: str
 
 
 @dataclass(frozen=True)
 class Route:
+    """Potential route through a chapter."""
+
     route: tuple[RegionIndex, ...]
 
     @staticmethod
     def start(chapter_data: dict[str, Any]) -> "Route":
+        """Construct a new route at the starting region of a chapter."""
         start_room = next(
             x for x in chapter_data["rooms"] if x["checkpoint"] == "Start"
         )
@@ -287,19 +314,24 @@ class Route:
         )
 
     def back(self) -> RegionIndex:
+        """Return the index of the final region reached by the route."""
         return self.route[-1]
 
     def extend(self, region_index: RegionIndex) -> "Route | None":
+        """Append a new region to the route by index."""
         if region_index in self.route:
             return None
         return Route((*self.route, region_index))
 
     def extended_to_region(self, region_id: str) -> "Route | None":
+        """Append a new region to the route by region id within the current room."""
         return self.extend(RegionIndex(self.back().room_id, region_id))
 
 
 @dataclass
 class Todo:
+    """Record of partial graph traversal."""
+
     route: Route
     rule: ApRule
 
@@ -380,6 +412,7 @@ for chapter_data in level_data:
 def get_access_rules(
     chapter: dict[str, Any], side: dict[str, Any], room_id: str, entity: str
 ) -> list[str]:
+    """Retrieve the access rules for an entity."""
     ap_chapter = ap_chapters[f"{CHAPTER_MAP[chapter['id']]}{side['id']}"]
 
     if entity == "Golden Strawberry":
@@ -421,6 +454,7 @@ for chapter in data["chapters"]:
                     ap_name: str | None = None,
                     ap_id: str | None = None,
                 ) -> None:
+                    """Add a location with rules and mapping from the current room."""
                     # ruff: disable[B023] Recapturing the variables every loop is intended
                     map_location = {
                         "map": map_id,

@@ -20,8 +20,8 @@ lint.select = ["ALL"]
 lint.ignore = [
     "COM", # Conflicts with formatter
     "FIX", # TODOs intentionally left in code as documentation
-    "D",   # TODO(Reisz): #4 Documentation
 ]
+lint.pydocstyle.convention = "pep257"
 
 [tool.mypy]
 strict = true
