@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from lib.iterators import iterate_chapters, iterate_checkpoints, iterate_sides
+
 Path("tracker/maps").mkdir(parents=True, exist_ok=True)
 Path("tracker/layouts").mkdir(parents=True, exist_ok=True)
 
@@ -19,13 +21,10 @@ maps_layout = {
     },
 }
 
-for chapter in data["chapters"]:
-    if chapter["id"] == "farewell":
-        continue
-
+for chapter in iterate_chapters():
     chapter_tabs: list[dict[str, Any]] = []
     chapter_container = {
-        "title": chapter["name"],
+        "title": chapter.chapter_data["name"],
         "content": {
             "type": "tabbed",
             "tabs": chapter_tabs,
@@ -33,46 +32,44 @@ for chapter in data["chapters"]:
     }
     maps_tabs.append(chapter_container)
 
-    for side in chapter["sides"]:
+    for side in iterate_sides(chapter):
         side_tabs: list[dict[str, Any]] = []
         side_container = {
-            "title": side["name"],
+            "title": side.side_data["name"],
             "content": {
                 "type": "tabbed",
                 "tabs": side_tabs,
             },
         }
 
-        if len(chapter["sides"]) == 1:
+        if len(chapter.chapter_data["sides"]) == 1:
             side_tabs = chapter_tabs
             side_container = chapter_container
         else:
             chapter_tabs.append(side_container)
 
-        for checkpoint in side["checkpoints"]:
-            name = f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}"
-
+        for checkpoint in iterate_checkpoints(side):
             maps.append(
                 {
-                    "name": name,
+                    "name": checkpoint.checkpoint_code,
                     "location_size": 12,
                     "location_border_thickness": 2,
                     "location_shape": "rect",
-                    "img": f"images/maps/{name}.png",
+                    "img": f"images/maps/{checkpoint.checkpoint_code}.png",
                 }
             )
 
-            if len(side["checkpoints"]) == 1:
+            if len(side.side_data["checkpoints"]) == 1:
                 side_container["content"]["type"] = "map"
-                side_container["content"]["maps"] = [name]
+                side_container["content"]["maps"] = [checkpoint.checkpoint_code]
                 del side_container["content"]["tabs"]
             else:
                 side_tabs.append(
                     {
-                        "title": checkpoint["name"],
+                        "title": checkpoint.checkpoint_data["name"],
                         "content": {
                             "type": "map",
-                            "maps": [name],
+                            "maps": [checkpoint.checkpoint_code],
                         },
                     }
                 )

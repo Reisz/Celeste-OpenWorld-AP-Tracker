@@ -6,6 +6,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from lib.iterators import iterate_rooms
+
 HEART_COLORS = {
     "a": "blue",
     "b": "red",
@@ -341,7 +343,7 @@ with Path("data/CelesteLevelData.json").open() as f:
 
 ap_chapters: dict[str, ApChapter] = {}
 for chapter_data in level_data:
-    if chapter_data["name"].startswith("10"):
+    if chapter_data["name"].startswith("10"):  # TODO(Reisz): #28 Enable farewell
         continue
 
     print(f"Calculating rules for {chapter_data['display_name']}")  # noqa: T201
@@ -431,118 +433,102 @@ locations_children: list[dict[str, Any]] = []
 locations = [{"children": locations_children}]
 
 mappings = {}
+for data in iterate_rooms():
+    canvas_offset = data.checkpoint_data["canvas"]["position"]
+    room_offset = data.room_data["canvas"]["position"]
 
-for chapter in data["chapters"]:
-    if chapter["id"] == "farewell":
-        continue
+    def add_location(
+        entity: dict[str, Any],
+        img_name: str,
+        name: str,
+        ap_name: str | None = None,
+        ap_id: str | None = None,
+    ) -> None:
+        """Add a location with rules and mapping from the current room."""
+        # ruff: disable[B023] Recapturing the variables every loop is intended
+        map_location = {
+            "map": data.checkpoint_code,
+            "x": room_offset["x"] - canvas_offset["x"] + entity["x"],
+            "y": room_offset["y"] - canvas_offset["y"] + entity["y"],
+        }
 
-    for side in chapter["sides"]:
-        for checkpoint_idx, checkpoint in enumerate(side["checkpoints"]):
-            map_id = f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}"
-            canvas_offset = checkpoint["canvas"]["position"]
+        if ap_name is None:
+            ap_name = name
+        locations_children.append(
+            {
+                "name": name,
+                "access_rules": get_access_rules(
+                    data.chapter_data, data.side_data, data.room_id, ap_name
+                ),
+                "map_locations": [map_location],
+                "sections": [{}],
+                "chest_unopened_img": f"images/locations/{img_name}.png",
+                "chest_opened_img": (f"images/locations/{img_name}_collected.png"),
+            }
+        )
 
-            for room_id, room in side["rooms"].items():
-                if room["checkpointNo"] != checkpoint_idx:
-                    continue
+        if ap_id is None:
+            ap_id = ap_name
+        side_name = (
+            f" {data.side_data['name']}"
+            if data.chapter_id not in ["prologue", "epilogue", "farewell"]
+            else ""
+        )
+        mappings[ids[f"{data.chapter_data['name']}{side_name} - {ap_id}"]] = name
+        # ruff: enable[B023]
 
-                room_offset = room["canvas"]["position"]
+    berry_count = len(data.room_data["entities"].get("berry", []))
+    for entity in data.room_data["entities"].get("berry", []):
+        berry_id = f"{data.chapter_id}_{data.room_id}_{entity['id']}"
+        suffix = f" {BERRY_MAPPING[berry_id]}" if berry_count > 1 else ""
+        name = (
+            f"{data.chapter_data['name']} {data.side_data['name']}"
+            f" [Room {data.room_id}] Strawberry{suffix}"
+        )
+        add_location(
+            entity,
+            "strawberry",
+            name,
+            f"Strawberry{suffix}",
+            f"Room {data.room_id} Strawberry{suffix}",
+        )
 
-                def add_location(
-                    entity: dict[str, Any],
-                    img_name: str,
-                    name: str,
-                    ap_name: str | None = None,
-                    ap_id: str | None = None,
-                ) -> None:
-                    """Add a location with rules and mapping from the current room."""
-                    # ruff: disable[B023] Recapturing the variables every loop is intended
-                    map_location = {
-                        "map": map_id,
-                        "x": room_offset["x"] - canvas_offset["x"] + entity["x"],
-                        "y": room_offset["y"] - canvas_offset["y"] + entity["y"],
-                    }
+    for entity in data.room_data["entities"].get("golden", []):
+        name = f"{data.chapter_data['name']} {data.side_data['name']} Golden Strawberry"
+        add_location(entity, "golden_strawberry", name, "Golden Strawberry")
 
-                    if ap_name is None:
-                        ap_name = name
-                    locations_children.append(
-                        {
-                            "name": name,
-                            "access_rules": get_access_rules(
-                                chapter, side, room_id, ap_name
-                            ),
-                            "map_locations": [map_location],
-                            "sections": [{}],
-                            "chest_unopened_img": f"images/locations/{img_name}.png",
-                            "chest_opened_img": (
-                                f"images/locations/{img_name}_collected.png"
-                            ),
-                        }
-                    )
+    for entity in data.room_data["entities"].get("cassette", []):
+        name = f"{data.chapter_data['name']} Cassette"
+        add_location(entity, "cassette", name, "Cassette")
 
-                    if ap_id is None:
-                        ap_id = ap_name
-                    side_name = (
-                        f" {side['name']}"
-                        if chapter["id"] not in ["prologue", "epilogue", "farewell"]
-                        else ""
-                    )
-                    mappings[ids[f"{chapter['name']}{side_name} - {ap_id}"]] = name
-                    # ruff: enable[B023]
+    for entity in data.room_data["entities"].get("heart", []):
+        # Skip unreachable heart in final checkpoint of Old Site A
+        if data.room_code == "site_a_end_s1":
+            continue
 
-                room_code = f"{chapter['id']}_{side['id']}_{room_id}"
+        heart_color = HEART_COLORS[data.side_id]
+        name = f"{data.chapter_data['name']} {heart_color.title()} Heart"
+        ap_name = (
+            "Crystal Heart"
+            if data.side_id == "a" and data.chapter_id != "core"
+            else "Level Clear"
+        )
+        add_location(entity, f"{heart_color}_heart", name, ap_name)
 
-                berry_count = len(room["entities"].get("berry", []))
-                for entity in room["entities"].get("berry", []):
-                    berry_id = f"{chapter['id']}_{room_id}_{entity['id']}"
-                    suffix = f" {BERRY_MAPPING[berry_id]}" if berry_count > 1 else ""
-                    name = (
-                        f"{chapter['name']} {side['name']} [Room {room_id}]"
-                        f" Strawberry{suffix}"
-                    )
-                    add_location(
-                        entity,
-                        "strawberry",
-                        name,
-                        f"Strawberry{suffix}",
-                        f"Room {room_id} Strawberry{suffix}",
-                    )
+    if data.room_code in LEVEL_CLEARS:
+        entity = LEVEL_CLEARS[data.room_code]
+        name = f"{data.chapter_data['name']} Level Clear"
+        add_location(entity, "clear", name, "Level Clear")
 
-                for entity in room["entities"].get("golden", []):
-                    name = f"{chapter['name']} {side['name']} Golden Strawberry"
-                    add_location(entity, "golden_strawberry", name, "Golden Strawberry")
+    if WINGED_GOLDEN["room_code"] == data.room_code:
+        add_location(
+            WINGED_GOLDEN,
+            "winged_golden_strawberry",
+            "Winged Golden Strawberry",
+        )
 
-                for entity in room["entities"].get("cassette", []):
-                    name = f"{chapter['name']} Cassette"
-                    add_location(entity, "cassette", name, "Cassette")
-
-                for entity in room["entities"].get("heart", []):
-                    # Skip unreachable heart in final checkpoint of Old Site A
-                    if room_code == "site_a_end_s1":
-                        continue
-
-                    heart_color = HEART_COLORS[side["id"]]
-                    name = f"{chapter['name']} {heart_color.title()} Heart"
-                    ap_name = (
-                        "Crystal Heart"
-                        if side["id"] == "a" and chapter["id"] != "core"
-                        else "Level Clear"
-                    )
-                    add_location(entity, f"{heart_color}_heart", name, ap_name)
-
-                if room_code in LEVEL_CLEARS:
-                    entity = LEVEL_CLEARS[room_code]
-                    name = f"{chapter['name']} Level Clear"
-                    add_location(entity, "clear", name, "Level Clear")
-
-                if WINGED_GOLDEN["room_code"] == room_code:
-                    add_location(
-                        WINGED_GOLDEN,
-                        "winged_golden_strawberry",
-                        "Winged Golden Strawberry",
-                    )
-
-                for entity in KEYS.get(room_code, []):
-                    add_location(entity, "key", str(entity["name"]))
+    for entity in KEYS.get(data.room_code, []):
+        add_location(entity, "key", str(entity["name"]))
 
 with Path("tracker/locations.json").open("w") as f:
     json.dump(locations, f)
