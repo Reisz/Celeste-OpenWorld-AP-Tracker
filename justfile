@@ -9,6 +9,8 @@ check:
     uv run ruff format --check
     uv run mypy .
     fd -e json -x sh -c 'jq {{ JQ_FORMAT_ARGS }} . {} | cmp {}'
+    # TOML
+    taplo format --check
     just --fmt --unstable --check
     uv run rumdl check
 
