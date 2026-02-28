@@ -49,11 +49,6 @@ or come with Git Bash on Windows.
 
 Recipe: check
 
-If an initial run error produces something like
-`cmp: EOF on ‘./tracker/layouts/items_layout.json’ after byte 9012, in line 299`,
-make sure you files end with an empty newline character
-(e.g. If you have a JSON file `{}`, make sure it actually looks like `{}\n`).
-
 `just --fmt --unstable --check` may produce a `justfile` which exactly matches
 to the human eye but has Windows/Linux differences. You can run
 `just --fmt--unstable` manually to produce an exactly matching file
