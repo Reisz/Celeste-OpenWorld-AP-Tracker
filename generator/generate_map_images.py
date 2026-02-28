@@ -6,6 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from zipfile import ZipFile
 
+from lib.iterators import iterate_checkpoints, iterate_rooms
 from PIL import Image
 
 OUTPUT_PATH = Path("tracker/images/maps")
@@ -50,39 +51,29 @@ def build_map_image(map_data: Map) -> None:
 
 if __name__ == "__main__":
     maps = []
-    for chapter in data["chapters"]:
-        if chapter["id"] == "farewell":
-            continue
+    for checkpoint in iterate_checkpoints():
+        canvas_size = checkpoint.checkpoint_data["canvas"]["size"]
+        canvas_offset = checkpoint.checkpoint_data["canvas"]["position"]
 
-        for side in chapter["sides"]:
-            for checkpoint_idx, checkpoint in enumerate(side["checkpoints"]):
-                canvas_size = checkpoint["canvas"]["size"]
-                canvas_offset = checkpoint["canvas"]["position"]
-
-                rooms = []
-                for room_id, room in side["rooms"].items():
-                    if room["checkpointNo"] != checkpoint_idx:
-                        continue
-                    position = room["canvas"]["position"]
-                    rooms.append(
-                        Room(
-                            f"berrycamp.github.io-dev/public/img/celeste/rooms/{chapter['id']}/{side['id']}/{room_id}.png",
-                            position["x"] - canvas_offset["x"],
-                            position["y"] - canvas_offset["y"],
-                        )
-                    )
-
-                file_name = (
-                    f"{chapter['id']}_{side['id']}_{checkpoint['abbreviation']}.png"
+        rooms = []
+        for room in iterate_rooms(checkpoint):
+            position = room.room_data["canvas"]["position"]
+            rooms.append(
+                Room(
+                    f"berrycamp.github.io-dev/public/img/celeste/rooms/{room.chapter_id}/{room.side_id}/{room.room_id}.png",
+                    position["x"] - canvas_offset["x"],
+                    position["y"] - canvas_offset["y"],
                 )
-                maps.append(
-                    Map(
-                        canvas_size["width"],
-                        canvas_size["height"],
-                        rooms,
-                        OUTPUT_PATH / file_name,
-                    )
-                )
+            )
+
+        maps.append(
+            Map(
+                canvas_size["width"],
+                canvas_size["height"],
+                rooms,
+                OUTPUT_PATH / f"{room.checkpoint_code}.png",
+            )
+        )
 
     with multiprocessing.Pool() as pool:
         pool.map(build_map_image, maps)
