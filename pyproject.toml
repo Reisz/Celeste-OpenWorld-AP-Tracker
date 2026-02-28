@@ -7,7 +7,13 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["mypy>=1.19.1", "pack-checker>=1.5.0", "ruff>=0.15.1", "rumdl>=0.1.21"]
+dev = [
+    "clang-format>=22.1.0",
+    "mypy>=1.19.1",
+    "pack-checker>=1.5.0",
+    "ruff>=0.15.1",
+    "rumdl>=0.1.21",
+]
 
 [tool.ruff]
 lint.select = ["ALL"]
