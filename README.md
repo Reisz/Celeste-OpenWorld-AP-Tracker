@@ -5,32 +5,47 @@
 
 ## Working on the pack
 
-All workflow processes are encoded in the [`justfile`](justfile).
+All workflow processes are encoded as [`justfile`](justfile) recipes.
+
 Use `just --list` to see available recipes.
 
-### Required software
+### Dependencies
 
-- [`just`](https://just.systems/)
-- [`uv`](https://docs.astral.sh/uv/)
-- [`jq`](https://jqlang.org/)
-- [`curl`](https://curl.se/)
-- [`fd`](https://github.com/sharkdp/fd)
-- `zip` / `unzip`
-- `cmp`
-- `xargs`
+Each of following applications is required for at least one recipe.
 
-#### Windows Installation Troubleshooting
+If you do not need to run all recipes, check the [`justfile`](justfile) source
+to see which applications are needed for specific recipes.
 
-- [just](https://just.systems/) - If installed and the `just` command is failing
-with `Recipe 'check' could not be run because just could not find the shell: program not found`
-, you need to add Git For Windows' `sh.exe` to your System PATH.
+#### Core Dependencies
 
-- [uv](https://docs.astral.sh/uv/) - If installed and the `uv` command is failing with
-`/usr/bin/bash: line 1: uv: command not found`, you need to add `uv` to your System PATH.
-- [jq](https://jqlang.org/) - PowerShell installer: `winget install jqlang.jq`
-- [fd](https://github.com/sharkdp/fd) - PowerShell installer: `winget install sharkdp.fd`
+The following applications need to be manually installed.
 
-#### Windows Just Receipe Troubleshooting
+> [!NOTE]
+> Windows users need to make sure that all listed dependencies and `sh.exe` from Git Bash
+> are accessible via the system `PATH`.
+
+- [`just`](https://just.systems/) - Project workflow
+  - [Installation instructions](https://github.com/casey/just?tab=readme-ov-file#installation)
+- [`uv`](https://docs.astral.sh/uv/) - Python project management
+  - [Installation instructions](https://docs.astral.sh/uv/getting-started/installation/)
+- [`curl`](https://curl.se/) - Resource downloads
+  - [Installation instructions](https://curl.se/download.html)
+- [`jq`](https://jqlang.org/) - JSON format check and processing
+  - [Installation instructions](https://jqlang.org/download/)
+- [`fd`](https://github.com/sharkdp/fd) - `find` with `.gitignore` support
+  - [Installation instructions](https://github.com/sharkdp/fd?tab=readme-ov-file#installation)
+
+#### System Dependencies
+
+The following applications should be available as system packages on any Linux distribution
+or come with Git Bash on Windows.
+
+- `unzip` - For unzipping downloaded resources
+- `findutils` - `xargs` for image download
+- `diffutils` - For JSON format check
+- `zip` - For creating the final pack
+
+#### Windows Just Recipe Troubleshooting
 
 Recipe: check
 
@@ -39,7 +54,7 @@ If an initial run error produces something like
 make sure you files end with an empty newline character
 (e.g. If you have a JSON file `{}`, make sure it actually looks like `{}\n`).
 
-`just --fmt --unstable --check` may produce a justfile which exactly matches
-to the human eye but has windows/linux differences. You can run
+`just --fmt --unstable --check` may produce a `justfile` which exactly matches
+to the human eye but has Windows/Linux differences. You can run
 `just --fmt--unstable` manually to produce an exactly matching file
 before running the check.
