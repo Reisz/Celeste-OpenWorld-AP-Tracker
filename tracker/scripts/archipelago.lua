@@ -5,7 +5,7 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     setmetatable(slotData, {
         __index = function(_tbl, key)
             logDebug(("Attempting to access non-existent slot data field `%s`"):format(key))
-        end
+        end,
     })
 
     logDebug("onClear handler called. If verbose debugging enabled, dumping slot data below.")
@@ -15,7 +15,7 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
 
     -- Reset locations
     for _, locationCode in pairs(LOCATION_MAPPINGS) do
-        logDebugVerbose(string.format('Resetting location %s', locationCode))
+        logDebugVerbose(string.format("Resetting location %s", locationCode))
 
         local obj = Tracker:FindObjectForCode(locationCode)
         logDebugVerbose(tostring(obj))
@@ -32,8 +32,12 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
 
     logDebug("onClear: Mapped items reset successfully.")
 
-    local cumulativeTrackerItems = {"berries_obtained_total", "raspberries_obtained_total", "hearts_obtained_total",
-                                    "cassettes_obtained_total"}
+    local cumulativeTrackerItems = {
+        "berries_obtained_total",
+        "raspberries_obtained_total",
+        "hearts_obtained_total",
+        "cassettes_obtained_total",
+    }
     for _, trackerCode in ipairs(cumulativeTrackerItems) do
         Tracker:FindObjectForCode(trackerCode).AcquiredCount = 0
     end
@@ -58,20 +62,36 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
         ["9c"] = 5, -- core_c
         ["10a"] = 6, -- empty_space
         ["10b"] = 7, -- farewell
-        ["10c"] = 8 -- farewell_golden
+        ["10c"] = 8, -- farewell_golden
     }, {
         __index = function(_tbl, key)
-            logDebug(string.format(
-                'Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A.'),
-                levelCode)
+            logDebug(
+                string.format(
+                    "Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A."
+                ),
+                levelCode
+            )
             return 0 -- return "the_summit_a"
-        end
+        end,
     })
     Tracker:FindObjectForCode("goal").CurrentStage = goalAreaCodeToGoalIndex[slotData["goal_area"]]
 
-    local settingKeys = {"trap_link", "strawberries_required", "lock_goal_area", "binosanity", "carsanity",
-                         "checkpointsanity", "gemsanity", "keysanity", "roomsanity", "include_goldens", "include_core",
-                         "include_farewell", "include_b_sides", "include_c_sides"}
+    local settingKeys = {
+        "trap_link",
+        "strawberries_required",
+        "lock_goal_area",
+        "binosanity",
+        "carsanity",
+        "checkpointsanity",
+        "gemsanity",
+        "keysanity",
+        "roomsanity",
+        "include_goldens",
+        "include_core",
+        "include_farewell",
+        "include_b_sides",
+        "include_c_sides",
+    }
 
     for _, settingKey in ipairs(settingKeys) do
         local obj = Tracker:FindObjectForCode(settingKey)

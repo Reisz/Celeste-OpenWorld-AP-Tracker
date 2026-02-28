@@ -20,7 +20,7 @@ jobs:
       - name: Install tools
         uses: taiki-e/install-action@v2
         with:
-            tool: just, fd-find, taplo
+            tool: just, fd-find, stylua, taplo
 
       - name: Run checks
         run: just check
