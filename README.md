@@ -9,6 +9,10 @@ All workflow processes are encoded as [`justfile`](justfile) recipes.
 
 Use `just --list` to see available recipes.
 
+> [!NOTE]
+> Windows users should check out the repository with `core.autocrlf = false`,
+> as most formatting tools only accept Unix-style line endings.
+
 ### Dependencies
 
 Each of following applications is required for at least one recipe.
@@ -30,7 +34,7 @@ The following applications need to be manually installed.
   - [Installation instructions](https://docs.astral.sh/uv/getting-started/installation/)
 - [`curl`](https://curl.se/) - Resource downloads
   - [Installation instructions](https://curl.se/download.html)
-- [`jq`](https://jqlang.org/) - JSON format check and processing
+- [`jq`](https://jqlang.org/) - JSON processing
   - [Installation instructions](https://jqlang.org/download/)
 - [`fd`](https://github.com/sharkdp/fd) - `find` with `.gitignore` support
   - [Installation instructions](https://github.com/sharkdp/fd?tab=readme-ov-file#installation)
@@ -47,7 +51,6 @@ or come with Git Bash on Windows.
 
 - `unzip` - For unzipping downloaded resources
 - `findutils` - `xargs` for image download
-- `diffutils` - For JSON format check
 - `zip` - For creating the final pack
 
 #### Windows Just Recipe Troubleshooting
@@ -58,8 +61,3 @@ If an initial run error produces something like
 `cmp: EOF on ‘./tracker/layouts/items_layout.json’ after byte 9012, in line 299`,
 make sure you files end with an empty newline character
 (e.g. If you have a JSON file `{}`, make sure it actually looks like `{}\n`).
-
-`just --fmt --unstable --check` may produce a `justfile` which exactly matches
-to the human eye but has Windows/Linux differences. You can run
-`just --fmt--unstable` manually to produce an exactly matching file
-before running the check.
