@@ -8,7 +8,7 @@ check:
     # Python
     uv run ruff check
     uv run ruff format --check
-    uv run mypy .
+    MYPYPATH=generator uv run mypy --explicit-package-bases .
     # JSON
     fd -e json -X uv run clang-format --dry-run -Werror
     # Lua
