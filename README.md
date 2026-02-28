@@ -34,6 +34,11 @@ The following applications need to be manually installed.
   - [Installation instructions](https://jqlang.org/download/)
 - [`fd`](https://github.com/sharkdp/fd) - `find` with `.gitignore` support
   - [Installation instructions](https://github.com/sharkdp/fd?tab=readme-ov-file#installation)
+- [`taplo`](https://taplo.tamasfe.dev/) - TOML format check
+  - [Binaries](https://taplo.tamasfe.dev/cli/installation/binary.html),
+[Repositories](https://repology.org/project/taplo/versions),
+[Cargo](https://taplo.tamasfe.dev/cli/installation/cargo.html),
+[NPM](https://taplo.tamasfe.dev/cli/installation/npm.html)
 
 #### System Dependencies
 
