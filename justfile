@@ -5,13 +5,19 @@ JQ_FORMAT_ARGS := "--indent 4"
 
 # Check formatting and lint files in repository
 check:
+    # Python
     uv run ruff check
     uv run ruff format --check
     uv run mypy .
+    # JSON
     fd -e json -X uv run clang-format --dry-run -Werror
+    # Lua
+    stylua --check .
     # TOML
     taplo format --check
+    # justfile
     just --fmt --unstable --check
+    # Markdown
     uv run rumdl check
 
 # Download everything needed to build the pack

@@ -18,17 +18,17 @@ function dumpTable(o, depth)
     if depth == nil then
         depth = 0
     end
-    if type(o) == 'table' then
-        local tabs = ('\t'):rep(depth)
-        local s = '{\n'
+    if type(o) == "table" then
+        local tabs = ("\t"):rep(depth)
+        local s = "{\n"
         for k, v in pairs(o) do
-            if type(k) == 'string' then
+            if type(k) == "string" then
                 k = '"' .. k .. '"'
             end
-            s = s .. tabs .. '\t[' .. tostring(k) .. '] = ' .. dumpTable(v, depth + 1) .. ',\n'
+            s = s .. tabs .. "\t[" .. tostring(k) .. "] = " .. dumpTable(v, depth + 1) .. ",\n"
         end
-        return s .. tabs .. '}'
-    elseif type(o) == 'string' then
+        return s .. tabs .. "}"
+    elseif type(o) == "string" then
         return '"' .. o .. '"'
     else
         return tostring(o)

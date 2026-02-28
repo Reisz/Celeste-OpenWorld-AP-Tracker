@@ -38,6 +38,8 @@ The following applications need to be manually installed.
   - [Installation instructions](https://jqlang.org/download/)
 - [`fd`](https://github.com/sharkdp/fd) - `find` with `.gitignore` support
   - [Installation instructions](https://github.com/sharkdp/fd?tab=readme-ov-file#installation)
+- [`stylua`](https://github.com/JohnnyMorganz/StyLua) - Lua format check
+  - [Installation instructions](https://github.com/JohnnyMorganz/StyLua?tab=readme-ov-file#installation)
 - [`taplo`](https://taplo.tamasfe.dev/) - TOML format check
   - [Binaries](https://taplo.tamasfe.dev/cli/installation/binary.html),
 [Repositories](https://repology.org/project/taplo/versions),
