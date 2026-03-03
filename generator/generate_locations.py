@@ -434,7 +434,7 @@ locations = [{"children": locations_children}]
 
 mappings = {}
 for data in iterate_rooms():
-    canvas_offset = data.checkpoint_data["canvas"]["position"]
+    canvas_offset = data.checkpoint_map_offset
     room_offset = data.room_data["canvas"]["position"]
 
     def add_location(
