@@ -59,14 +59,14 @@ for chapter in iterate_chapters():
                 }
             )
 
-            if len(side.side_data["checkpoints"]) == 1:
+            if len([*iterate_checkpoints(side)]) == 1:
                 side_container["content"]["type"] = "map"
                 side_container["content"]["maps"] = [checkpoint.checkpoint_code]
                 del side_container["content"]["tabs"]
             else:
                 side_tabs.append(
                     {
-                        "title": checkpoint.checkpoint_data["name"],
+                        "title": checkpoint.checkpoint_name,
                         "content": {
                             "type": "map",
                             "maps": [checkpoint.checkpoint_code],

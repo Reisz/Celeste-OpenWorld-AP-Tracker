@@ -9,6 +9,8 @@ from zipfile import ZipFile
 from lib.iterators import iterate_checkpoints, iterate_rooms
 from PIL import Image
 
+MAX_IMAGE_DIMENSIONS = 4096
+
 OUTPUT_PATH = Path("tracker/images/maps")
 OUTPUT_PATH.mkdir(parents=True, exist_ok=True)
 
@@ -29,8 +31,7 @@ class Room:
 class Map:
     """Map image to be built."""
 
-    width: int
-    height: int
+    size: tuple[int, int]
     rooms: list[Room]
     output_path: Path
 
@@ -41,7 +42,13 @@ def build_map_image(map_data: Map) -> None:
     Compatible with `multiprocessing`.
     """
     images = ZipFile("data/berrycamp.zip")
-    image = Image.new("RGBA", (map_data.width, map_data.height))
+    image = Image.new("RGBA", map_data.size)
+
+    if (
+        map_data.size[0] > MAX_IMAGE_DIMENSIONS
+        or map_data.size[1] > MAX_IMAGE_DIMENSIONS
+    ):
+        print(f"Oversized map {map_data.output_path}: {map_data.size}")  # noqa: T201
 
     for room in map_data.rooms:
         image.paste(Image.open(images.open(room.zip_path)), (room.x, room.y))
@@ -52,8 +59,7 @@ def build_map_image(map_data: Map) -> None:
 if __name__ == "__main__":
     maps = []
     for checkpoint in iterate_checkpoints():
-        canvas_size = checkpoint.checkpoint_data["canvas"]["size"]
-        canvas_offset = checkpoint.checkpoint_data["canvas"]["position"]
+        canvas_offset = checkpoint.checkpoint_map_offset
 
         rooms = []
         for room in iterate_rooms(checkpoint):
@@ -68,8 +74,7 @@ if __name__ == "__main__":
 
         maps.append(
             Map(
-                canvas_size["width"],
-                canvas_size["height"],
+                checkpoint.checkpoint_map_size,
                 rooms,
                 OUTPUT_PATH / f"{room.checkpoint_code}.png",
             )
