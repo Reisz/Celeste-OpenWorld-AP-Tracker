@@ -1,6 +1,7 @@
 PACK_LOCATION := "~/PopTracker/packs/Celeste-OpenWorld-AP-Tracker.zip"
 ARCHIPELAGO_VERSION := "0.6.5"
 CELESTE_MOD_VERSION := "1.0.7"
+POPTRACKER_VERSION := "0.34.0"
 JQ_FORMAT_ARGS := "--indent 4"
 
 # Check formatting and lint files in repository
@@ -23,6 +24,9 @@ check:
 # Download everything needed to build the pack
 download:
     mkdir -p data
+    curl -L -o data/poptracker.lua \
+        "https://raw.githubusercontent.com/black-sliver/PopTracker/refs/tags/v{{ POPTRACKER_VERSION }}/api/lua/definition/poptracker.lua"
+
     curl -ZL --output-dir data \
         "https://github.com/berrycamp/berrycamp.github.io/archive/refs/heads/dev.zip" -o berrycamp.zip \
         -O "https://raw.githubusercontent.com/ArchipelagoMW/Archipelago/refs/tags/{{ ARCHIPELAGO_VERSION }}/worlds/celeste_open_world/data/CelesteLevelData.json"

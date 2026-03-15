@@ -54,3 +54,10 @@ or come with Git Bash on Windows.
 - `unzip` - For unzipping downloaded resources
 - `findutils` - `xargs` for image download
 - `zip` - For creating the final pack
+
+### LSP Support
+
+#### Lua
+
+This repository includes a `.luarc.json` file for [LuaLS](https://luals.github.io/).
+PopTracker Lua stubs need to be downloaded using the `just download` recipe.
