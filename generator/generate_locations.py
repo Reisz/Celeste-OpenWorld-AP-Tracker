@@ -538,6 +538,6 @@ mappings_path.mkdir(parents=True, exist_ok=True)
 
 mappings_path /= "locations.lua"
 with mappings_path.open("w") as f:
-    f.write("LOCATION_MAPPINGS={")
+    f.write("return {")
     f.write(",".join(f'[{k}] = "@{v}/"' for k, v in mappings.items()))
     f.write("}")
