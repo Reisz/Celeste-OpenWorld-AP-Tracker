@@ -2,6 +2,7 @@
 fd = "latest"
 jq = "latest"
 just = "latest"
+lua-language-server = "latest"
 stylua = "latest"
 taplo = "latest"
 uv = "latest"

@@ -93,6 +93,38 @@ url = "https://github.com/casey/just/releases/download/1.48.1/just-1.48.1-x86_64
 checksum = "sha256:368cd9ca827cba04d9e6fc00f7ad840773c4605b6f64b9f87bdb00325d351029"
 url = "https://github.com/casey/just/releases/download/1.48.1/just-1.48.1-x86_64-pc-windows-msvc.zip"
 
+[[tools.lua-language-server]]
+version = "3.18.0"
+backend = "aqua:LuaLS/lua-language-server"
+
+[tools.lua-language-server."platforms.linux-arm64"]
+checksum = "sha256:dc04ef175525cb2ee2f8348280ceffcd4dbb284c9143db2434168e0740adf44a"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-arm64.tar.gz"
+
+[tools.lua-language-server."platforms.linux-arm64-musl"]
+checksum = "sha256:dc04ef175525cb2ee2f8348280ceffcd4dbb284c9143db2434168e0740adf44a"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-arm64.tar.gz"
+
+[tools.lua-language-server."platforms.linux-x64"]
+checksum = "sha256:21ddc896959f1ea60fa37562535774ec32a23c2cb1e01953a6bb3567a2f8162a"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-x64.tar.gz"
+
+[tools.lua-language-server."platforms.linux-x64-musl"]
+checksum = "sha256:21ddc896959f1ea60fa37562535774ec32a23c2cb1e01953a6bb3567a2f8162a"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-linux-x64.tar.gz"
+
+[tools.lua-language-server."platforms.macos-arm64"]
+checksum = "sha256:7b01a8301dfb1fbe4666f407067c5553fd8f62f8b9591e56927b964f1d10ae4c"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-darwin-arm64.tar.gz"
+
+[tools.lua-language-server."platforms.macos-x64"]
+checksum = "sha256:331556f9ca35d258e42abcd59541f98b47be6f4c2e2628b833edc23b5e55bfd6"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-darwin-x64.tar.gz"
+
+[tools.lua-language-server."platforms.windows-x64"]
+checksum = "sha256:bdc0f5062ca0812d6ae6cd8f6aaa2bd3ef72af895dbfe255f46a30ce074d0f52"
+url = "https://github.com/LuaLS/lua-language-server/releases/download/3.18.0/lua-language-server-3.18.0-win32-x64.zip"
+
 [[tools.stylua]]
 version = "2.4.0"
 backend = "aqua:JohnnyMorganz/StyLua"

@@ -13,6 +13,7 @@ check:
     # JSON
     fd -e json -X uv run clang-format --dry-run -Werror
     # Lua
+    lua-language-server --check=.
     stylua --check .
     # TOML
     taplo format --check

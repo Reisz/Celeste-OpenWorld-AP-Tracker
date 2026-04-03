@@ -1,5 +1,5 @@
-ScriptHost:LoadScript("scripts/mappings/items.lua")
-ScriptHost:LoadScript("scripts/mappings/locations.lua")
+local itemMappings = require("mappings.items")
+local locationMappings = require("mappings.locations")
 
 Archipelago:AddClearHandler("clear handler", function(slotData)
     setmetatable(slotData, {
@@ -14,10 +14,11 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     -- A sample can found at: ~/docs/tracker/SLOT_DATA.sample
 
     -- Reset locations
-    for _, locationCode in pairs(LOCATION_MAPPINGS) do
+    for _, locationCode in pairs(locationMappings) do
         logDebugVerbose(string.format("Resetting location %s", locationCode))
 
         local obj = Tracker:FindObjectForCode(locationCode)
+        assert(obj, ("Could not find object for location %s"):format(locationCode))
         logDebugVerbose(tostring(obj))
 
         obj.AvailableChestCount = obj.ChestCount
@@ -26,7 +27,7 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
     logDebug("onClear: Mapped locations reset successfully.")
 
     -- Reset items
-    for _, itemCode in pairs(ITEM_MAPPINGS) do
+    for _, itemCode in pairs(itemMappings) do
         Tracker:FindObjectForCode(itemCode).Active = false
     end
 
@@ -67,9 +68,9 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
         __index = function(_tbl, key)
             logDebug(
                 string.format(
-                    "Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A."
-                ),
-                levelCode
+                    "Error: Found invalid Goal Area level code (%s) when mapping to name code. Defaulting to Summit A.",
+                    key
+                )
             )
             return 0 -- return "the_summit_a"
         end,
@@ -95,6 +96,7 @@ Archipelago:AddClearHandler("clear handler", function(slotData)
 
     for _, settingKey in ipairs(settingKeys) do
         local obj = Tracker:FindObjectForCode(settingKey)
+        assert(obj, ("Could not find object for setting %s"):format(settingKey))
         if obj.Type == "toggle" then
             obj.Active = slotData[settingKey]
         elseif obj.Type == "progressive" then
@@ -111,14 +113,14 @@ end)
 
 Archipelago:AddItemHandler("item handler", function(index, item_id, item_name, player)
     -- TODO(matthewjaykoster) Update to handle progressive items/items with counts
-    local code = ITEM_MAPPINGS[item_id]
+    local code = itemMappings[item_id]
     if code then
         Tracker:FindObjectForCode(code).Active = true
     end
 end)
 
 Archipelago:AddLocationHandler("location handler", function(location_id, location_name)
-    local code = LOCATION_MAPPINGS[location_id]
+    local code = locationMappings[location_id]
     if code then
         Tracker:FindObjectForCode(code).AvailableChestCount = 0
     end
