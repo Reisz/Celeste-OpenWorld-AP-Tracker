@@ -15,36 +15,9 @@ Use `just --list` to see available recipes.
 
 ### Dependencies
 
-Each of following applications is required for at least one recipe.
-
-If you do not need to run all recipes, check the [`justfile`](justfile) source
-to see which applications are needed for specific recipes.
-
-#### Core Dependencies
-
-The following applications need to be manually installed.
-
-> [!NOTE]
-> Windows users need to make sure that all listed dependencies and `sh.exe` from Git Bash
-> are accessible via the system `PATH`.
-
-- [`just`](https://just.systems/) - Project workflow
-  - [Installation instructions](https://github.com/casey/just?tab=readme-ov-file#installation)
-- [`uv`](https://docs.astral.sh/uv/) - Python project management
-  - [Installation instructions](https://docs.astral.sh/uv/getting-started/installation/)
-- [`curl`](https://curl.se/) - Resource downloads
-  - [Installation instructions](https://curl.se/download.html)
-- [`jq`](https://jqlang.org/) - JSON processing
-  - [Installation instructions](https://jqlang.org/download/)
-- [`fd`](https://github.com/sharkdp/fd) - `find` with `.gitignore` support
-  - [Installation instructions](https://github.com/sharkdp/fd?tab=readme-ov-file#installation)
-- [`stylua`](https://github.com/JohnnyMorganz/StyLua) - Lua format check
-  - [Installation instructions](https://github.com/JohnnyMorganz/StyLua?tab=readme-ov-file#installation)
-- [`taplo`](https://taplo.tamasfe.dev/) - TOML format check
-  - [Binaries](https://taplo.tamasfe.dev/cli/installation/binary.html),
-[Repositories](https://repology.org/project/taplo/versions),
-[Cargo](https://taplo.tamasfe.dev/cli/installation/cargo.html),
-[NPM](https://taplo.tamasfe.dev/cli/installation/npm.html)
+This repository uses [`mise`](https://mise.jdx.dev/) to manage required tools. You can either use
+one of the `mise` [activation methods](https://mise.jdx.dev/getting-started.html#activate-mise),
+or run recipes using `mise exec -- just`.
 
 #### System Dependencies
 
@@ -54,6 +27,7 @@ or come with Git Bash on Windows.
 - `unzip` - For unzipping downloaded resources
 - `findutils` - `xargs` for image download
 - `zip` - For creating the final pack
+- `curl` - For resource downloads
 
 ### LSP Support
 
