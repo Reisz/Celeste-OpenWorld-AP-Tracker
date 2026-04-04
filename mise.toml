@@ -1,0 +1,7 @@
+[tools]
+fd = "latest"
+jq = "latest"
+just = "latest"
+stylua = "latest"
+taplo = "latest"
+uv = "latest"
