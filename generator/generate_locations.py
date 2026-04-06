@@ -435,7 +435,7 @@ locations = [{"children": locations_children}]
 mappings = {}
 for data in iterate_rooms():
     canvas_offset = data.checkpoint_map_offset
-    room_offset = data.room_data["canvas"]["position"]
+    room_offset = data.room_offset
 
     def add_location(
         entity: dict[str, Any],
@@ -448,8 +448,8 @@ for data in iterate_rooms():
         # ruff: disable[B023] Recapturing the variables every loop is intended
         map_location = {
             "map": data.checkpoint_code,
-            "x": room_offset["x"] - canvas_offset["x"] + entity["x"],
-            "y": room_offset["y"] - canvas_offset["y"] + entity["y"],
+            "x": room_offset.x - canvas_offset.x + entity["x"],
+            "y": room_offset.y - canvas_offset.y + entity["y"],
         }
 
         if ap_name is None:

@@ -43,8 +43,7 @@ build:
     uv run generator/generate_maps.py
     uv run generator/generate_locations.py
     uv run generator/generate_ap_item_mappings.py
-    # Map generation is slow and unlikely to change. Only run if needed.
-    test -d tracker/images/maps || uv run generator/generate_map_images.py
+    uv run generator/generate_map_images.py
     uv run pack-checker --batch --strict tracker
 
 # Build the pack and install to local PopTracker
