@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from zipfile import ZipFile
 
-from lib.iterators import iterate_checkpoints, iterate_rooms
+from lib.iterators import Position, RoomData, iterate_checkpoints, iterate_rooms
 from PIL import Image
 
 MAX_IMAGE_DIMENSIONS = 4096
@@ -19,20 +19,11 @@ with Path("data/celeste.json").open() as f:
 
 
 @dataclass
-class Room:
-    """Berrycamp room image path and position within the final map."""
-
-    zip_path: str
-    x: int
-    y: int
-
-
-@dataclass
 class Map:
     """Map image to be built."""
 
-    size: tuple[int, int]
-    rooms: list[Room]
+    offset: Position
+    rooms: list[RoomData]
     output_path: Path
 
 
@@ -41,44 +32,47 @@ def build_map_image(map_data: Map) -> None:
 
     Compatible with `multiprocessing`.
     """
-    images = ZipFile("data/berrycamp.zip")
-    image = Image.new("RGBA", map_data.size)
+    offset = map_data.offset
+    size = (
+        max(
+            room.room_position.x - offset.x + room.room_crop[2] - room.room_crop[0]
+            for room in map_data.rooms
+        ),
+        max(
+            room.room_position.y - offset.y + room.room_crop[3] - room.room_crop[1]
+            for room in map_data.rooms
+        ),
+    )
 
-    if (
-        map_data.size[0] > MAX_IMAGE_DIMENSIONS
-        or map_data.size[1] > MAX_IMAGE_DIMENSIONS
-    ):
-        print(f"Oversized map {map_data.output_path}: {map_data.size}")  # noqa: T201
+    images = ZipFile("data/berrycamp.zip")
+    image = Image.new("RGBA", size)
+
+    if size[0] > MAX_IMAGE_DIMENSIONS or size[1] > MAX_IMAGE_DIMENSIONS:
+        print(f"Oversized map {map_data.output_path}: {size}")  # noqa: T201
 
     for room in map_data.rooms:
-        image.paste(Image.open(images.open(room.zip_path)), (room.x, room.y))
+        zip_path = (
+            "berrycamp.github.io-dev/public/img/celeste/rooms/"
+            f"{room.chapter_id}/{room.side_id}/{room.room_id}.png"
+        )
+        position = room.room_position
+        image.paste(
+            Image.open(images.open(zip_path)).crop(room.room_crop),
+            (position.x - offset.x, position.y - offset.y),
+        )
 
     image.save(map_data.output_path)
 
 
 if __name__ == "__main__":
-    maps = []
-    for checkpoint in iterate_checkpoints():
-        canvas_offset = checkpoint.checkpoint_map_offset
-
-        rooms = []
-        for room in iterate_rooms(checkpoint):
-            position = room.room_data["canvas"]["position"]
-            rooms.append(
-                Room(
-                    f"berrycamp.github.io-dev/public/img/celeste/rooms/{room.chapter_id}/{room.side_id}/{room.room_id}.png",
-                    position["x"] - canvas_offset["x"],
-                    position["y"] - canvas_offset["y"],
-                )
-            )
-
-        maps.append(
-            Map(
-                checkpoint.checkpoint_map_size,
-                rooms,
-                OUTPUT_PATH / f"{room.checkpoint_code}.png",
-            )
+    maps = [
+        Map(
+            checkpoint.checkpoint_map_offset,
+            list(iterate_rooms(checkpoint)),
+            OUTPUT_PATH / f"{checkpoint.checkpoint_code}.png",
         )
+        for checkpoint in iterate_checkpoints()
+    ]
 
     with multiprocessing.Pool() as pool:
         pool.map(build_map_image, maps)

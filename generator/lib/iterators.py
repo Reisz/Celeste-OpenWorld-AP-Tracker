@@ -4,10 +4,11 @@ import json
 from collections.abc import Iterator
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, TypedDict, cast
+from typing import Any
 
 # Maps checkpoint code to list of sub checkpoints
 # Each sub-checkpoint is a list of room ids
+# Used to allow stitched maps to fit within the maximum size of 4096x4096
 # NOTE: If the checkpoint code is not present, it is not split
 # NOTE: For split checkpoints: If a room is not listed anywhere,
 # it will not be included in the final map
@@ -45,10 +46,6 @@ CHECKPOINT_SPLIT_MAP = {
         ["00-d", "roof00", "roof01", "roof02", "roof03", "roof04", "roof05"],
         ["roof06b", "roof06", "roof07"],
     ],
-    "resort_b_ST": [
-        ["00", "back", "01"],
-        ["02", "03", "04", "05"],
-    ],
     "ridge_a_ST": [
         ["a-00", "a-01", "a-01x", "a-02", "a-03"],
         ["a-04", "a-05", "a-06", "a-07", "a-08", "a-10", "a-11", "a-09"],
@@ -58,8 +55,8 @@ CHECKPOINT_SPLIT_MAP = {
         ["c-06", "c-06b", "c-09", "c-07", "c-08", "c-10"],
     ],
     "ridge_a_CF": [
-        ["d-00", "d-00b", "d-01", "d-02", "d-03", "d-04", "d-05", "d-06"],
-        ["d-07", "d-08", "d-09", "d-10"],
+        ["d-00", "d-00b", "d-01", "d-02", "d-03", "d-04", "d-05"],
+        ["d-06", "d-07", "d-08", "d-09", "d-10"],
     ],
     "ridge_b_EOTS": [
         ["d-00", "d-01", "d-02"],
@@ -179,8 +176,7 @@ CHECKPOINT_SPLIT_MAP = {
         ["g-00"],
         ["g-00b"],
         ["g-01"],
-        ["g-02"],
-        ["g-03"],
+        ["g-02", "g-03"],
     ],
     "summit_b_3000M": [
         ["g-00", "g-01"],
@@ -190,6 +186,7 @@ CHECKPOINT_SPLIT_MAP = {
         ["01", "02"],
         ["03"],
     ],
+    "epilogue_a_BG": [["outside", "bridge", "secret"]],  # "inside" - ignored
     "core_a_HOTM": [
         ["d-00", "d-01", "d-02", "d-03", "d-04", "d-05", "d-06"],
         ["d-07", "d-08", "d-09", "d-10", "d-10b"],
@@ -211,8 +208,113 @@ CHECKPOINT_SPLIT_MAP = {
     ],
 }
 
+# Maps room code to crop region
+# Used to reduce the size of stitched maps by removing inaccessible regions
+# NOTE: Missing fields use base image geometry
+# NOTE: Cropping may only occur on the outside edges of a stitched map, otherwise the
+# stitching will fail
+ROOM_CROPS = {
+    "city_a_10zb": {
+        "x": 235,
+    },
+    "site_a_9b": {
+        "x": 160,
+        "y": 145,
+        "width": 340,
+    },
+    "resort_a_roof07": {
+        "width": 235,
+        "height": 184,
+    },
+    "resort_b_back": {
+        "x": 1235,
+    },
+    "ridge_a_d-10": {
+        "y": 744,
+        "width": 220,
+    },
+    "temple_a_a-00x": {
+        "x": 480,
+    },
+    "reflection_a_start": {
+        "height": 2700,
+    },
+    "summit_a_a-06": {
+        "y": 290,
+    },
+    "summit_a_b-09": {
+        "y": 540,
+    },
+    "summit_a_c-09": {
+        "y": 500,
+    },
+    "summit_a_d-11": {
+        "y": 425,
+    },
+    "summit_a_e-01b": {
+        "x": 136,
+    },
+    "summit_a_e-13": {
+        "y": 515,
+    },
+    "summit_a_f-11": {
+        "y": 430,
+    },
+    "summit_a_g-00": {
+        "y": 475,
+    },
+    "summit_a_g-00b": {
+        "y": 565,
+    },
+    "summit_a_g-01": {
+        "y": 310,
+        "width": 2495,
+    },
+    "summit_a_g-02": {
+        "x": 125,
+    },
+    "summit_a_g-03": {
+        "x": 125,
+        "y": 325,
+        "width": 1775,
+    },
+    "summit_b_a-03": {
+        "y": 605,
+    },
+    "summit_b_b-03": {
+        "y": 580,
+    },
+    "summit_b_c-03": {
+        "y": 870,
+    },
+    "summit_b_d-03": {
+        "y": 455,
+    },
+    "summit_b_e-03": {
+        "y": 500,
+    },
+    "summit_b_f-03": {
+        "y": 715,
+    },
+    "summit_b_g-01": {
+        "y": 185,
+    },
+    "summit_b_g-02": {
+        "x": 60,
+        "width": 1746,
+    },
+    "summit_b_g-03": {
+        "x": 280,
+        "width": 550,
+    },
+    "core_b_c-04": {
+        "y": 510,
+    },
+}
 
-class Position(TypedDict):
+
+@dataclass
+class Position:
     """Position, as defined by the Berrycamp data."""
 
     x: int
@@ -231,7 +333,7 @@ class ChapterData:
         return str(self.chapter_data["id"])
 
 
-def iterate_chapters() -> Iterator["ChapterData"]:
+def iterate_chapters() -> Iterator[ChapterData]:
     """Iterate over all chapters without sides."""
     with Path("data/celeste.json").open() as f:
         data = json.load(f)
@@ -259,7 +361,7 @@ class SideData(ChapterData):
         return f"{self.chapter_id}_{self.side_id}"
 
 
-def iterate_sides(chapter: ChapterData | None = None) -> Iterator["SideData"]:
+def iterate_sides(chapter: ChapterData | None = None) -> Iterator[SideData]:
     """Iterate over all chapters and sides or all sides of a chapter."""
     iterator = [chapter] if chapter is not None else iterate_chapters()
     for data in iterator:
@@ -300,59 +402,17 @@ class CheckpointData(SideData):
         )
         return f"{self.checkpoint_data['name']}{suffix}"
 
-    def iterate_split_checkpoint_rooms(self) -> Iterator[tuple[str, dict[str, Any]]]:
-        """Iterate over rooms of a split checkpoint.
-
-        Will fail if the checkpoint is not split (`checkpoint_subindex is None`).
-        """
-        if self.checkpoint_subindex is None:
-            msg = "Checkpoint is not split"
-            raise ValueError(msg)
-
-        ids = CHECKPOINT_SPLIT_MAP[
-            f"{self.side_code}_{self.checkpoint_data['abbreviation']}"
-        ][self.checkpoint_subindex]
-        return ((room_id, self.side_data["rooms"][room_id]) for room_id in ids)
-
     @property
     def checkpoint_map_offset(self) -> Position:
         """Return the top-left position of the top-left room."""
-        if self.checkpoint_subindex is None:
-            return cast("Position", self.checkpoint_data["canvas"]["position"])
-        canvas_positions = [
-            room["canvas"]["position"]
-            for _, room in self.iterate_split_checkpoint_rooms()
-        ]
+        positions = [room.room_position for room in iterate_rooms(self)]
         return Position(
-            x=min(canvas_position["x"] for canvas_position in canvas_positions),
-            y=min(canvas_position["y"] for canvas_position in canvas_positions),
-        )
-
-    @property
-    def checkpoint_map_size(self) -> tuple[int, int]:
-        """Return the combined bounding-box size of all rooms."""
-        if self.checkpoint_subindex is None:
-            return (
-                self.checkpoint_data["canvas"]["size"]["width"],
-                self.checkpoint_data["canvas"]["size"]["height"],
-            )
-
-        offset = self.checkpoint_map_offset
-        canvases = [room["canvas"] for _, room in self.iterate_split_checkpoint_rooms()]
-
-        return (
-            max(
-                canvas["position"]["x"] - offset["x"] + canvas["size"]["width"]
-                for canvas in canvases
-            ),
-            max(
-                canvas["position"]["y"] - offset["y"] + canvas["size"]["height"]
-                for canvas in canvases
-            ),
+            x=min(position.x for position in positions),
+            y=min(position.y for position in positions),
         )
 
 
-def iterate_checkpoints(side: SideData | None = None) -> Iterator["CheckpointData"]:
+def iterate_checkpoints(side: SideData | None = None) -> Iterator[CheckpointData]:
     """Iterate over all checkpoints or all checkpoints of a side."""
     iterator = [side] if side is not None else iterate_sides()
     for data in iterator:
@@ -380,6 +440,38 @@ class RoomData(CheckpointData):
     room_data: dict[str, Any]
 
     @property
+    def room_position(self) -> Position:
+        """Return room position in subchapter in pillow Image.paste box format."""
+        position = self.room_data["canvas"]["position"]
+        crop = self.room_crop
+        return Position(
+            position["x"] + crop[0],
+            position["y"] + crop[1],
+        )
+
+    @property
+    def room_crop(self) -> tuple[int, int, int, int]:
+        """Return room crop in pillow Image.crop format."""
+        crop = ROOM_CROPS.get(self.room_code, {})
+        x = crop.get("x", 0)
+        y = crop.get("y", 0)
+        w = crop.get("width", self.room_data["canvas"]["size"]["width"] - x)
+        h = crop.get("height", self.room_data["canvas"]["size"]["height"] - y)
+
+        return (x, y, x + w, y + h)
+
+    @property
+    def room_offset(self) -> Position:
+        """Return offset of entities in room relative to subchapter."""
+        position = self.room_position
+        crop = self.room_crop
+
+        position.x -= crop[0]
+        position.y -= crop[1]
+
+        return position
+
+    @property
     def room_code(self) -> str:
         """Return a uniquely identifying room code."""
         return f"{self.side_code}_{self.room_id}"
@@ -391,7 +483,12 @@ def iterate_rooms(checkpoint: CheckpointData | None = None) -> Iterator["RoomDat
     for data in iterator:
         room_iterator = data.side_data["rooms"].items()
         if data.checkpoint_subindex is not None:
-            room_iterator = data.iterate_split_checkpoint_rooms()
+            ids = CHECKPOINT_SPLIT_MAP[
+                f"{data.side_code}_{data.checkpoint_data['abbreviation']}"
+            ][data.checkpoint_subindex]
+            room_iterator = (
+                (room_id, data.side_data["rooms"][room_id]) for room_id in ids
+            )
         for room_id, room in room_iterator:
             if room["checkpointNo"] == data.checkpoint_index:
                 yield RoomData(
