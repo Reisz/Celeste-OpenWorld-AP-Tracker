@@ -231,9 +231,17 @@ class ApRule:
     @staticmethod
     def from_ap(rule: list[list[str]]) -> "ApRule":
         """Construct a new instance from an AP rule."""
+        # Clutter is never sent as an item
+        ignore = {"brown_clutter", "green_clutter", "pink_clutter"}
+
         if not rule:
             return ApRule()
-        return ApRule(frozenset(frozenset(group) for group in rule))
+        return ApRule(
+            frozenset(
+                frozenset(rule for rule in group if rule not in ignore)
+                for group in rule
+            )
+        )
 
     def to_poptracker(self) -> list[str]:
         """Convert into PopTracker JSON format."""
