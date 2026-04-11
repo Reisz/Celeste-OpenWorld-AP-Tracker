@@ -1,7 +1,35 @@
 # Celeste-OpenWorld-AP-Tracker
 
 [PopTracker](https://poptracker.github.io/) pack for
-[Celeste OpenWorld AP](https://archipelago.gg/games/Celeste%20(Open%20World)/info/en).
+[Celeste Archipelago Open World](https://archipelago.gg/games/Celeste%20(Open%20World)/info/en)
+([AP World](https://github.com/ArchipelagoMW/Archipelago/tree/main/worlds/celeste_open_world),
+[Mod](https://github.com/PoryGoneDev/Celeste-Archipelago-Open-World)).
+
+## Pack Features
+
+- Supports A-, B- and C-Sides of all chapters, except Farewell
+- Auto-tracking and logic for the following location types:
+  - Strawberries
+  - Keys
+  - Level Clears / Crystal Hearts
+  - Golden Strawberries (including the Winged Golden Strawberry)
+- Auto-tracking for the following item types:
+  - Interactables (e.g. Dash Crystals, Traffic Blocks)
+  - Keys (Keysanity)
+
+## Planned Features
+
+- Overview map ([#52](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/52))
+- Support Farewell ([#28](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/28))
+- Item auto-tracking for checkpoints ([#40](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/40))
+- Item auto-tracking for summit gems ([#45](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/45))
+- Checkpointsanity ([#42](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/42))
+- Binosanity ([#44](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/44))
+- Gemsanity ([#46](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/46))
+- Carsanity ([#47](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/47))
+- Roomsanity ([#48](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/48))
+- Automated tab switching ([#50](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/50))
+- Support for skips ([#51](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/51))
 
 ## Working on the pack
 
