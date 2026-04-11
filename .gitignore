@@ -4,9 +4,9 @@ __pycache__/
 
 # Generator
 /data/
-/tracker/maps/maps.json
-/tracker/layouts/maps.json
 /tracker/images/maps/
 /tracker/images/items/
+/tracker/layouts/maps.json
 /tracker/locations.json
+/tracker/maps.json
 /tracker/scripts/mappings/
