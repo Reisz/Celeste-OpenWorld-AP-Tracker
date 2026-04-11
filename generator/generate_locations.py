@@ -237,7 +237,7 @@ class ApRule:
 
     def to_poptracker(self) -> list[str]:
         """Convert into PopTracker JSON format."""
-        return [",".join(group) for group in self.rule]
+        return sorted(",".join(sorted(group)) for group in self.rule)
 
     def __and__(self, other: "ApRule") -> "ApRule":
         """Combine two rules using the `and` operator.

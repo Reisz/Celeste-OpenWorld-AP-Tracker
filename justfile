@@ -46,6 +46,17 @@ build:
     uv run generator/generate_map_images.py
     uv run pack-checker --batch --strict tracker
 
+REPRODUCIBILITY_PATH := "data/reproducibility_test"
+
+test_reproducibility: build
+    rm -rf {{ REPRODUCIBILITY_PATH }}
+    mkdir {{ REPRODUCIBILITY_PATH }}
+    cp -r tracker {{ REPRODUCIBILITY_PATH }}
+    just build
+    diff -r {{ REPRODUCIBILITY_PATH }}/tracker tracker
+
+test: test_reproducibility
+
 # Build the pack and install to local PopTracker
 [working-directory("tracker")]
 install: build

@@ -25,6 +25,7 @@ The following applications should be available as system packages on any Linux d
 or come with Git Bash on Windows.
 
 - `unzip` - For unzipping downloaded resources
+- `diffutils` - `diff` for reproducibility test
 - `findutils` - `xargs` for image download
 - `zip` - For creating the final pack
 - `curl` - For resource downloads
