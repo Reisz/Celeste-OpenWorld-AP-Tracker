@@ -74,7 +74,7 @@ for chapter in iterate_chapters():
                     }
                 )
 
-with Path("tracker/maps/maps.json").open("w") as f:
+with Path("tracker/maps.json").open("w") as f:
     json.dump(maps, f)
 with Path("tracker/layouts/maps.json").open("w") as f:
     json.dump(maps_layout, f)

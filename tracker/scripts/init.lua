@@ -1,5 +1,3 @@
-Tracker:AddMaps("maps/maps.json")
-
 -- Tracked items
 Tracker:AddItems("items/checkpoints.json")
 Tracker:AddItems("items/gems.json")
