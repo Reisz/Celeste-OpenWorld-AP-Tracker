@@ -34,8 +34,8 @@ for chapter in iterate_chapters():
 
     for side in iterate_sides(chapter):
         side_tabs: list[dict[str, Any]] = []
-        side_container = {
-            "title": side.side_data["name"],
+        side_container: dict[str, Any] = {
+            "title": f"{side.side_data['name']}-Side",
             "content": {
                 "type": "tabbed",
                 "tabs": side_tabs,
