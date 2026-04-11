@@ -366,6 +366,7 @@ for chapter_data in level_data:
                             dest_region=x["dest"], rule=ApRule.from_ap(x["rule"])
                         )
                         for x in region_data["connections"]
+                        if x["rule"] != [["cannot_access"]]
                     ],
                 )
                 for region_data in room_data["regions"]
