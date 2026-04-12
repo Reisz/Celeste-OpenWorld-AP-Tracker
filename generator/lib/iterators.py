@@ -208,6 +208,9 @@ CHECKPOINT_SPLIT_MAP = {
     ],
 }
 
+# The first checkpoint of reflection is skipped by the archipelago mod
+CHECKPOINT_SKIPS = {"reflection_a_ST"}
+
 # Maps room code to crop region
 # Used to reduce the size of stitched maps by removing inaccessible regions
 # NOTE: Missing fields use base image geometry
@@ -235,9 +238,6 @@ ROOM_CROPS = {
     },
     "temple_a_a-00x": {
         "x": 480,
-    },
-    "reflection_a_start": {
-        "height": 2700,
     },
     "summit_a_a-06": {
         "y": 290,
@@ -420,6 +420,9 @@ def iterate_checkpoints(side: SideData | None = None) -> Iterator[CheckpointData
             checkpoint_data = CheckpointData(
                 data.chapter_data, data.side_data, index, None, checkpoint
             )
+
+            if checkpoint_data.checkpoint_code in CHECKPOINT_SKIPS:
+                continue
 
             if checkpoint_data.checkpoint_code not in CHECKPOINT_SPLIT_MAP:
                 yield checkpoint_data
