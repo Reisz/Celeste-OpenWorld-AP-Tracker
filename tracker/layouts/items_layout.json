@@ -196,39 +196,39 @@
                 "farewell_level_label"
             ],
             [
-                "celestialresorta-frontdoorkey",
-                "mirrortemplea-entrancekey",
-                "mirrortempleb-centralchamberkey1",
-                "thesummita-2500mkey",
-                "farewell-powersourcekey1"
+                "Front Door Key",
+                "Entrance Key",
+                "Central Chamber Key 1",
+                "2500 M Key",
+                "Power Source Key 1"
             ],
             [
-                "celestialresorta-hallwaykey1",
-                "mirrortemplea-depthskey",
-                "mirrortempleb-centralchamberkey2",
+                "Hallway Key 1",
+                "Depths Key",
+                "Central Chamber Key 2",
                 "",
-                "farewell-powersourcekey2"
+                "Power Source Key 2"
             ],
             [
-                "celestialresorta-hallwaykey2",
-                "mirrortemplea-searchkey1",
+                "Hallway Key 2",
+                "Search Key 1",
                 "",
                 "",
-                "farewell-powersourcekey3"
+                "Power Source Key 3"
             ],
             [
-                "celestialresorta-hugemesskey",
-                "mirrortemplea-searchkey2",
+                "Huge Mess Key",
+                "Search Key 2",
                 "",
                 "",
-                "farewell-powersourcekey4"
+                "Power Source Key 4"
             ],
             [
-                "celestialresorta-presidentialsuitekey",
-                "mirrortemplea-searchkey3",
+                "Presidential Suite Key",
+                "Search Key 3",
                 "",
                 "",
-                "farewell-powersourcekey5"
+                "Power Source Key 5"
             ]
         ]
     },

@@ -9,108 +9,108 @@
         "name": "Celestial Resort A - Front Door Key",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "celestialresorta-frontdoorkey"
+        "codes": "Front Door Key"
     },
     {
         "name": "Celestial Resort A - Hallway Key 1",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "celestialresorta-hallwaykey1"
+        "codes": "Hallway Key 1"
     },
     {
         "name": "Celestial Resort A - Hallway Key 2",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "celestialresorta-hallwaykey2"
+        "codes": "Hallway Key 2"
     },
     {
         "name": "Celestial Resort A - Huge Mess Key",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "celestialresorta-hugemesskey"
+        "codes": "Huge Mess Key"
     },
     {
         "name": "Celestial Resort A - Presidential Suite Key",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "celestialresorta-presidentialsuitekey"
+        "codes": "Presidential Suite Key"
     },
     {
         "name": "Mirror Temple A - Entrance Key",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortemplea-entrancekey"
+        "codes": "Entrance Key"
     },
     {
         "name": "Mirror Temple A - Depths Key",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortemplea-depthskey"
+        "codes": "Depths Key"
     },
     {
         "name": "Mirror Temple A - Search Key 1",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortemplea-searchkey1"
+        "codes": "Search Key 1"
     },
     {
         "name": "Mirror Temple A - Search Key 2",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortemplea-searchkey2"
+        "codes": "Search Key 2"
     },
     {
         "name": "Mirror Temple A - Search Key 3",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortemplea-searchkey3"
+        "codes": "Search Key 3"
     },
     {
         "name": "Mirror Temple B - Central Chamber Key 1",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortempleb-centralchamberkey1"
+        "codes": "Central Chamber Key 1"
     },
     {
         "name": "Mirror Temple B - Central Chamber Key 2",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "mirrortempleb-centralchamberkey2"
+        "codes": "Central Chamber Key 2"
     },
     {
         "name": "The Summit A - 2500 M Key",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "thesummita-2500mkey"
+        "codes": "2500 M Key"
     },
     {
         "name": "Farewell - Power Source Key 1",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "farewell-powersourcekey1"
+        "codes": "Power Source Key 1"
     },
     {
         "name": "Farewell - Power Source Key 2",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "farewell-powersourcekey2"
+        "codes": "Power Source Key 2"
     },
     {
         "name": "Farewell - Power Source Key 3",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "farewell-powersourcekey3"
+        "codes": "Power Source Key 3"
     },
     {
         "name": "Farewell - Power Source Key 4",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "farewell-powersourcekey4"
+        "codes": "Power Source Key 4"
     },
     {
         "name": "Farewell - Power Source Key 5",
         "type": "toggle",
         "img": "images/locations/key.png",
-        "codes": "farewell-powersourcekey5"
+        "codes": "Power Source Key 5"
     }
 ]
