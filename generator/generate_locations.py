@@ -41,16 +41,16 @@ BERRY_MAPPING = {
     "resort_03-b_1": 2,
     "resort_03-b_25": 1,
     # https://berrycamp.github.io/map/celeste/resort/a?room=roof06
-    "resort_roof06_276": 1,  # TODO(Reisz): #2 Order not clear from level data
+    "resort_roof06_276": 1,
     "resort_roof06_308": 2,
     # https://berrycamp.github.io/map/celeste/ridge/a?room=b-01
-    "ridge_b-01_6": 1,  # TODO(Reisz): #2 Order not clear from level data
+    "ridge_b-01_6": 1,
     "ridge_b-01_13": 2,
     # https://berrycamp.github.io/map/celeste/ridge/a?room=b-02
     "ridge_b-02_20": 1,
     "ridge_b-02_58": 2,
     # https://berrycamp.github.io/map/celeste/temple/a?room=a-01
-    "temple_a-01_164": 1,  # TODO(Reisz): #2 Order not clear from level data
+    "temple_a-01_164": 1,
     "temple_a-01_256": 2,
     # https://berrycamp.github.io/map/celeste/temple/a?room=b-17
     "temple_b-17_10": 2,
@@ -68,19 +68,17 @@ BERRY_MAPPING = {
     "summit_a-04b_85": 2,
     "summit_a-04b_136": 1,
     # https://berrycamp.github.io/map/celeste/summit/a?room=f-11
-    # TODO(Reisz): #2 Order between 1 and 2 not clear from level data
-    "summit_f-11_1068": 2,
+    "summit_f-11_1068": 1,
     "summit_f-11_1229": 3,
-    "summit_f-11_1238": 1,
+    "summit_f-11_1238": 2,
     # https://berrycamp.github.io/map/celeste/summit/a?room=g-00b
     "summit_g-00b_37": 1,
     "summit_g-00b_114": 3,
     "summit_g-00b_127": 2,
     # https://berrycamp.github.io/map/celeste/summit/a?room=g-01
     "summit_g-01_66": 1,
-    # TODO(Reisz): #2 Order between 2 and 3 not clear from level data
-    "summit_g-01_279": 3,
-    "summit_g-01_342": 2,
+    "summit_g-01_279": 2,
+    "summit_g-01_342": 3,
 }
 
 # Location measured at the bottom-left pixel of the dark band separating bow and shaft
