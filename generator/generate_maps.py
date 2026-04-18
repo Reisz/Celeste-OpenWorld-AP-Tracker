@@ -4,7 +4,12 @@ import json
 from pathlib import Path
 from typing import Any
 
-from lib.iterators import iterate_chapters, iterate_checkpoints, iterate_sides
+from lib.iterators import (
+    checkpoint_map_size,
+    iterate_chapters,
+    iterate_checkpoints,
+    iterate_sides,
+)
 
 Path("tracker/maps").mkdir(parents=True, exist_ok=True)
 Path("tracker/layouts").mkdir(parents=True, exist_ok=True)
@@ -49,11 +54,17 @@ for chapter in iterate_chapters():
             chapter_tabs.append(side_container)
 
         for checkpoint in iterate_checkpoints(side):
+            size = checkpoint_map_size(checkpoint)
+            # Assume roughly 2:1 aspect ratio
+            size_ratio = max(size[0] / 4096, size[1] / 2048)
+
+            location_size = int(30 * size_ratio)
+            location_border = int(5 * size_ratio)
             maps.append(
                 {
                     "name": checkpoint.checkpoint_code,
-                    "location_size": 12,
-                    "location_border_thickness": 2,
+                    "location_size": location_size,
+                    "location_border_thickness": location_border,
                     "location_shape": "rect",
                     "img": f"images/maps/{checkpoint.checkpoint_code}.png",
                 }

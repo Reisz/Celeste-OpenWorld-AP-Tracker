@@ -6,7 +6,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from zipfile import ZipFile
 
-from lib.iterators import Position, RoomData, iterate_checkpoints, iterate_rooms
+from lib.iterators import (
+    Position,
+    RoomData,
+    checkpoint_map_size,
+    iterate_checkpoints,
+    iterate_rooms,
+)
 from PIL import Image
 
 MAX_IMAGE_DIMENSIONS = 4096
@@ -23,6 +29,7 @@ class Map:
     """Map image to be built."""
 
     offset: Position
+    size: tuple[int, int]
     rooms: list[RoomData]
     output_path: Path
 
@@ -33,16 +40,7 @@ def build_map_image(map_data: Map) -> None:
     Compatible with `multiprocessing`.
     """
     offset = map_data.offset
-    size = (
-        max(
-            room.room_position.x - offset.x + room.room_crop[2] - room.room_crop[0]
-            for room in map_data.rooms
-        ),
-        max(
-            room.room_position.y - offset.y + room.room_crop[3] - room.room_crop[1]
-            for room in map_data.rooms
-        ),
-    )
+    size = map_data.size
 
     images = ZipFile("data/berrycamp.zip")
     image = Image.new("RGBA", size)
@@ -68,6 +66,7 @@ if __name__ == "__main__":
     maps = [
         Map(
             checkpoint.checkpoint_map_offset,
+            checkpoint_map_size(checkpoint),
             list(iterate_rooms(checkpoint)),
             OUTPUT_PATH / f"{checkpoint.checkpoint_code}.png",
         )
