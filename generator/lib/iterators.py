@@ -503,3 +503,19 @@ def iterate_rooms(checkpoint: CheckpointData | None = None) -> Iterator["RoomDat
                     room_id,
                     room,
                 )
+
+
+def checkpoint_map_size(checkpoint: CheckpointData) -> tuple[int, int]:
+    """Calculate the final map size of a checkpoint."""
+    offset = checkpoint.checkpoint_map_offset
+    rooms = [*iterate_rooms(checkpoint)]
+    return (
+        max(
+            room.room_position.x - offset.x + room.room_crop[2] - room.room_crop[0]
+            for room in rooms
+        ),
+        max(
+            room.room_position.y - offset.y + room.room_crop[3] - room.room_crop[1]
+            for room in rooms
+        ),
+    )
