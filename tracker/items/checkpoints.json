@@ -1,419 +1,419 @@
 [
     {
-        "name": "Forsaken City A - Crossing Checkpoint",
+        "name": "Forsaken City A - Crossing",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "forsakencitya-crossing"
     },
     {
-        "name": "Forsaken City A - Chasm Checkpoint",
+        "name": "Forsaken City A - Chasm",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "forsakencitya-chasm"
     },
     {
-        "name": "Forsaken City B - Contraption Checkpoint",
+        "name": "Forsaken City B - Contraption",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "forsakencityb-contraption"
     },
     {
-        "name": "Forsaken City B - Scrappit Checkpoint",
+        "name": "Forsaken City B - Scrap Pit",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "forsakencityb-scrappit"
     },
     {
-        "name": "Old Site A - Intervention Checkpoint",
+        "name": "Old Site A - Intervention",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "oldsitea-intervention"
     },
     {
-        "name": "Old Site A - Awake Checkpoint",
+        "name": "Old Site A - Awake",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "oldsitea-awake"
     },
     {
-        "name": "Old Site B - Combination Lock Checkpoint",
+        "name": "Old Site B - Combination Lock",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "oldsiteb-combinationlock"
     },
     {
-        "name": "Old Site B - Dream Altar Checkpoint",
+        "name": "Old Site B - Dream Altar",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "oldsiteb-dreamaltar"
     },
     {
-        "name": "Celestial Resort A - Huge Mess Checkpoint",
+        "name": "Celestial Resort A - Huge Mess",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "celestialresorta-hugemess"
     },
     {
-        "name": "Celestial Resort A - Elevator Shaft Checkpoint",
+        "name": "Celestial Resort A - Elevator Shaft",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "celestialresorta-elevatorshaft"
     },
     {
-        "name": "Celestial Resort A - Presidential Suite Checkpoint",
+        "name": "Celestial Resort A - Presidential Suite",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "celestialresorta-presidentialsuite"
     },
     {
-        "name": "Celestial Resort B - Staff Quarters Checkpoint",
+        "name": "Celestial Resort B - Staff Quarters",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "celestialresortb-staffquarters"
     },
     {
-        "name": "Celestial Resort B - Library Checkpoint",
+        "name": "Celestial Resort B - Library",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "celestialresortb-library"
     },
     {
-        "name": "Celestial Resort B - Rooftop Checkpoint",
+        "name": "Celestial Resort B - Rooftop",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "celestialresortb-rooftop"
     },
     {
-        "name": "Golden Ridge A - Shrine Checkpoint",
+        "name": "Golden Ridge A - Shrine",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "goldenridgea-shrine"
     },
     {
-        "name": "Golden Ridge A - Old Trail Checkpoint",
+        "name": "Golden Ridge A - Old Trail",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "goldenridgea-oldtrail"
     },
     {
-        "name": "Golden Ridge A - Cliff Face Checkpoint",
+        "name": "Golden Ridge A - Cliff Face",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "goldenridgea-cliffface"
     },
     {
-        "name": "Golden Ridge B - Stepping Stones Checkpoint",
+        "name": "Golden Ridge B - Stepping Stones",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "goldenridgeb-steppingstones"
     },
     {
-        "name": "Golden Ridge B - Gusty Canyon Checkpoint",
+        "name": "Golden Ridge B - Gusty Canyon",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "goldenridgeb-gustycanyon"
     },
     {
-        "name": "Golden Ridge B - Eye Of The Storm Checkpoint",
+        "name": "Golden Ridge B - Eye of the Storm",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "goldenridgeb-eyeofthestorm"
     },
     {
-        "name": "Mirror Temple A - Depths Checkpoint",
+        "name": "Mirror Temple A - Depths",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortemplea-depths"
     },
     {
-        "name": "Mirror Temple A - Unravelling Checkpoint",
+        "name": "Mirror Temple A - Unravelling",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortemplea-unravelling"
     },
     {
-        "name": "Mirror Temple A - Search Checkpoint",
+        "name": "Mirror Temple A - Search",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortemplea-search"
     },
     {
-        "name": "Mirror Temple A - Rescue Checkpoint",
+        "name": "Mirror Temple A - Rescue",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortemplea-rescue"
     },
     {
-        "name": "Mirror Temple B - Central Chamber Checkpoint",
+        "name": "Mirror Temple B - Central Chamber",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortempleb-centralchamber"
     },
     {
-        "name": "Mirror Temple B - Through The Mirror Checkpoint",
+        "name": "Mirror Temple B - Through the Mirror",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortempleb-throughthemirror"
     },
     {
-        "name": "Mirror Temple B - Mix Master Checkpoint",
+        "name": "Mirror Temple B - Mix Master",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "mirrortempleb-mixmaster"
     },
     {
-        "name": "Reflection A - Hollows Checkpoint",
+        "name": "Reflection A - Hollows",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectiona-hollows"
     },
     {
-        "name": "Reflection A - Reflection Checkpoint",
+        "name": "Reflection A - Reflection",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectiona-reflection"
     },
     {
-        "name": "Reflection A - Rock Bottom Checkpoint",
+        "name": "Reflection A - Rock Bottom",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectiona-rockbottom"
     },
     {
-        "name": "Reflection A - Resolution Checkpoint",
+        "name": "Reflection A - Resolution",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectiona-resolution"
     },
     {
-        "name": "Reflection B - Reflection Checkpoint",
+        "name": "Reflection B - Reflection",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectionb-reflection"
     },
     {
-        "name": "Reflection B - Rock Bottom Checkpoint",
+        "name": "Reflection B - Rock Bottom",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectionb-rockbottom"
     },
     {
-        "name": "Reflection B - Reprieve Checkpoint",
+        "name": "Reflection B - Reprieve",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "reflectionb-reprieve"
     },
     {
-        "name": "Summit A - 500m Checkpoint",
+        "name": "The Summit A - 500 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummita-500m"
     },
     {
-        "name": "Summit A - 1000m Checkpoint",
+        "name": "The Summit A - 1000 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummita-1000m"
     },
     {
-        "name": "Summit A - 1500m Checkpoint",
+        "name": "The Summit A - 1500 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummita-1500m"
     },
     {
-        "name": "Summit A - 2000m Checkpoint",
+        "name": "The Summit A - 2000 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummita-2000m"
     },
     {
-        "name": "Summit A - 2500m Checkpoint",
+        "name": "The Summit A - 2500 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummita-2500m"
     },
     {
-        "name": "Summit A - 3000m Checkpoint",
+        "name": "The Summit A - 3000 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummita-3000m"
     },
     {
-        "name": "Summit B - 500m Checkpoint",
+        "name": "The Summit B - 500 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummitb-500m"
     },
     {
-        "name": "Summit B - 1000m Checkpoint",
+        "name": "The Summit B - 1000 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummitb-1000m"
     },
     {
-        "name": "Summit B - 1500m Checkpoint",
+        "name": "The Summit B - 1500 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummitb-1500m"
     },
     {
-        "name": "Summit B - 2000m Checkpoint",
+        "name": "The Summit B - 2000 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummitb-2000m"
     },
     {
-        "name": "Summit B - 2500m Checkpoint",
+        "name": "The Summit B - 2500 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummitb-2500m"
     },
     {
-        "name": "Summit B - 3000m Checkpoint",
+        "name": "The Summit B - 3000 M",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "thesummitb-3000m"
     },
     {
-        "name": "Core A - Into The Core Checkpoint",
+        "name": "Core A - Into the Core",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "corea-intothecore"
     },
     {
-        "name": "Core A - Hot And Cold Checkpoint",
+        "name": "Core A - Hot and Cold",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "corea-hotandcold"
     },
     {
-        "name": "Core A - Heart Of The Mountain Checkpoint",
+        "name": "Core A - Heart of the Mountain",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "corea-heartofthemountain"
     },
     {
-        "name": "Core B - Into The Core Checkpoint",
+        "name": "Core B - Into the Core",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "coreb-intothecore"
     },
     {
-        "name": "Core B - Burning Or Freezing Checkpoint",
+        "name": "Core B - Burning or Freezing",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "coreb-burningorfreezing"
     },
     {
-        "name": "Core B - Heartbeat Checkpoint",
+        "name": "Core B - Heartbeat",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "coreb-heartbeat"
     },
     {
-        "name": "Farewell - Singular Checkpoint",
+        "name": "Farewell - Singular",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-singular"
     },
     {
-        "name": "Farewell - Power Source Checkpoint",
+        "name": "Farewell - Power Source",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-powersource"
     },
     {
-        "name": "Farewell - Remembered Checkpoint",
+        "name": "Farewell - Remembered",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-remembered"
     },
     {
-        "name": "Farewell - Event Horizon Checkpoint",
+        "name": "Farewell - Event Horizon",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-eventhorizon"
     },
     {
-        "name": "Farewell - Determination Checkpoint",
+        "name": "Farewell - Determination",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-determination"
     },
     {
-        "name": "Farewell - Stubbornness Checkpoint",
+        "name": "Farewell - Stubbornness",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-stubbornness"
     },
     {
-        "name": "Farewell - Reconciliation Checkpoint",
+        "name": "Farewell - Reconciliation",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",
         "codes": "farewell-reconciliation"
     },
     {
-        "name": "Farewell - Farewell Checkpoint",
+        "name": "Farewell - Farewell",
         "type": "toggle",
         "img": "images/settings/checkpoint.png",
         "disabled_img_mods": "saturation|0|bt601,brightness|0.33",

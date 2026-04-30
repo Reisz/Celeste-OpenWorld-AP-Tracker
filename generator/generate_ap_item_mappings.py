@@ -6,7 +6,7 @@ from pathlib import Path
 with Path("data/ids.json").open() as f:
     ids = json.load(f)["item_name_to_id"]
 
-ITEM_TYPES = ["interactables", "keys"]
+ITEM_TYPES = ["interactables", "keys", "checkpoints"]
 
 mappings = {}
 

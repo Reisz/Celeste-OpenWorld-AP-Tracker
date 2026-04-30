@@ -16,12 +16,12 @@
 - Auto-tracking for the following item types:
   - Interactables (e.g. Dash Crystals, Traffic Blocks)
   - Keys (Keysanity)
+  - Checkpoints
 
 ## Planned Features
 
 - Overview map ([#52](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/52))
 - Support Farewell ([#28](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/28))
-- Item auto-tracking for checkpoints ([#40](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/40))
 - Item auto-tracking for summit gems ([#45](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/45))
 - Checkpointsanity ([#42](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/42))
 - Binosanity ([#44](https://github.com/Reisz/Celeste-OpenWorld-AP-Tracker/issues/44))
