@@ -243,7 +243,7 @@ class ApRule:
 
     def to_poptracker(self) -> list[str]:
         """Convert into PopTracker JSON format."""
-        return sorted(",".join(sorted(group)) for group in self.rule)
+        return sorted(",".join(sorted(group)) for group in self.minimize().rule)
 
     def __and__(self, other: "ApRule") -> "ApRule":
         """Combine two rules using the `and` operator.
@@ -263,6 +263,21 @@ class ApRule:
         The output rule is fulfilled when either of the input rules are fulfilled.
         """
         return ApRule(self.rule | other.rule)
+
+    def minimize(self) -> "ApRule":
+        """Minimize the rule by removing strict supersets."""
+        minimized_rule: frozenset[frozenset[str]] = frozenset()
+        for sub_rule in self.rule:
+            # Ignore if a smaller version of the current rule is already in the set
+            if any(sub_rule >= x for x in minimized_rule):
+                continue
+
+            # Remove all bigger versions and insert
+            minimized_rule = frozenset(
+                {x for x in minimized_rule if not sub_rule < x} | {sub_rule}
+            )
+
+        return ApRule(frozenset(minimized_rule))
 
 
 @dataclass
